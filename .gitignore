@@ -6,3 +6,6 @@
 
 # hugo
 public
+
+#pyenv
+.python-version
