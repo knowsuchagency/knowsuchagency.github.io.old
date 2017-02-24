@@ -4,13 +4,13 @@ title = "Journal Panic"
 theme = "beautifulhugo"
 pygmentsuseclasses = false
 PygmentsCodeFences = false
-#disqusShortname = "XXX"
+disqusShortname = "journal-panic"
 #googleAnalytics = "XXX"
 canonifyURLs = true
 
 
 [Params]
-  subtitle = "Makefiles not war"
+  subtitle = "Makefiles Not War"
   logo = "img/avatar-icon.png"
   favicon = "img/favicon.ico"
   commit = false

@@ -15,7 +15,7 @@ When I'm not programming, I'm reading, exercising, or volunteering.
 
 I served six years in the Navy as a Chinese linguist. During that time, I transitioned from translation work, to intelligence analysis, and finally to software development.
 
-I have been fortunate to co-found PyHawaii, Hawaii's Python User Group alongside Chalmer Lowe, chairman of the Python Education Summit.
+Co-Founder of PyHawaii, Hawaii's Python User Group.
 
 I have also been involved in HiCapacity, Code for Hawaii, Code for San Francisco, Data for Democracy, and most recently, Alpha Beta Gamma - CCSF's business honor's society as its inter-council representative.
 
