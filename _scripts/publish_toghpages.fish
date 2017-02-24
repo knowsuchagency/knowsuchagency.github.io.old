@@ -1,14 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env fish
 
-DIR=$(dirname "$0")
+set script (status -f)
+set DIR (dirname $script)
 
 cd $DIR/..
 
-if [[ $(git status -s) ]]
-then
+if git status -s
     echo "The working directory is dirty. Please commit any pending changes."
-    exit 1;
-fi
+    exit
+end
 
 echo "Deleting old publication"
 rm -rf public
@@ -26,4 +26,9 @@ echo "Generating site"
 hugo
 
 echo "Updating master branch"
-cd public && git add --all && git commit -m "Publishing to master (publish.sh)"
+cd public ; git add --all ; git commit -m "Publishing to master (publish.sh)"
+
+# push to master
+echo "pushing to master branch"
+git push upstream master
+echo "push succeeded"
