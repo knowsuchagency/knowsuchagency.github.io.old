@@ -24,7 +24,7 @@ canonifyURLs = true
   linkedin = "fitzpatrickstephan"
   stackoverflow = "users/5933618/stephan-fitzpatrick"
   instagram = "knowsuchagency"
-  youtube = "user/knowsuchagency"
+  # youtube = "user/knowsuchagency"
 
 [[menu.main]]
     name = "Blog"
