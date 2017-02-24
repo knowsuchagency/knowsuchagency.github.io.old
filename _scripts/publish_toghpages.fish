@@ -5,7 +5,7 @@ set DIR (dirname $script)
 
 cd $DIR/..
 
-if git status -s
+if [ -n (git status -s) ]
     echo "The working directory is dirty. Please commit any pending changes."
     exit
 end
