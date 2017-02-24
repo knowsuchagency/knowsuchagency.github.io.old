@@ -58,22 +58,23 @@ it seemed to me like the overwhelming majority of users on Reddit &lt;a href=&#3
 
 &lt;pre&gt;&lt;code&gt;User-Agent: android:com.example.myredditapp:v1.2.3 (by /u/kemitche)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;praw&lt;/span&gt;
 
-&lt;span class=&#34;c1&#34;&gt;# I saved my user agent string in a local file&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# since one should use their own&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;./.user_agent&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;user_agent&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import praw
 
-&lt;span class=&#34;c1&#34;&gt;# instantiate Reddit connection class&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;praw&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Reddit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user_agent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user_agent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+# I saved my user agent string in a local file
+# since one should use their own
+with open(&#39;./.user_agent&#39;) as f:
+    user_agent = f.read()
 
-&lt;span class=&#34;c1&#34;&gt;# let&amp;#39;s get the current top 10 submissions&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# since praw interacts with reddit lazily, we wrap the method&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# call in a list&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;list&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_subreddit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;apple&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_hot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+# instantiate Reddit connection class
+r = praw.Reddit(user_agent=user_agent)
+
+# let&#39;s get the current top 10 submissions
+# since praw interacts with reddit lazily, we wrap the method
+# call in a list
+submissions = list(r.get_subreddit(&#39;apple&#39;).get_hot(limit=10))
+[str(s) for s in submissions]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;[&#39;375 :: Apple Keynote, October 2016 | Post-Event Megathread&#39;,
  &#39;44 :: Pre-order Shipping Megathread | Mac Lineup, 2016&#39;,
@@ -90,9 +91,10 @@ it seemed to me like the overwhelming majority of users on Reddit &lt;a href=&#3
 &lt;p&gt;Cool, so we have some data. From looking at the actual subreddit in a browser, we can see the two top submissions are official threads so we&amp;rsquo;ll just skip over them.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://imgur.com/8MJXgdg&#34;&gt;&lt;img src=&#34;http://i.imgur.com/8MJXgdg.png&#34; title=&#34;source: imgur.com&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;submissions = submissions[2:]
+[str(s) for s in submissions]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;[&amp;quot;4942 :: Let&#39;s talk about those prices...&amp;quot;,
  &amp;quot;3027 :: I dont mind the lack of standard USB, but you&#39;re telling me I can&#39;t u...&amp;quot;,
@@ -109,45 +111,46 @@ it seemed to me like the overwhelming majority of users on Reddit &lt;a href=&#3
 &lt;p&gt;We&amp;rsquo;ll start by looking at the comments in the first submission about Apple&amp;rsquo;s new pricing. Can you guess what people think?!&lt;/p&gt;
 
 &lt;p&gt;In praw, every Submission has a comments attribute which is iterable. This attribute isn&amp;rsquo;t homogeneous. That is, some of the items will be Comment objects, and there may be a MoreComments class in there as well, so we&amp;rsquo;ll need to handle that.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# grab the first submission&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 
-&lt;span class=&#34;c1&#34;&gt;# the actual text is in the body&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# attribute of a Comment&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    Return a list of comments from a submission.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    We can&amp;#39;t just use submission.comments, because some&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    of those comments may be MoreComments classes and those don&amp;#39;t&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    have bodies.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    n is the number of comments we want to limit ourselves to&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    from the submission.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;barf_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;iterable&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-        &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;        This generator barfs out comments.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;        &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;        Some comments seem not to have bodies, so we skip those.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;nonlocal&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;count&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;iterable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;hasattr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-                &lt;span class=&#34;n&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
-                &lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;body&lt;/span&gt;
-            &lt;span class=&#34;k&#34;&gt;elif&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;hasattr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__iter__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-                &lt;span class=&#34;c1&#34;&gt;# handle MoreComments classes&lt;/span&gt;
-                &lt;span class=&#34;k&#34;&gt;yield from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;barf_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-            &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-                &lt;span class=&#34;c1&#34;&gt;# c was a Comment and did not have a body&lt;/span&gt;
-                &lt;span class=&#34;k&#34;&gt;continue&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;barf_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# grab the first submission
+submission = submissions[0]
+
+# the actual text is in the body
+# attribute of a Comment
+def get_comments(submission, n=20):
+    &amp;quot;&amp;quot;&amp;quot;
+    Return a list of comments from a submission.
+    
+    We can&#39;t just use submission.comments, because some
+    of those comments may be MoreComments classes and those don&#39;t
+    have bodies.
+    
+    n is the number of comments we want to limit ourselves to
+    from the submission.
+    &amp;quot;&amp;quot;&amp;quot;
+    count = 0
+    def barf_comments(iterable=submission.comments):
+        &amp;quot;&amp;quot;&amp;quot;
+        This generator barfs out comments.
+        
+        Some comments seem not to have bodies, so we skip those.
+        &amp;quot;&amp;quot;&amp;quot;
+        nonlocal count
+        for c in iterable:
+            if hasattr(c, &#39;body&#39;) and count &amp;lt; n:
+                count += 1
+                yield c.body
+            elif hasattr(c, &#39;__iter__&#39;):
+                # handle MoreComments classes
+                yield from barf_comments(c)
+            else:
+                # c was a Comment and did not have a body
+                continue
+    return barf_comments()
                 
-&lt;span class=&#34;n&#34;&gt;comments&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;list&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;list&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+comments = list(get_comments(submission))
+list(comments)
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;[&#39;I\&#39;m still trying to figure out what justifies a $200 increase on the 13&amp;quot; ***without*** the Touch Bar...&#39;,
  &amp;quot;Probably shouldn&#39;t have been surprised, but it hit me like a slippery fish. My jaw dropped.\n\nThey&#39;ve priced me out, sadly.&amp;quot;,
@@ -187,48 +190,54 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 &amp;gt;&amp;gt;&amp;gt; testimonial.sentiment.polarity
 0.39166666666666666
 &lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;textblob&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TextBlob&lt;/span&gt;
 
-&lt;span class=&#34;n&#34;&gt;comment_blob&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TextBlob&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from textblob import TextBlob
+
+comment_blob = TextBlob(&#39;&#39;.join(comments))
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;Sentiment(polarity=-0.06283927712499143, subjectivity=0.5978612657184086)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Huh, things aren&amp;rsquo;t looking good so far. Well, let&amp;rsquo;s look at more data.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;more_comments&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;submissions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;more_comments&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;extend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;submission&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;200&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;more_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;more_comments = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for submission in submissions:
+    more_comments.extend(get_comments(submission, 200))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;len(more_comments)
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;404
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I figure there are many more than 404 comments for those submissions. I suspect we only get that many because praw &lt;a href=&#34;https://praw.readthedocs.io/en/stable/pages/faq.html&#34;&gt;tries to do the right thing&lt;/a&gt; and follow Reddit&amp;rsquo;s guidelines for the amount of requests one can make within a given time limit. We&amp;rsquo;re not going to worry about that now. 404 comments is good enough since we&amp;rsquo;re only tinkering :)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bigger_blob&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TextBlob&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;more_comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
 
-&lt;span class=&#34;c1&#34;&gt;# The first time I ran this method, it failed&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# because I hadn&amp;#39;t read TextBlob&amp;#39;s docs closely&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# and downloaded the corpus of text in needed.&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# python -m textblob.download_corpora&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;bigger_blob = TextBlob(&#39;&#39;.join(more_comments))
 
-&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bigger_blob&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+# The first time I ran this method, it failed
+# because I hadn&#39;t read TextBlob&#39;s docs closely
+# and downloaded the corpus of text in needed.
+# python -m textblob.download_corpora
+
+print(len(bigger_blob.words))
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;17046
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Let&amp;rsquo;s see what some of the most common words are&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;collections&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Counter&lt;/span&gt;
 
-&lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Counter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bigger_blob&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from collections import Counter
 
-&lt;span class=&#34;c1&#34;&gt;# the most common words are pretty mundane common parts of speech, so we&amp;#39;ll skip the first few&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;most_common&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;60&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+counter = Counter(bigger_blob.words)
+
+# the most common words are pretty mundane common parts of speech, so we&#39;ll skip the first few
+counter.most_common()[60:100]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;[(&#39;no&#39;, 43),
  (&#39;about&#39;, 42),
@@ -273,8 +282,9 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;finally-let-s-see-what-the-over-all-sentiment-analysis-is&#34;&gt;Finally, let&amp;rsquo;s see what the over all sentiment analysis is&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bigger_blob&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sentiment&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;bigger_blob.sentiment
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;Sentiment(polarity=0.07565960941292733, subjectivity=0.52062214346886)
 &lt;/code&gt;&lt;/pre&gt;
