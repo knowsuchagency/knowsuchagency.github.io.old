@@ -5,7 +5,8 @@ set DIR (dirname $script)
 
 cd $DIR/..
 
-if [ -n (git status -s) ]
+set uncommitted_changes (count (git status -s))
+if math "$uncommitted_changes>0" 
     echo "The working directory is dirty. Please commit any pending changes."
     exit
 end
