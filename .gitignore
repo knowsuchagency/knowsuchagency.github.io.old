@@ -1,0 +1,8 @@
+# mac stuff
+**.DS_STORE
+
+# ipython
+**.ipynb_checkpoints
+
+# hugo
+public
