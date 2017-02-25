@@ -302,9 +302,8 @@ def hit_endpoint(url: str) -> ApiResponse:
         
         return ApiResponse(ApiInteraction.ERROR, None)
 
-    # Yes, I know 'except Exception' is seen as an anti-pattern by many.
-    # This is meant to be a trivial example, not a discussion on
-    # exception handling philosophies in Python.
+    # 'except Exception' is seen as an anti-pattern by many but
+    # this is just a trivial example. Another article for another time.
     except Exception as e:
         
         # something went wrong in step 1 or 2 that
