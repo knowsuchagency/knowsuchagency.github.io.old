@@ -83,3 +83,5 @@ A text parser that has so far processed over four million lines of data and save
 Jun, 2014 – May, 2016
 
 A collaborative project between DoD civilian leadership and military personnel designed to store, share, and analyze information for military analysts and their customers. Worked as a project lead, software developer, subject-matter expert, and military-civilian liason. Catalyzed the project by engaging leadership and developers; helping them to understand the problem, define the solution, and validate the necessity of the project and its potential to enable previously unfeasible insight and analytics. Created and implemented the data model for the project using MySQL, MongoDB, Python, SQLAlchemy, and PyMongo. Munged five years worth of semi-formatted text files and used the information to develop the data model and later seed the database. Provided domain knowledge as an analyst and subject-matter expert to the rest of the development team throughout development process.
+
+ref-id: DJ2-2016-00904
