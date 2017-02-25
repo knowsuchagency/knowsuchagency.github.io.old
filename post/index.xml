@@ -19,8 +19,6 @@
       <guid>https://knowsuchagency.github.io/post/postmodern-error-handling/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;postmodern-error-handling-in-python-3-6&#34;&gt;Postmodern error handling in Python 3.6&lt;/h2&gt;
-
 &lt;p&gt;I&amp;rsquo;ll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling (or rather how to prevent them from happening in the first place), and I would argue that the facilities (post?)modern Python provides us for doing so are pretty damn cool.&lt;/p&gt;
 
 &lt;p&gt;Recently, an acquaintance of mine posed this question on a message board we both participate in:&lt;/p&gt;
