@@ -5,6 +5,7 @@ bigimg = ""
 date = "2017-02-24T19:32:47-08:00"
 
 +++
+<!--more-->
 
 ## Postmodern error handling in Python 3.6
 
