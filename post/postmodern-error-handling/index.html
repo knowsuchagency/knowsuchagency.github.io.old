@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Postmodern Error Handling in Python 3.6</title>
+  
+  <meta name="author" content="Stephan Fitzpatrick"/>
+  <meta name="generator" content="Hugo 0.18.1" />
+  <link href='https://knowsuchagency.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+
+  <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.iocss/highlight.min.css">
+  
+  
+  <meta property="og:title" content="Postmodern Error Handling in Python 3.6" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/postmodern-error-handling/" />
+  <meta property="og:image" content="/img/avatar-icon.png" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://knowsuchagency.github.io">Journal Panic</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Blog" href="https://knowsuchagency.github.io/">Blog</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="https://knowsuchagency.github.io/page/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="https://knowsuchagency.github.io/page/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+          <a title="Journal Panic" href="https://knowsuchagency.github.io">
+              <img class="avatar-img" src="https://knowsuchagency.github.io/img/avatar-icon.png" alt="Journal Panic" />
+          </a>
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+    
+
+
+
+  
+
+  <header class="header-section ">
+  
+  <div class="intro-header no-img">
+      <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Postmodern Error Handling in Python 3.6</h1>
+      
+        
+      <h2 class="post-subheading">How to catch some TYPES of errors before they happen</h2>
+      
+      
+      
+      
+      <span class="post-meta">Posted on February 24, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </header>
+
+
+    <div class="container" role="main">	  
+      
+        <div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p></p>
+
+<h2 id="postmodern-error-handling-in-python-3-6">Postmodern error handling in Python 3.6</h2>
+
+<p>I&rsquo;ll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling (or rather how to prevent them from happening in the first place), and I would argue that the facilities (post?)modern Python provides us for doing so is pretty damn cool.</p>
+
+<p>Recently, an acquaintance of mine posed this question on a message board we both participate in:</p>
+
+<blockquote>
+<p>okay nerds
+what do you call a union-type with three states?</p>
+
+<p>so I was writing a Maybe implementation (in python) to deal with a processing pipeline, but then it turned into an Either, and then it turned into something with three states</p>
+
+<p>basically there&rsquo;s either 1) the final value, 2) no value but a known error occurred, 3) no value but an unknown error occurred</p>
+
+<p>the final states could be: 1) hey it succeeded, here&rsquo;s the object&rsquo;s id 2) no value but your json blob was missing a required attribute (or some other known error), or 3) we encountered an error that the programmer didn&rsquo;t forsee</p>
+</blockquote>
+
+<p>To which another strapping young gentleman replied:</p>
+
+<blockquote>
+<p>if it were Rust you could enum your errors ಠ‿ಠ</p>
+</blockquote>
+
+<p>Well, truth be told, I feel like I probably know about as little about <a href="https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/"><strong>fp</strong></a> as I do about postmodernism, but I thought this was an interesting question and I know that Python&rsquo;s standard library does, actually, provide us Enums ┬─┬﻿ ノ( ゜-゜ノ) so I figured I would take a crack at it.</p>
+
+<hr />
+
+<p>To start, let&rsquo;s quickly talk about what an Enum (enumeration) is for those of us who have yet to encounter them.</p>
+
+<p>At a very basic level, I would define an Enum as a particular set of choices (or states).</p>
+
+<p>Let&rsquo;s say, for example, that you <a href="https://www.youtube.com/watch?v=zBYz_RInbrQ">lost a bet</a>, and now have a set of options to choose from as punishment.</p>
+
+<p>Those options are</p>
+
+<ul>
+<li><strong>A</strong>: Get slapped 10 times right now</li>
+<li><strong>B</strong>: Get slapped 5 times at any random time from now to eternity</li>
+</ul>
+
+<p>Those are the only 2 possibilities; you don&rsquo;t get any other choices. We could model this idea using an Enum.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span> <span class="nc">SlapBet</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">TEN_SLAPS</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># get slapped ten times right now</span>
+    <span class="n">FIVE_SLAPS</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># fear slaps possibly for eternity</span>
+    
+<span class="n">smart_choice</span> <span class="o">=</span> <span class="n">SlapBet</span><span class="o">.</span><span class="n">TEN_SLAPS</span>
+
+<span class="n">stupid_choice</span> <span class="o">=</span> <span class="n">SlapBet</span><span class="o">.</span><span class="n">FIVE_SLAPS</span>
+
+<span class="n">smart_choice</span> <span class="c1"># notice the pretty repr</span>
+
+<span class="n">smart_choice</span> <span class="o">==</span> <span class="n">SlapBet</span><span class="o">.</span><span class="n">TEN_SLAPS</span>
+
+<span class="n">smart_choice</span> <span class="o">==</span> <span class="n">stupid_choice</span>
+</code></pre></div>
+
+<pre><code>&lt;SlapBet.TEN_SLAPS: 1&gt;
+True
+False
+</code></pre>
+
+<p>So, why would we do this? Why go through the trouble of using an Enum when we could functionally do the same thing with something like integers? Well, the first reason, and the most important one, in my opinion, is readability.</p>
+
+<p>Another reason is that Enum instances can hold values we may want to use.</p>
+
+<p>Let&rsquo;s say you have a function that has an optional parameter.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">,</span> <span class="n">person_2</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s1">&#39;knows&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a string that represents the relationship between two people.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># this sexy f&quot;&quot; string format is part of the new Python 3.6</span>
+    <span class="c1"># hotness. An article for another day.</span>
+    
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;{person_1} {relationship} {person_2}&quot;</span>
+
+<span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s2">&quot;is best friends with&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<pre><code>'Ron is best friends with Harry'
+</code></pre>
+
+<p>Now let&rsquo;s say we want to constrain the possible types of relationships that people can have.</p>
+
+<p>Maybe we want to do this to prevent errors or to simply prevent weirdness like the following.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s2">&quot;is dating Hermoine but secretly wants&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<pre><code>'Ron is dating Hermoine but secretly wants Harry'
+</code></pre>
+
+<h3 id="enums-to-the-rescue">Enums to the rescue!</h3>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span> <span class="nc">Relationship</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">knows</span> <span class="o">=</span> <span class="s1">&#39;knows&#39;</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="s1">&#39;likes&#39;</span>
+    <span class="n">loves</span> <span class="o">=</span> <span class="s1">&#39;loves&#39;</span>
+    <span class="n">detests</span> <span class="o">=</span> <span class="s1">&#39;detests&#39;</span>
+    <span class="n">bff</span> <span class="o">=</span> <span class="s2">&quot;is best friends with&quot;</span>
+
+<span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">,</span> <span class="n">person_2</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">likes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a string that represents the relationship between two people.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># notice we use the .value of the Relationship instance to get the string</span>
+    
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;{person_1} {relationship.value} {person_2}&quot;</span>
+
+<span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span>
+</code></pre></div>
+
+<pre><code>'Ron is best friends with Harry'
+</code></pre>
+
+<h2 id="interlude">Interlude</h2>
+
+<p>Before tackle the original question that started us on this journey, let&rsquo;s quickly talk about a new incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.</p>
+
+<p>In our previous example, there would be nothing to prevent someone from doing the following:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span>
+<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;corrupts&#39;</span>
+
+<span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span>
+</code></pre></div>
+
+<pre><code>'Ron corrupts Harry'
+</code></pre>
+
+<p>That&rsquo;s obviously not how we intended our function to be used, but part of what makes Python so powerful, its dynamic nature, is what allows such nefarious behavior. If only there were a way to save ourselves and people who use our code from making such mistakes&hellip;</p>
+
+<h3 id="behold">Behold!</h3>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span> <span class="nc">Relationship</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">knows</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;knows&#39;</span>
+    <span class="n">likes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;likes&#39;</span>
+    <span class="n">loves</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;loves&#39;</span>
+    <span class="n">detests</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detests&#39;</span>
+    <span class="n">bff</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;is best friends with&quot;</span>
+    
+<span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">person_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">relationship</span><span class="p">:</span> <span class="n">Relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">knows</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return a string that represents the relationship between two people.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># notice we use the .value of the Relationship instance to get the string</span>
+    
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;{person_1} {relationship.value} {person_2}&quot;</span>
+
+<span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span>
+</code></pre></div>
+
+<pre><code>'Ron is best friends with Harry'
+</code></pre>
+
+<p>&ldquo;Huh?&rdquo;, you say. &ldquo;It looks to me like things just got more verbosified. I like making up words.&rdquo;</p>
+
+<p>Cool word, and you would be right, things did get more wordy. Moreover, adding all those annotations won&rsquo;t prevent someone from doing what we mentioned before,</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span>
+<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;corrupts&#39;</span>
+
+<span class="n">connection</span><span class="p">(</span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span>
+<span class="c1"># this still works ಠ_ಠ</span>
+</code></pre></div>
+
+<p>&hellip; <strong>unless</strong>, that is, we run that code using - <a href="http://mypy-lang.org/"><strong>mypy</strong></a></p>
+
+<p>Mypy allows you to add type annotations and enforce them prior to running your program, so the only way the above function would run is if the relationship parameter was of type Relationship when called. Amazing!</p>
+
+<p>Now, anyone reading our code would know exactly the types of things that could be passed as parameters to functions, and mypy will help us to enforce the type annotations we set.</p>
+
+<p>That makes our code much more legible and provides us and people using our code some nice sanity checks - knowing certain kinds of human errors will be caught prior to our code being run.</p>
+
+<hr />
+
+<h2 id="now-back-to-our-original-question-about-modeling-3-possible-conditions">Now, back to our original question about modeling 3 possible conditions.</h2>
+
+<ol>
+<li>Task ran without error. Data returned.</li>
+<li>A known error occurred during task execution. No data returned.</li>
+<li>A catastrophic runtime error occurred. No data returned</li>
+</ol>
+
+<p>So, before we look at the code, it&rsquo;s cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax. We had typed namedtuples in Python 3.5 but I think the new syntax for declaring them is much nicer.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># old way</span>
+<span class="n">Employee</span> <span class="o">=</span> <span class="n">NamedTuple</span><span class="p">(</span><span class="s1">&#39;Employee&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span>
+
+<span class="c1"># new sauce</span>
+<span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">name</span> <span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">id</span>   <span class="p">:</span> <span class="nb">int</span>
+</code></pre></div>
+
+<p>Note, an Optional describes something that can be of a certain type, or None.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># declare a variable, that can be either an int or None</span>
+<span class="n">possible_integer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+</code></pre></div>
+
+<p>You&rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.</p>
+
+<p>Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and its standard library.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+
+
+<span class="k">class</span> <span class="nc">ApiInteraction</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The 3 possible states we can expect when interacting with the API.&quot;&quot;&quot;</span>
+    <span class="n">SUCCESS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ERROR</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">FAILURE</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+<span class="k">class</span> <span class="nc">ApiResponse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is sort of a really dumbed-down version of an HTTP response,</span>
+<span class="sd">    if you think of it in terms of status codes and response bodies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">ApiInteraction</span>
+    <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+
+
+        
+<span class="k">def</span> <span class="nf">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ApiResponse</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1. Send an http request to a url</span>
+<span class="sd">    2. Parse the json response as a dictionary</span>
+<span class="sd">    3. Return an ApiResponse object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+    <span class="k">try</span><span class="p">:</span>
+        
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="c1"># step 1</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="c1"># step 2</span>
+        
+    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        
+        <span class="c1"># something went wrong in step 2; we knew this might happen</span>
+        
+        <span class="c1"># log a simple error message</span>
+        
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;could not decode json from {url}&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># log the full traceback at a lower level</span>
+        
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        
+        <span class="c1"># since we anticipated this error, make the</span>
+        <span class="c1"># ApiResponse.status an ERROR as opposed to a failure</span>
+        
+        <span class="k">return</span> <span class="n">ApiResponse</span><span class="p">(</span><span class="n">ApiInteraction</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        
+        <span class="c1"># something went wrong in step 1 or 2 that</span>
+        <span class="c1"># we couldn&#39;t anticipate</span>
+        
+        <span class="c1"># log the exception with the traceback</span>
+        
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something bad happened trying to reach {url}&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        
+        <span class="c1"># Since something catastrophic happened that</span>
+        <span class="c1"># we didn&#39;t anticipate i.e. (DivideByBananaError)</span>
+        <span class="c1"># we set the ApiResponse.status to FAILURE</span>
+        
+        <span class="k">return</span> <span class="n">ApiResponse</span><span class="p">(</span><span class="n">ApiInteraction</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="c1"># Everything worked as planned! No errors!</span>
+        
+        <span class="k">return</span> <span class="n">ApiResponse</span><span class="p">(</span><span class="n">ApiInteraction</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+
+
+<span class="c1"># Python is awesome. We can either use the function by itself</span>
+<span class="c1"># or use it as a constructor for our ApiResponse class </span>
+<span class="c1"># by doing thefollowing:</span>
+
+
+<span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span> <span class="o">=</span> <span class="n">hit_endpoint</span>
+</code></pre></div>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">test_endpoint_response</span><span class="p">():</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://httpbin.org/headers&#39;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">SUCCESS</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span> <span class="c1"># our function and constructor work the same!</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://twitter.com&#39;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">ERROR</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="bp">None</span>
+
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">FAILURE</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="bp">None</span>
+        
+    
+<span class="n">test_endpoint_response</span><span class="p">()</span>
+</code></pre></div>
+
+<pre><code>ERROR:root:could not decode json from http://twitter.com
+ERROR:root:could not decode json from http://twitter.com
+ERROR:root:Something bad happened trying to reach foo
+ERROR:root:Something bad happened trying to reach foo
+</code></pre>
+
+<h2 id="in-collusion">In collusion</h2>
+
+<p>I&rsquo;m really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness of the language and provide us with some really useful guarantees when leveraged through mypy.</p>
+
+<p>Using <strong>Enums</strong> and <strong>NamedTuples</strong> this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and <strong>testable</strong>. I also really like the idea of having relatively simple data structures that define a finite set of possible states that we can create arbitrary constructors for outside of their class definitions, similar to other languages like Go. This isn&rsquo;t something new to Python, but recent developments in Python&rsquo;s syntax and its ecosystem make patterns like these much more useful and intuitive, in my opinion.</p>
+
+<p>Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python&rsquo;s type system is what has him most excited about the language moving forward, according to his latest interview with on <a href="https://twitter.com/mkennedy">Michael Kennedy&rsquo;s</a> <a href="https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum">TalkPython.fm</a></p>
+
+<p>The more I read about these features and use them, the more I understand why.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://knowsuchagency.github.io/post/mbp_sentiment_analysis/" data-toggle="tooltip" data-placement="top" title="Sentiment analysis of the new MBP">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'journal-panic';
+    var disqus_identifier = 'https:\/\/knowsuchagency.github.io\/post\/postmodern-error-handling\/';
+    var disqus_title = 'Postmodern Error Handling in Python 3.6';
+    var disqus_url = 'https:\/\/knowsuchagency.github.io\/post\/postmodern-error-handling\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+    </div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/stephan.fitzpatrick" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/knowsuchagency" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+          <li>
+            <a href="https://twitter.com/knowsuchagency" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+          <li>
+            <a href="mailto:knowsuchagency@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+          <li>
+            <a href="https://linkedin.com/in/fitzpatrickstephan" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/5933618/stephan-fitzpatrick" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="https://www.instagram.com/knowsuchagency" title="Instagram">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          
+          
+          
+
+    		  <li>
+      			<a href="https://knowsuchagency.github.ioindex.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="credits copyright text-muted">
+    	  Stephan Fitzpatrick
+    	  &nbsp;&bull;&nbsp;
+    	  2017
+    		  
+    	  
+    	  &nbsp;&bull;&nbsp;
+    	  <a href="https://knowsuchagency.github.io">Journal Panic</a>
+    	  
+  	    </p>
+  	    
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://knowsuchagency.github.io/js/jquery-1.11.2.min.js"></script>
+<script src="https://knowsuchagency.github.io/js/bootstrap.min.js"></script>
+<script src="https://knowsuchagency.github.io/js/main.js"></script>
+<script src="https://knowsuchagency.github.iojs/highlight.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+  </body>
+</html>
