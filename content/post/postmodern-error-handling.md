@@ -244,7 +244,7 @@ possible_integer: Optional[int]
 
 You'll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling. 
 
-Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and its standard library.
+Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and the standard library.
 
 
 ```python
