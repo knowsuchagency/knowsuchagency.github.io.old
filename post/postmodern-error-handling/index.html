@@ -374,9 +374,8 @@ False
         
         <span class="k">return</span> <span class="n">ApiResponse</span><span class="p">(</span><span class="n">ApiInteraction</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
-    <span class="c1"># Yes, I know &#39;except Exception&#39; is seen as an anti-pattern by many.</span>
-    <span class="c1"># This is meant to be a trivial example, not a discussion on</span>
-    <span class="c1"># exception handling philosophies in Python.</span>
+    <span class="c1"># &#39;except Exception&#39; is seen as an anti-pattern by many but</span>
+    <span class="c1"># this is just a trivial example. Another article for another time.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         
         <span class="c1"># something went wrong in step 1 or 2 that</span>

@@ -272,9 +272,8 @@ False
         
         &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-    &lt;span class=&#34;c1&#34;&gt;# Yes, I know &amp;#39;except Exception&amp;#39; is seen as an anti-pattern by many.&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;# This is meant to be a trivial example, not a discussion on&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;# exception handling philosophies in Python.&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# &amp;#39;except Exception&amp;#39; is seen as an anti-pattern by many but&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# this is just a trivial example. Another article for another time.&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;Exception&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
         
         &lt;span class=&#34;c1&#34;&gt;# something went wrong in step 1 or 2 that&lt;/span&gt;
