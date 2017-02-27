@@ -5,7 +5,7 @@ theme = "beautifulhugo"
 pygmentsuseclasses = true
 PygmentsCodeFences = true
 disqusShortname = "journal-panic"
-#googleAnalytics = "XXX"
+#googleAnalytics = "UA-92708915-1"
 canonifyURLs = true
 
 
