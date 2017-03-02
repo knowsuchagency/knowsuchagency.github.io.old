@@ -215,10 +215,20 @@ False
 &lt;span class=&#34;n&#34;&gt;possible_integer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You&amp;rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is very similar to the way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.&lt;/p&gt;
 
 &lt;p&gt;Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and the standard library.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;typing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;Caveat:&lt;/span&gt;
+
+&lt;span class=&#34;sd&#34;&gt;The following is not necessarily the &lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;most robust way of handling exceptions, IMO.&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;Python allows you to write custom exceptions &lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;that one can `raise from` others for good reason.&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;This is just meant as a way to think about how we &lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;would model the initial scenario described.&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;typing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;requests&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;logging&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
