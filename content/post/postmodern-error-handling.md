@@ -242,12 +242,22 @@ Note, an Optional describes something that can be of a certain type, or None.
 possible_integer: Optional[int]
 ```
 
-You'll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling. 
+You'll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is very similar to the way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling. 
 
 Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and the standard library.
 
 
 ```python
+"""
+Caveat:
+
+The following is not necessarily the 
+most robust way of handling exceptions, IMO.
+Python allows you to write custom exceptions 
+that one can `raise from` others for good reason.
+This is just meant as a way to think about how we 
+would model the initial scenario described.
+"""
 from typing import NamedTuple, Optional
 import requests
 import logging
