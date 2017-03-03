@@ -11,7 +11,7 @@ canonifyURLs = true
 
 [Params]
   subtitle = "Makefiles Not War"
-  logo = "img/avatar-icon.png"
+  logo = "img/lambda.png"
   favicon = "img/favicon.ico"
   commit = false
 
