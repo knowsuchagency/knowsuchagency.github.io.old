@@ -383,7 +383,7 @@ test_endpoint_response()
 
 I'm really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness of the language and provide us with some really useful guarantees when leveraged through mypy.
 
-Using **Enums** and **NamedTuples** this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and **testable**. I also really like the idea of having relatively simple data structures that define a finite set of possible states that we can create arbitrary constructors for outside of their class definitions, similar to other languages like Go. This isn't something new to Python, but recent developments in Python's syntax and its ecosystem make patterns like these much more useful and intuitive, in my opinion.
+Using **Enums** and **NamedTuples** this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and even more **testable** in certain scenarios. I also like the idea of having relatively simple data structures that we can create arbitrary constructors for outside of their class definitions, similar to other languages, although I can see why some might disagree on that point. I reserve the right to change my mind.
 
 Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python's type system is what has him most excited about the language moving forward, according to his latest interview with on [Michael Kennedy's](https://twitter.com/mkennedy) [TalkPython.fm](https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum)
 
