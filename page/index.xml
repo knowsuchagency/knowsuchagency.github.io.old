@@ -19,6 +19,10 @@
       <guid>https://knowsuchagency.github.io/page/resume/</guid>
       <description>
 
+&lt;h1 align=&#39;center&#39;&gt;&lt;a href=&#39;https://knowsuchagency.github.io/documents/resume.pdf&#39;&gt;Download This Resume in PDF&lt;/a&gt;&lt;/h1&gt;
+
+&lt;hr /&gt;
+
 &lt;h1 id=&#34;software-engineer&#34;&gt;Software Engineer&lt;/h1&gt;
 
 &lt;h3 id=&#34;san-francisco-ca&#34;&gt;San Francisco, CA&lt;/h3&gt;
@@ -53,7 +57,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;em&gt;DEFENSE LANGUAGE INSTITUTE&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DEFENSE LANGUAGE INSTITUTE&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Associate&amp;rsquo;s Degree - Mandarin Chinese&lt;/em&gt;&lt;/p&gt;
 
@@ -81,7 +85,7 @@
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;projects&#34;&gt;PROJECTS&lt;/h2&gt;
+&lt;h1 id=&#34;projects&#34;&gt;PROJECTS&lt;/h1&gt;
 
 &lt;hr /&gt;
 
@@ -99,7 +103,7 @@
 
 &lt;p&gt;Jun, 2014 – May, 2016&lt;/p&gt;
 
-&lt;p&gt;A collaborative project between DoD civilian leadership and military personnel designed to store, share, and analyze information for military analysts and their customers. Worked as a project lead, software developer, subject-matter expert, and military-civilian liason. Catalyzed the project by engaging leadership and developers; helping them to understand the problem, define the solution, and validate the necessity of the project and its potential to enable previously unfeasible insight and analytics. Created and implemented the data model for the project using MySQL, MongoDB, Python, SQLAlchemy, and PyMongo. Munged five years worth of semi-formatted text files and used the information to develop the data model and later seed the database. Provided domain knowledge as an analyst and subject-matter expert to the rest of the development team throughout development process.&lt;/p&gt;
+&lt;p&gt;A collaborative project between DoD civilian leadership and military personnel designed to store, share, and analyze information for military analysts and their customers. Worked as a project lead, software developer, subject-matter expert, and military-civilian liason. Contributed greatly to the complete restructuring of a 60-person organization as a result of massive increase in analyst productivity.&lt;/p&gt;
 
 &lt;p&gt;ref-id: DJ2-2016-00904&lt;/p&gt;
 </description>
