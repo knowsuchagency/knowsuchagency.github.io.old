@@ -19,8 +19,6 @@
       <guid>https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
-&lt;h1 id=&#34;spice-up-thy-jupyter-notebooks-with-mypy&#34;&gt;Spice Up Thy Jupyter Notebooks With mypy&lt;/h1&gt;
-
 &lt;p&gt;I use &lt;a href=&#34;http://jupyter.org/&#34;&gt;Jupyter&lt;/a&gt; notebooks all the time. I use them to author the content for articles like the one you&amp;rsquo;re reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more.&lt;/p&gt;
 
 &lt;p&gt;Before I continue on my rant, let&amp;rsquo;s quickly take a look at some code to demonstrate what we want to be able to do.&lt;/p&gt;
