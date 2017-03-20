@@ -1,14 +1,11 @@
 +++
 bigimg = ""
 date = "2017-03-19T16:12:36-07:00"
-subtitle = ""
+subtitle = "Add type-checking to Jupyter Notebook cells"
 title = "Spice up Thy Jupyter Notebooks With mypy"
 
 +++
 <!--more-->
-
-
-# Spice Up Thy Jupyter Notebooks With mypy
 
 I use [Jupyter](http://jupyter.org/) notebooks all the time. I use them to author the content for articles like the one you're reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more. 
 
