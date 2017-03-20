@@ -9,3 +9,6 @@ public
 
 #pyenv
 .python-version
+
+# jetbrains
+.idea/

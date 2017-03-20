@@ -62,15 +62,20 @@ def main():
 
     if args.new_file:
 
+        # clean up the title of the file to be created
+        new_file = '-'.join(word.lower() for word in args.new_file.split())
+
         # create post using hugo
-        sp.check_call(f"hugo new post/{args.new_file}.md", shell=True)
+        sp.check_call(f"hugo new post/{new_file}.md", shell=True)
 
         # create ipython notebook
-        new_notebook = config.get('notebooks', 'path').strip("'") + '/' + args.new_file + '.ipynb'
+        new_notebook = config.get('notebooks', 'path').strip("'") + '/' + new_file + '.ipynb'
         new_notebook_path = Path(new_notebook)
         new_notebook = nbformat.v4.new_notebook()
         with new_notebook_path.open('w') as fp:
             nbformat.write(new_notebook, fp)
+
+        print(new_notebook_path, 'created')
 
         return
     
