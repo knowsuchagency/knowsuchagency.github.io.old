@@ -49,7 +49,7 @@ Jupyter allows us to write our own custom magics, apart from the built-in magics
 
 Since the custom magics you use depend on how you have IPython configured and what profile you're using, I'm providing the following code in the form of a gist, since distributing it as a package would be finicky as the package would need to attempt to figure out your IPython configuration, a task which seems best left to you, the human.
 
-I'm going to assume that you have Jupyter installed and that you have at least a default profile created. `pip install -U jupyter` will install Jupyter and `ipython profile create` will create a default profile for you if you don't yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways. Once you have a profile created, you can use `ipython locate profile` to find the configuration directory for that profile.
+I'm going to assume that you have Jupyter installed and that you have at least a default profile created. `pip install -U jupyter mypy` will install Jupyter and mypy, while `ipython profile create` will create a default profile for you if you don't yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways. Once you have a profile created, you can use `ipython locate profile` to find the configuration directory for that profile.
 
 For example, the IPython configuration file for my default profile, 'ipython_config.py' has the following lines
 
