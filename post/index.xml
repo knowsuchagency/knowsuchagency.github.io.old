@@ -8,8 +8,96 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Fri, 24 Feb 2017 19:32:47 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Mar 2017 16:12:36 -0700</lastBuildDate>
     <atom:link href="https://knowsuchagency.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Spice up Thy Jupyter Notebooks With mypy</title>
+      <link>https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/</link>
+      <pubDate>Sun, 19 Mar 2017 16:12:36 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;spice-up-thy-jupyter-notebooks-with-mypy&#34;&gt;Spice Up Thy Jupyter Notebooks With mypy&lt;/h1&gt;
+
+&lt;p&gt;I use &lt;a href=&#34;http://jupyter.org/&#34;&gt;Jupyter&lt;/a&gt; notebooks all the time. I use them to author the content for articles like the one you&amp;rsquo;re reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more.&lt;/p&gt;
+
+&lt;p&gt;Before I continue on my rant, let&amp;rsquo;s quickly take a look at some code to demonstrate what we want to be able to do.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;typecheck&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ignore&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;missing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;imports&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sympy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sympify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;init_printing&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;init_printing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;integer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
+    
+&lt;span class=&#34;n&#34;&gt;integer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;mypy won&amp;#39;t like this&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;expr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sympify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;(e**3)**(1/2)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
+
+&lt;span class=&#34;c1&#34;&gt;# The following will be pretty printed, not just the last expression&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# since the I have configured IPython as such and the typecheck&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# magic uses the current profile&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;expr&lt;/span&gt;
+
+&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;string&amp;gt;:7: error: Incompatible types in assignment (expression has type &amp;quot;str&amp;quot;, variable has type &amp;quot;int&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;$$\sqrt{e^{3}}$$
+$$5$$&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve recently become interested in Python&amp;rsquo;s new typing module and &lt;a href=&#34;http://mypy-lang.org/&#34;&gt;mypy&lt;/a&gt;, and I wanted to be able to use them seamlessly in the context of my Jupyter notebooks.&lt;/p&gt;
+
+&lt;p&gt;I should mention that Jupyter is an evolution of the original IPython project. I bring this up because I&amp;rsquo;m going to reference the documentation for IPython, which can be thought of as the the code that enables Python to work with Jupyter. Think of Jupyter as the tooling that allows for us to do all the fancy code editing and visualization browser, and IPython as the compatibility layer between Jupyter and Python. This is a bit simplistic, but hopefully avoids confusion for anyone who isn&amp;rsquo;t intimately familiar with both projects and the genesis of the Jupyter project.&lt;/p&gt;
+
+&lt;p&gt;Jupyter has a concept of cell &amp;ldquo;magics&amp;rdquo; which allow us to perform helpful functions in the context of a Jupyter shell. For example, when using IPython, the &lt;code&gt;%pastebin&lt;/code&gt; magic allows us to easily upload bits of code to Github&amp;rsquo;s Gist pastebin, &lt;code&gt;%pdoc [object]&lt;/code&gt; prints the docstring for a particular object, and &lt;code&gt;%%latex&lt;/code&gt; renders a block of text as latex.&lt;/p&gt;
+
+&lt;p&gt;Magics that start with  &amp;lsquo;%&amp;rsquo; apply only to the line that it is written on, while
+magics that start with &amp;lsquo;%%&amp;rsquo; apply to a block of code proceeding that line.&lt;/p&gt;
+
+&lt;p&gt;Jupyter allows us to write our own custom magics, apart from the built-in magics provided. Detailed documentation on how to do that can be found &lt;a href=&#34;http://ipython.readthedocs.io/en/stable/config/custommagics.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since the custom magics you use depend on how you have IPython configured and what profile you&amp;rsquo;re using, I&amp;rsquo;m providing the following code in the form of a gist, since distributing it as a package would be finicky as the package would need to attempt to figure out your IPython configuration, a task which seems best left to you, the human.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m going to assume that you have Jupyter installed and that you have at least a default profile created. &lt;code&gt;pip install -U jupyter&lt;/code&gt; will install Jupyter and &lt;code&gt;ipython profile create&lt;/code&gt; will create a default profile for you if you don&amp;rsquo;t yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways. Once you have a profile created, you can use &lt;code&gt;ipython locate profile&lt;/code&gt; to find the configuration directory for that profile.&lt;/p&gt;
+
+&lt;p&gt;For example, the IPython configuration file for my default profile, &amp;lsquo;ipython_config.py&amp;rsquo; has the following lines&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.TerminalInteractiveShell.ast_node_interactivity = &#39;all&#39;
+c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which tells IPython to print the the repr for any object which has it&amp;rsquo;s own line.&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;bar&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;baz&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;foo&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;bar&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# normally, only this object is printed&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;bar&#39;
+&#39;baz&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I wanted my magic to do 4 things.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Run the block of code through mypy and print its output&lt;/li&gt;
+&lt;li&gt;Allow me to alter mypy&amp;rsquo;s behavior, as with the mypy cli&lt;/li&gt;
+&lt;li&gt;Not conflict with the normal behavior of the block of code&lt;/li&gt;
+&lt;li&gt;Run the block of code in the context of my current profile&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Though the code it took to do this is really straightforward, it took some digging around in the Jupyter and IPython docs to get it to work as I wanted. Hopefully you find it useful and elucidating.&lt;/p&gt;
+
+&lt;p&gt;Without further ado, &lt;script src=&#34;//gist.github.com/knowsuchagency/f7b2203dd613756a45f816d6809f01a6.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Postmodern Error Handling in Python 3.6</title>
