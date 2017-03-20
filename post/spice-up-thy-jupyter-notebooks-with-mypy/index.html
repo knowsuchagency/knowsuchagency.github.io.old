@@ -163,7 +163,7 @@ magics that start with &lsquo;%%&rsquo; apply to a block of code proceeding that
 
 <p>Since the custom magics you use depend on how you have IPython configured and what profile you&rsquo;re using, I&rsquo;m providing the following code in the form of a gist, since distributing it as a package would be finicky as the package would need to attempt to figure out your IPython configuration, a task which seems best left to you, the human.</p>
 
-<p>I&rsquo;m going to assume that you have Jupyter installed and that you have at least a default profile created. <code>pip install -U jupyter</code> will install Jupyter and <code>ipython profile create</code> will create a default profile for you if you don&rsquo;t yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways. Once you have a profile created, you can use <code>ipython locate profile</code> to find the configuration directory for that profile.</p>
+<p>I&rsquo;m going to assume that you have Jupyter installed and that you have at least a default profile created. <code>pip install -U jupyter mypy</code> will install Jupyter and mypy, while <code>ipython profile create</code> will create a default profile for you if you don&rsquo;t yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways. Once you have a profile created, you can use <code>ipython locate profile</code> to find the configuration directory for that profile.</p>
 
 <p>For example, the IPython configuration file for my default profile, &lsquo;ipython_config.py&rsquo; has the following lines</p>
 
