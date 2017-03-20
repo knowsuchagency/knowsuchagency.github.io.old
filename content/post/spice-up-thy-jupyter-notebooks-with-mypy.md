@@ -2,7 +2,7 @@
 bigimg = ""
 date = "2017-03-19T16:12:36-07:00"
 subtitle = "Add type-checking to Jupyter Notebook cells"
-title = "Spice up Thy Jupyter Notebooks With mypy"
+title = "Spice Up Thy Jupyter Notebooks With mypy"
 
 +++
 <!--more-->
