@@ -50,9 +50,19 @@ pizza = Vegetable(['dough', 'cheese', 'pepperoni']) # error
 def dont_cry_for_me(country: Country):
     return f"Don't cry for me, {country}." 
 
+
+# The output of the following two statements 
+# will be printed since I have the
+
+# c.TerminalInteractiveShell.ast_node_interactivity = 'all'
+# c.InteractiveShell.ast_node_interactivity = 'all'
+
+# lines in my IPython configuration
+
+
 dont_cry_for_me(onion) # error
 
-dont_cry_for_me(argentina)
+dont_cry_for_me(argentina) 
 
 number: int
     
@@ -63,6 +73,7 @@ sympify("(e**3)**(1/2)")
     <string>:13: error: Argument 1 to "Vegetable" has incompatible type List[str]; expected "str"
     <string>:18: error: Argument 1 to "dont_cry_for_me" has incompatible type "Vegetable"; expected "Country"
     <string>:24: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+
     "Don't cry for me, onion."
     "Don't cry for me, Argentina."
 
