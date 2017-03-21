@@ -31,23 +31,43 @@ If you don't yet have a profile, you can create a default one with `ipython prof
 
 **To demonstrate:**
 
+
 ```python
 %%typecheck --ignore-missing-imports
 
 from sympy import sympify, init_printing
+from typing import NewType
 init_printing()
 
-integer: int
+Country = NewType('Country', str)
+argentina = Country('Argentina')
+
+Vegetable = NewType('Vegetable', str)
+onion = Vegetable('onion')
+
+pizza = Vegetable(['dough', 'cheese', 'pepperoni']) # error
+
+def dont_cry_for_me(country: Country):
+    return f"Don't cry for me, {country}." 
+
+dont_cry_for_me(onion) # error
+
+dont_cry_for_me(argentina)
+
+number: int
     
-integer = "mypy won't like this"
+number = "mypy will not like this" # error
 
-sympify('(e**3)**(1/2)') 
-
-"Notice the previous line was also pretty-printed"
+sympify("(e**3)**(1/2)")
 ```
-    <string>:7: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+    <string>:13: error: Argument 1 to "Vegetable" has incompatible type List[str]; expected "str"
+    <string>:18: error: Argument 1 to "dont_cry_for_me" has incompatible type "Vegetable"; expected "Country"
+    <string>:24: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+    "Don't cry for me, onion."
+    "Don't cry for me, Argentina."
+
 $$\sqrt{e^{3}}$$
-'Notice the previous line was also pretty-printed'
+
 
 ---
 
