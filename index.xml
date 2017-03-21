@@ -61,9 +61,19 @@ If you don&amp;rsquo;t yet have a profile, you can create a default one with &lt
 &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;country&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Country&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Don&amp;#39;t cry for me, {country}.&amp;quot;&lt;/span&gt; 
 
+
+&lt;span class=&#34;c1&#34;&gt;# The output of the following two statements &lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# will be printed since I have the&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# c.TerminalInteractiveShell.ast_node_interactivity = &amp;#39;all&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# c.InteractiveShell.ast_node_interactivity = &amp;#39;all&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# lines in my IPython configuration&lt;/span&gt;
+
+
 &lt;span class=&#34;n&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;onion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# error&lt;/span&gt;
 
-&lt;span class=&#34;n&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argentina&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argentina&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
 
 &lt;span class=&#34;n&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
     
@@ -75,6 +85,7 @@ If you don&amp;rsquo;t yet have a profile, you can create a default one with &lt
 &lt;pre&gt;&lt;code&gt;&amp;lt;string&amp;gt;:13: error: Argument 1 to &amp;quot;Vegetable&amp;quot; has incompatible type List[str]; expected &amp;quot;str&amp;quot;
 &amp;lt;string&amp;gt;:18: error: Argument 1 to &amp;quot;dont_cry_for_me&amp;quot; has incompatible type &amp;quot;Vegetable&amp;quot;; expected &amp;quot;Country&amp;quot;
 &amp;lt;string&amp;gt;:24: error: Incompatible types in assignment (expression has type &amp;quot;str&amp;quot;, variable has type &amp;quot;int&amp;quot;)
+
 &amp;quot;Don&#39;t cry for me, onion.&amp;quot;
 &amp;quot;Don&#39;t cry for me, Argentina.&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;

@@ -163,9 +163,19 @@ If you don&rsquo;t yet have a profile, you can create a default one with <code>i
 <span class="k">def</span> <span class="nf">dont_cry_for_me</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="n">Country</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;Don&#39;t cry for me, {country}.&quot;</span> 
 
+
+<span class="c1"># The output of the following two statements </span>
+<span class="c1"># will be printed since I have the</span>
+
+<span class="c1"># c.TerminalInteractiveShell.ast_node_interactivity = &#39;all&#39;</span>
+<span class="c1"># c.InteractiveShell.ast_node_interactivity = &#39;all&#39;</span>
+
+<span class="c1"># lines in my IPython configuration</span>
+
+
 <span class="n">dont_cry_for_me</span><span class="p">(</span><span class="n">onion</span><span class="p">)</span> <span class="c1"># error</span>
 
-<span class="n">dont_cry_for_me</span><span class="p">(</span><span class="n">argentina</span><span class="p">)</span>
+<span class="n">dont_cry_for_me</span><span class="p">(</span><span class="n">argentina</span><span class="p">)</span> 
 
 <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
     
@@ -177,6 +187,7 @@ If you don&rsquo;t yet have a profile, you can create a default one with <code>i
 <pre><code>&lt;string&gt;:13: error: Argument 1 to &quot;Vegetable&quot; has incompatible type List[str]; expected &quot;str&quot;
 &lt;string&gt;:18: error: Argument 1 to &quot;dont_cry_for_me&quot; has incompatible type &quot;Vegetable&quot;; expected &quot;Country&quot;
 &lt;string&gt;:24: error: Incompatible types in assignment (expression has type &quot;str&quot;, variable has type &quot;int&quot;)
+
 &quot;Don't cry for me, onion.&quot;
 &quot;Don't cry for me, Argentina.&quot;
 </code></pre>
