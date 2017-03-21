@@ -149,22 +149,39 @@ If you don&rsquo;t yet have a profile, you can create a default one with <code>i
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="o">%%</span><span class="n">typecheck</span> <span class="o">--</span><span class="n">ignore</span><span class="o">-</span><span class="n">missing</span><span class="o">-</span><span class="n">imports</span>
 
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">init_printing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
 <span class="n">init_printing</span><span class="p">()</span>
 
-<span class="n">integer</span><span class="p">:</span> <span class="nb">int</span>
+<span class="n">Country</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="n">argentina</span> <span class="o">=</span> <span class="n">Country</span><span class="p">(</span><span class="s1">&#39;Argentina&#39;</span><span class="p">)</span>
+
+<span class="n">Vegetable</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;Vegetable&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="n">onion</span> <span class="o">=</span> <span class="n">Vegetable</span><span class="p">(</span><span class="s1">&#39;onion&#39;</span><span class="p">)</span>
+
+<span class="n">pizza</span> <span class="o">=</span> <span class="n">Vegetable</span><span class="p">([</span><span class="s1">&#39;dough&#39;</span><span class="p">,</span> <span class="s1">&#39;cheese&#39;</span><span class="p">,</span> <span class="s1">&#39;pepperoni&#39;</span><span class="p">])</span> <span class="c1"># error</span>
+
+<span class="k">def</span> <span class="nf">dont_cry_for_me</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="n">Country</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;Don&#39;t cry for me, {country}.&quot;</span> 
+
+<span class="n">dont_cry_for_me</span><span class="p">(</span><span class="n">onion</span><span class="p">)</span> <span class="c1"># error</span>
+
+<span class="n">dont_cry_for_me</span><span class="p">(</span><span class="n">argentina</span><span class="p">)</span>
+
+<span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
     
-<span class="n">integer</span> <span class="o">=</span> <span class="s2">&quot;mypy won&#39;t like this&quot;</span>
+<span class="n">number</span> <span class="o">=</span> <span class="s2">&quot;mypy will not like this&quot;</span> <span class="c1"># error</span>
 
-<span class="n">sympify</span><span class="p">(</span><span class="s1">&#39;(e**3)**(1/2)&#39;</span><span class="p">)</span> 
-
-<span class="s2">&quot;Notice the previous line was also pretty-printed&quot;</span>
+<span class="n">sympify</span><span class="p">(</span><span class="s2">&quot;(e**3)**(1/2)&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<pre><code>&lt;string&gt;:7: error: Incompatible types in assignment (expression has type &quot;str&quot;, variable has type &quot;int&quot;)
+<pre><code>&lt;string&gt;:13: error: Argument 1 to &quot;Vegetable&quot; has incompatible type List[str]; expected &quot;str&quot;
+&lt;string&gt;:18: error: Argument 1 to &quot;dont_cry_for_me&quot; has incompatible type &quot;Vegetable&quot;; expected &quot;Country&quot;
+&lt;string&gt;:24: error: Incompatible types in assignment (expression has type &quot;str&quot;, variable has type &quot;int&quot;)
+&quot;Don't cry for me, onion.&quot;
+&quot;Don't cry for me, Argentina.&quot;
 </code></pre>
 
-<p>$$\sqrt{e^{3}}$$
-&lsquo;Notice the previous line was also pretty-printed&rsquo;</p>
+<p>$$\sqrt{e^{3}}$$</p>
 
 <hr />
 
