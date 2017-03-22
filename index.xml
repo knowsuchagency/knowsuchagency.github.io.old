@@ -38,7 +38,7 @@
 c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;which tells IPython to print the the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.&lt;/p&gt;
+&lt;p&gt;which tells IPython to print the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.&lt;/p&gt;
 
 &lt;p&gt;You can find your own IPython configuration file using the command &lt;code&gt;ipython locate profile&lt;/code&gt;.
 If you don&amp;rsquo;t yet have a profile, you can create a default one with &lt;code&gt;ipython profile create&lt;/code&gt;.&lt;/p&gt;
