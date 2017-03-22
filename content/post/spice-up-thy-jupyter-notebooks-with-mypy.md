@@ -24,7 +24,7 @@ Since my IPython configuration file has the following lines
     c.TerminalInteractiveShell.ast_node_interactivity = 'all'
     c.InteractiveShell.ast_node_interactivity = 'all'
     
-which tells IPython to print the the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.
+which tells IPython to print the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.
 
 You can find your own IPython configuration file using the command `ipython locate profile`.
 If you don't yet have a profile, you can create a default one with `ipython profile create`.
