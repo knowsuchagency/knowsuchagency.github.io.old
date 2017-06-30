@@ -40,3 +40,8 @@ canonifyURLs = true
     name = "Resume"
     url = "/page/resume/"
     weight = 4
+
+[[menu.main]]
+    name = "Projects"
+    url = "/page/projects/"
+    weight = 4

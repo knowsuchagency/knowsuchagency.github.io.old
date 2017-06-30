@@ -12,3 +12,6 @@ public
 
 # jetbrains
 .idea/
+
+# Visual Studio Code
+.vscode/
