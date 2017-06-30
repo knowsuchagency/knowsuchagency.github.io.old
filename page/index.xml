@@ -8,8 +8,32 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Fri, 24 Feb 2017 00:45:24 -0800</lastBuildDate>
+    <lastBuildDate>Fri, 30 Jun 2017 13:47:58 -0700</lastBuildDate>
     <atom:link href="https://knowsuchagency.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Projects</title>
+      <link>https://knowsuchagency.github.io/page/projects/</link>
+      <pubDate>Fri, 30 Jun 2017 13:47:58 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/page/projects/</guid>
+      <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;h1 align=&#34;center&#34;&gt;ninjadog: pug + jinja2 == ❤️&lt;/h1&gt;
+&lt;h3 align=&#34;center&#34;&gt;&lt;a href=&#34;http://journalpanic.com/ninjadog/&#34;&gt;Documentation&lt;/h3&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://pugjs.org/api/getting-started.html&#34;&gt;Pug template&lt;/a&gt; (formerly &lt;a href=&#34;https://naltatis.github.io/jade-syntax-docs/&#34;&gt;Jade&lt;/a&gt;) support for Python 3.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.fabfile.org/&#34;&gt;&lt;strong&gt;fabric&lt;/strong&gt;&lt;/a&gt; for project automation&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://docopt.org/&#34;&gt;&lt;strong&gt;docopt&lt;/strong&gt;&lt;/a&gt; for the command-line interface&lt;/li&gt;
+&lt;li&gt;leverages the &lt;a href=&#34;https://github.com/pugjs/pug-cli&#34;&gt;&lt;strong&gt;pug-cli&lt;/strong&gt;&lt;/a&gt; library on npm to render pug templates through a subprocess&lt;/li&gt;
+&lt;li&gt;continuous integration through &lt;a href=&#34;https://travis-ci.org/&#34;&gt;&lt;strong&gt;travis-ci&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tested on multiple version of Python through the use of &lt;a href=&#34;https://tox.readthedocs.io/en/latest/&#34;&gt;&lt;strong&gt;tox&lt;/strong&gt;&lt;/a&gt; prior to release on &lt;a href=&#34;https://pypi.org/&#34;&gt;&lt;strong&gt;pypi&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.sphinx-doc.org/en/stable/&#34;&gt;&lt;strong&gt;Sphinx&lt;/strong&gt;&lt;/a&gt; to build and render documentation prior to deployment on &lt;a href=&#34;https://pages.github.com/&#34;&gt;&lt;strong&gt;GitHub Pages&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Professional Background</title>
