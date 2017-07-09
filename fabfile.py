@@ -50,7 +50,7 @@ def publish():
     local('git worktree prune')
     local('rm -rf .git/worktrees/public/')
     # checkout out gh-pages branch into public
-    local('git worktree add -B gh master public upstream/master')
+    local('git worktree add -B master public upstream/master')
     # removing existing files
     local('rm -rf public/*')
     # generating site
