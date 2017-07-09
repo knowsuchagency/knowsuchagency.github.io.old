@@ -56,12 +56,6 @@ c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;pre&gt;&lt;code&gt;&#39;bar&#39;
-
-
-
-
-
-
 &#39;baz&#39;
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -96,10 +90,8 @@ c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
 &lt;pre&gt;&lt;code&gt;&amp;lt;string&amp;gt;:8: error: Incompatible types in assignment (expression has type &amp;quot;str&amp;quot;, variable has type &amp;quot;int&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;$$\sqrt{e^{3}}$$&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Notice the previous line was also printed out&#39;
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;p&gt;$$\sqrt{e^{3}}$$
+    &amp;lsquo;Notice the previous line was also printed out&amp;rsquo;&lt;/p&gt;</description>
     </item>
     
     <item>
