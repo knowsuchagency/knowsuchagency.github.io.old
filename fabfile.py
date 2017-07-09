@@ -1,16 +1,18 @@
+import re
 import json
+import threading
 from pathlib import Path
 from typing import *
-import threading
 
 import nbformat
+
 from nbconvert import MarkdownExporter
 from nbconvert.preprocessors import Preprocessor
 
+from traitlets.config import Config
+
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
-
-from traitlets.config import Config
 
 from fabric.api import *
 
@@ -35,6 +37,7 @@ def serve():
     local('hugo serve')
     # clean up watchdog process once hugo process terminated
     stop_observing.set()
+
 
 @task
 def publish():
@@ -72,6 +75,7 @@ def publish():
 
 class CustomPreprocessor(Preprocessor):
     """Remove blank code cells and unnecessary whitespace."""
+
     def preprocess(self, nb, resources):
         """
         Remove blank cells
@@ -111,11 +115,22 @@ def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
     return output
 
 
+def doctor(string: str) -> str:
+    """Get rid of all the wacky newlines nbconvert adds to markdown output and return result."""
+    post_code_newlines_patt = re.compile(r'(```)(\n+)')
+    inter_output_newlines_patt = re.compile(r'(\s{4}\S+)(\n+)(\s{4})')
+
+    post_code_filtered = re.sub(post_code_newlines_patt, r'\1\n\n', string)
+    inter_output_filtered = re.sub(inter_output_newlines_patt, r'\1\n\3', post_code_filtered)
+
+    return inter_output_filtered
+
+
 def write_jupyter_to_md(notebook):
     notebook = Path(notebook)
     hugo_markdown = convert_notebook_to_hugo_markdown(notebook)
     hugo_file = Path('content/post/', notebook.stem + '.md')
-    hugo_file.write_text(hugo_markdown)
+    hugo_file.write_text(doctor(hugo_markdown))
     print(notebook.name, '->', hugo_file.name)
 
 

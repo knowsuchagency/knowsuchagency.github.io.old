@@ -87,9 +87,6 @@ def connection(person_1, person_2, relationship='knows'):
 connection("Ron", "Harry", relationship="is best friends with")
 ```
 
-
-
-
     'Ron is best friends with Harry'
 
 
@@ -102,9 +99,6 @@ Maybe we want to do this to prevent errors or to simply prevent weirdness like t
 ```python
 connection("Ron", "Harry", relationship="is dating Hermoine but secretly wants")
 ```
-
-
-
 
     'Ron is dating Hermoine but secretly wants Harry'
 
@@ -133,9 +127,6 @@ def connection(person_1, person_2, relationship=Relationship.likes):
 connection("Ron", "Harry", relationship=Relationship.bff)
 ```
 
-
-
-
     'Ron is best friends with Harry'
 
 
@@ -153,9 +144,6 @@ evil.value = 'corrupts'
 
 connection("Ron", "Harry", relationship=evil)
 ```
-
-
-
 
     'Ron corrupts Harry'
 
@@ -187,9 +175,6 @@ def connection(person_1: str,
 
 connection("Ron", "Harry", relationship=Relationship.bff)
 ```
-
-
-
 
     'Ron is best friends with Harry'
 

@@ -45,16 +45,7 @@ foo
 bar # normally, only this object is printed
 ```
 
-
-
-
     'bar'
-
-
-
-
-
-
     'baz'
 
 
@@ -96,12 +87,6 @@ sympify('(e**3)**(1/2)')
 
 
 $$\sqrt{e^{3}}$$
-
-
-
-
-
-
     'Notice the previous line was also printed out'
 
 
