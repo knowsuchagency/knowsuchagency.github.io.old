@@ -41,7 +41,15 @@ def serve():
 
 @task
 def publish():
-    """Publish notebook to github pages"""
+    """
+    Publish notebook to github pages.
+
+    Assumes this is yourusername.github.io repo aka
+    User Pages site as described in
+    https://help.github.com/articles/user-organization-and-project-pages/
+    and that you're using the master branch only
+    to have the rendered content of your blog.
+    """
     with settings(warn_only=True):
         if local('git diff-index --quiet HEAD --').failed:
             local('git status')
