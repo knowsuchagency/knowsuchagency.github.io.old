@@ -114,7 +114,7 @@ def write_jupyter_to_md(notebook):
     print(notebook.name, '->', hugo_file.name)
 
 
-class MyHandler(PatternMatchingEventHandler):
+class NotebookHandler(PatternMatchingEventHandler):
     patterns = ["*.ipynb"]
 
     def process(self, event):
@@ -128,9 +128,9 @@ class MyHandler(PatternMatchingEventHandler):
 
 
 def observe_notebooks(event):
-    """Write to new notebook until event is set."""
+    """Write notebooks to markdown files until event is set."""
     observer = Observer()
-    observer.schedule(MyHandler(), 'notebooks')
+    observer.schedule(NotebookHandler(), 'notebooks')
     observer.start()
 
     if event.is_set():
