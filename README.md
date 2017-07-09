@@ -7,6 +7,7 @@ Just make sure to have an appropriate [front-matter](https://gohugo.io/content/f
 metadata. 
 
 In the jupyter interface, under the `Edit` tab, select `Edit Notebook Metadata`
+
 ![edit notebook](static/img/tut1.png)
 
 Then edit the metadata as shown
