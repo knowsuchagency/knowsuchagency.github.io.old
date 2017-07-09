@@ -80,6 +80,7 @@ def publish():
     local('git push upstream master')
     print('push succeeded')
 
+########## Jupyter stuff #################
 
 class CustomPreprocessor(Preprocessor):
     """Remove blank code cells and unnecessary whitespace."""
@@ -141,6 +142,7 @@ def write_jupyter_to_md(notebook):
     hugo_file.write_text(doctor(hugo_markdown))
     print(notebook.name, '->', hugo_file.name)
 
+########## Watchdog stuff #################
 
 class NotebookHandler(PatternMatchingEventHandler):
     patterns = ["*.ipynb"]
