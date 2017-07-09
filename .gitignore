@@ -16,3 +16,6 @@ public
 
 # python
 __pycache__/
+
+# mypy
+**.mypy_cache/

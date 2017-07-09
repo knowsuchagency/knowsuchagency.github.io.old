@@ -88,20 +88,20 @@ sympify('(e**3)**(1/2)')
 "Notice the previous line was also printed out"
 ```
 
-    <string>:7: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+    <string>:8: error: Incompatible types in assignment (expression has type "str", variable has type "int")
     
 
 
 
 
 
-![png](output_5_1.png)
+$$\sqrt{e^{3}}$$
 
 
 
 
 
 
-    'Notice the previous line is also printed out'
+    'Notice the previous line was also printed out'
 
 
