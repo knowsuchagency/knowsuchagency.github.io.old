@@ -1,6 +1,0 @@
-+++
-title = ""
-subtitle = ""
-date = ""
-bigimg = ""
-+++
