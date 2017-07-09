@@ -33,12 +33,12 @@ def serve():
     )
     notebook_observation_thread.start()
     local('hugo serve')
+    # clean up watchdog process once hugo process terminated
     stop_observing.set()
 
 @task
 def publish():
     """Publish notebook to github pages"""
-
     with settings(warn_only=True):
         if local('git diff-index --quiet HEAD --').failed:
             local('git status')
@@ -49,23 +49,29 @@ def publish():
     local('mkdir public')
     local('git worktree prune')
     local('rm -rf .git/worktrees/public/')
+
     # checkout out gh-pages branch into public
     local('git worktree add -B master public upstream/master')
-    # removing existing files
+
+    # removing any existing files
     local('rm -rf public/*')
+
     # generating site
     render_notebooks()
     local('hugo')
-    # push to github
+
+    # commit
     with lcd('public'), settings(warn_only=True):
         local('git add .')
         local('git commit -m "Committing to master (Fabfile)"')
+
     # push to master
     local('git push upstream master')
     print('push succeeded')
 
 
 class CustomPreprocessor(Preprocessor):
+    """Remove blank code cells and unnecessary whitespace."""
     def preprocess(self, nb, resources):
         """
         Remove blank cells
@@ -73,8 +79,8 @@ class CustomPreprocessor(Preprocessor):
         for index, cell in enumerate(nb.cells):
             if cell.cell_type == 'code' and (not cell.outputs or not cell.source):
                 nb.cells.pop(index)
-                continue
-            nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+            else:
+                nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
         return nb, resources
 
     def preprocess_cell(self, cell, resources, cell_index):
@@ -90,7 +96,6 @@ class CustomPreprocessor(Preprocessor):
 def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
     with open(Path(path)) as fp:
         notebook = nbformat.read(fp, as_version=4)
-
         assert 'front-matter' in notebook['metadata'], "You must have a front-matter field in the notebook's metadata"
         front_matter_dict = dict(notebook['metadata']['front-matter'])
         front_matter = json.dumps(front_matter_dict, indent=2)
@@ -100,7 +105,7 @@ def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
     markdown_exporter = MarkdownExporter(config=c)
 
     markdown, _ = markdown_exporter.from_notebook_node(notebook)
-
+    # added <!--more--> comment to prevent summary creation
     output = '\n'.join(('---', front_matter, '---', '<!--more-->', markdown))
 
     return output
