@@ -36,18 +36,62 @@
     </item>
     
     <item>
-      <title>Spice Up Thy Jupyter Notebooks With mypy</title>
+      <title>Spice Up Thy Jupyter Notebooks with mypy</title>
       <link>https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/</link>
-      <pubDate>Sun, 19 Mar 2017 16:12:36 -0700</pubDate>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
       <guid>https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
+&lt;h1 id=&#34;spice-up-thy-jupyter-notebooks-with-mypy&#34;&gt;Spice Up Thy Jupyter Notebooks With mypy&lt;/h1&gt;
+
 &lt;p&gt;I use &lt;a href=&#34;http://jupyter.org/&#34;&gt;Jupyter&lt;/a&gt; notebooks all the time. I use them to author the content for articles like the one you&amp;rsquo;re reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more.&lt;/p&gt;
 
-&lt;p&gt;I&amp;rsquo;ve recently become interested in Python&amp;rsquo;s new typing module and &lt;a href=&#34;http://mypy-lang.org/&#34;&gt;mypy&lt;/a&gt;, and I wanted to be able to use them seamlessly in the context of my Jupyter notebooks. IPython (the project that bridges Jupyter and Python) allows us to alter the behavior of a code cell through the use of &lt;a href=&#34;http://ipython.readthedocs.io/en/stable/interactive/magics.html?highlight=magic&#34;&gt;&amp;ldquo;magics&amp;rdquo;&lt;/a&gt; - lines that begin with % for a single-line magic or %% for magics that work over multiple lines.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve also recently become interested in Python&amp;rsquo;s new typing module and mypy, and I wanted to be able to use them seamlessly in the context of my Jupyter notebooks.&lt;/p&gt;
 
-&lt;p&gt;So I wanted &lt;a href=&#34;http://ipython.readthedocs.io/en/stable/config/custommagics.html&#34;&gt;my own custom magic&lt;/a&gt; to do 4 things.&lt;/p&gt;
+&lt;p&gt;Before we continue, I should mention that Jupyter is an evolution of the original IPython project. I bring this up because I&amp;rsquo;m going to reference the documentation for IPython, which can be thought of as the the code that enables Python to work with Jupyter. Think of Jupyter as the tooling that allows for us to do all the fancy code editing and visualization browser, and IPython as the compatibility layer between Jupyter and Python. This is a bit simplistic, but hopefully avoids confusion for anyone who isn&amp;rsquo;t intimately familiar with both projects and the genesis of the Jupyter project.&lt;/p&gt;
+
+&lt;p&gt;Jupyter has a concept of cell &amp;ldquo;magics&amp;rdquo; which allow us to perform helpful functions in the context of a Jupyter shell. For example, when using IPython, the &lt;code&gt;%pastebin&lt;/code&gt; magic allows us to easily upload bits of code to Github&amp;rsquo;s Gist pastebin, &lt;code&gt;%pdoc [object]&lt;/code&gt; prints the docstring for a particular object, and &lt;code&gt;%%latex&lt;/code&gt; renders a block of text as latex.&lt;/p&gt;
+
+&lt;p&gt;Magics that start with  &amp;lsquo;%&amp;rsquo; apply only to the line that it is written on, while
+magics that start with &amp;lsquo;%%&amp;rsquo; apply to a block of code proceeding that line.&lt;/p&gt;
+
+&lt;p&gt;Jupyter allows us to write our own custom magics, apart from the built-in magics provided. Detailed documentation on how to do that can be found &lt;a href=&#34;http://ipython.readthedocs.io/en/stable/config/custommagics.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since the custom magics you use depend on how you have IPython configured and what profile you&amp;rsquo;re using, I&amp;rsquo;m providing the following code in the form of a gist, since distributing it as a package would be finicky as the package would need to attempt to figure out your IPython configuration, a task which seems best left to you, the human.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m going to assume that you have Jupyter installed and that you have at least a default profile created. If not &lt;code&gt;pip install -U jupyter&lt;/code&gt; will install Jupyter and &lt;code&gt;ipython profile create&lt;/code&gt; will create a default profile for you if you don&amp;rsquo;t yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways.&lt;/p&gt;
+
+&lt;p&gt;For example, my IPython configuration for my default profile, &amp;lsquo;ipython_config.py&amp;rsquo; has the following lines&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.TerminalInteractiveShell.ast_node_interactivity = &#39;all&#39;
+c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which tells IPython to print the the repr for any object which has it&amp;rsquo;s own line.&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;bar&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;baz&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;foo&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;bar&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# normally, only this object is printed&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;bar&#39;
+
+
+
+
+
+
+&#39;baz&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The configuration for your current IPython profile can be found using &lt;code&gt;ipython locate profile&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I wanted my magic to do 4 things, primarily.&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Run the block of code through mypy and print its output&lt;/li&gt;
@@ -56,417 +100,30 @@
 &lt;li&gt;Run the block of code in the context of my current profile&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Since my IPython configuration file has the following lines&lt;/p&gt;
+&lt;p&gt;Though the code it took to do this is really straightforward, it took some digging around in the Jupyter and IPython docs to get it to work as I wanted. Hopefully you find it useful and elucidating.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;c.TerminalInteractiveShell.ast_node_interactivity = &#39;all&#39;
-c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;which tells IPython to print the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.&lt;/p&gt;
-
-&lt;p&gt;You can find your own IPython configuration file using the command &lt;code&gt;ipython locate profile&lt;/code&gt;.
-If you don&amp;rsquo;t yet have a profile, you can create a default one with &lt;code&gt;ipython profile create&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;To demonstrate:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Without further ado, &lt;script src=&#34;//gist.github.com/knowsuchagency/f7b2203dd613756a45f816d6809f01a6.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;typecheck&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ignore&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;missing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;imports&lt;/span&gt;
 
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sympy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sympify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;init_printing&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;typing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NewType&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;init_printing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 
-&lt;span class=&#34;n&#34;&gt;Country&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NewType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Country&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;argentina&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Country&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Argentina&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;Vegetable&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NewType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Vegetable&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;onion&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Vegetable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;onion&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;pizza&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Vegetable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;dough&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;cheese&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;pepperoni&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# error&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;country&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Country&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Don&amp;#39;t cry for me, {country}.&amp;quot;&lt;/span&gt; 
-
-
-&lt;span class=&#34;c1&#34;&gt;# The output of the following two statements &lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# will be printed since I have the&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# c.TerminalInteractiveShell.ast_node_interactivity = &amp;#39;all&amp;#39;&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# c.InteractiveShell.ast_node_interactivity = &amp;#39;all&amp;#39;&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# lines in my IPython configuration&lt;/span&gt;
-
-
-&lt;span class=&#34;n&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;onion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# error&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;dont_cry_for_me&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argentina&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
-
-&lt;span class=&#34;n&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;integer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
     
-&lt;span class=&#34;n&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;mypy will not like this&amp;quot;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# error&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;integer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;mypy won&amp;#39;t like this&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;n&#34;&gt;sympify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;(e**3)**(1/2)&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;sympify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;(e**3)**(1/2)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;s2&#34;&gt;&amp;quot;Notice the previous line was also printed out&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;pre&gt;&lt;code&gt;&amp;lt;string&amp;gt;:13: error: Argument 1 to &amp;quot;Vegetable&amp;quot; has incompatible type List[str]; expected &amp;quot;str&amp;quot;
-&amp;lt;string&amp;gt;:18: error: Argument 1 to &amp;quot;dont_cry_for_me&amp;quot; has incompatible type &amp;quot;Vegetable&amp;quot;; expected &amp;quot;Country&amp;quot;
-&amp;lt;string&amp;gt;:24: error: Incompatible types in assignment (expression has type &amp;quot;str&amp;quot;, variable has type &amp;quot;int&amp;quot;)
-
-&amp;quot;Don&#39;t cry for me, onion.&amp;quot;
-&amp;quot;Don&#39;t cry for me, Argentina.&amp;quot;
+&lt;pre&gt;&lt;code&gt;&amp;lt;string&amp;gt;:8: error: Incompatible types in assignment (expression has type &amp;quot;str&amp;quot;, variable has type &amp;quot;int&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;$$\sqrt{e^{3}}$$&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;p&gt;The code it took to do this is really straightforward, but it took some digging around in the Jupyter and IPython docs to get it to work as I wanted. Hopefully you find it useful and elucidating.&lt;/p&gt;
-
-&lt;p&gt;Without further ado, &lt;script src=&#34;//gist.github.com/knowsuchagency/f7b2203dd613756a45f816d6809f01a6.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Postmodern Error Handling in Python 3.6</title>
-      <link>https://knowsuchagency.github.io/post/postmodern-error-handling/</link>
-      <pubDate>Fri, 24 Feb 2017 19:32:47 -0800</pubDate>
-      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/post/postmodern-error-handling/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling (or rather how to prevent them from happening in the first place), and I would argue that the facilities (post?)modern Python provides us for doing so are pretty damn cool.&lt;/p&gt;
-
-&lt;p&gt;Recently, an acquaintance of mine posed this question on a message board we both participate in:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;okay nerds
-what do you call a union-type with three states?&lt;/p&gt;
-
-&lt;p&gt;so I was writing a Maybe implementation (in python) to deal with a processing pipeline, but then it turned into an Either, and then it turned into something with three states&lt;/p&gt;
-
-&lt;p&gt;basically there&amp;rsquo;s either 1) the final value, 2) no value but a known error occurred, 3) no value but an unknown error occurred&lt;/p&gt;
-
-&lt;p&gt;the final states could be: 1) hey it succeeded, here&amp;rsquo;s the object&amp;rsquo;s id 2) no value but your json blob was missing a required attribute (or some other known error), or 3) we encountered an error that the programmer didn&amp;rsquo;t forsee&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To which another strapping young gentleman replied:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;if it were Rust you could enum your errors ಠ‿ಠ&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Well, truth be told, I feel like I probably know about as little about &lt;a href=&#34;https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/&#34;&gt;&lt;strong&gt;fp&lt;/strong&gt;&lt;/a&gt; as I do about postmodernism, but I thought this was an interesting question and I know that Python&amp;rsquo;s standard library does, actually, provide us Enums ┬─┬﻿ ノ( ゜-゜ノ) so I figured I would take a crack at it.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;To start, let&amp;rsquo;s quickly talk about what an Enum (enumeration) is for those of us who have yet to encounter them.&lt;/p&gt;
-
-&lt;p&gt;At a very basic level, I would define an Enum as a particular set of choices (or states).&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s say, for example, that you &lt;a href=&#34;https://www.youtube.com/watch?v=zBYz_RInbrQ&#34;&gt;lost a bet&lt;/a&gt;, and now have a set of options to choose from as punishment.&lt;/p&gt;
-
-&lt;p&gt;Those options are&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;A&lt;/strong&gt;: Get slapped 10 times right now&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;B&lt;/strong&gt;: Get slapped 5 times at any random time from now to eternity&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Those are the only 2 possibilities; you don&amp;rsquo;t get any other choices. We could model this idea using an Enum.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# get slapped ten times right now&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;FIVE_SLAPS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# fear slaps possibly for eternity&lt;/span&gt;
-    
-&lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;stupid_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FIVE_SLAPS&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# notice the pretty repr&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;stupid_choice&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;SlapBet.TEN_SLAPS: 1&amp;gt;
-True
-False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So, why would we do this? Why go through the trouble of using an Enum when we could functionally do the same thing with something like integers? Well, the first reason, and the most important one, in my opinion, is readability.&lt;/p&gt;
-
-&lt;p&gt;Another reason is that Enum instances can hold values we may want to use.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s say you have a function that has an optional parameter.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    
-    &lt;span class=&#34;c1&#34;&gt;# this sexy f&amp;quot;&amp;quot; string format is part of the new Python 3.6&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;# hotness. An article for another day.&lt;/span&gt;
-    
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship} {person_2}&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now let&amp;rsquo;s say we want to constrain the possible types of relationships that people can have.&lt;/p&gt;
-
-&lt;p&gt;Maybe we want to do this to prevent errors or to simply prevent weirdness like the following.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;is dating Hermoine but secretly wants&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Ron is dating Hermoine but secretly wants Harry&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;enums-to-the-rescue&#34;&gt;Enums to the rescue!&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;likes&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;loves&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;loves&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;detests&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;detests&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    
-    &lt;span class=&#34;c1&#34;&gt;# notice we use the .value of the Relationship instance to get the string&lt;/span&gt;
-    
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship.value} {person_2}&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;interlude&#34;&gt;Interlude&lt;/h2&gt;
-
-&lt;p&gt;Before tackle the original question that started us on this journey, let&amp;rsquo;s quickly talk about a new incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.&lt;/p&gt;
-
-&lt;p&gt;In our previous example, there would be nothing to prevent someone from doing the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;power&amp;#39;&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;corrupts&amp;#39;&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Ron corrupts Harry&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That&amp;rsquo;s obviously not how we intended our function to be used, but part of what makes Python so powerful, its dynamic nature, is what allows such nefarious behavior. If only there were a way to save ourselves and people who use our code from making such mistakes&amp;hellip;&lt;/p&gt;
-
-&lt;h3 id=&#34;behold&#34;&gt;Behold!&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;likes&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;loves&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;loves&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;detests&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;detests&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;
-    
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-               &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-               &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    
-    &lt;span class=&#34;c1&#34;&gt;# notice we use the .value of the Relationship instance to get the string&lt;/span&gt;
-    
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship.value} {person_2}&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&amp;ldquo;Huh?&amp;rdquo;, you say. &amp;ldquo;It looks to me like things just got more verbosified. I like making up words.&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;Cool word, and you would be right, things did get more wordy. Moreover, adding all those annotations won&amp;rsquo;t prevent someone from doing what we mentioned before,&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;power&amp;#39;&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;corrupts&amp;#39;&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# this still works ಠ_ಠ&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&amp;hellip; &lt;strong&gt;unless&lt;/strong&gt;, that is, we run that code using - &lt;a href=&#34;http://mypy-lang.org/&#34;&gt;&lt;strong&gt;mypy&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Mypy allows you to add type annotations and enforce them prior to running your program, so the only way the above function would run is if the relationship parameter was of type Relationship when called. Amazing!&lt;/p&gt;
-
-&lt;p&gt;Now, anyone reading our code would know exactly the types of things that could be passed as parameters to functions, and mypy will help us to enforce the type annotations we set.&lt;/p&gt;
-
-&lt;p&gt;That makes our code much more legible and provides us and people using our code some nice sanity checks - knowing certain kinds of human errors will be caught prior to our code being run.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;now-back-to-our-original-question-about-modeling-3-possible-conditions&#34;&gt;Now, back to our original question about modeling 3 possible conditions.&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Task ran without error. Data returned.&lt;/li&gt;
-&lt;li&gt;A known error occurred during task execution. No data returned.&lt;/li&gt;
-&lt;li&gt;A catastrophic runtime error occurred. No data returned&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So, before we look at the code, it&amp;rsquo;s cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax. We had typed namedtuples in Python 3.5 but I think the new syntax for declaring them is much nicer.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# old way&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;Employee&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Employee&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# new sauce&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Employee&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;
-    &lt;span class=&#34;nb&#34;&gt;id&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Note, an Optional describes something that can be of a certain type, or None.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# declare a variable, that can be either an int or None&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;possible_integer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You&amp;rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is very similar to the way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.&lt;/p&gt;
-
-&lt;p&gt;Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and the standard library.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;Caveat:&lt;/span&gt;
-
-&lt;span class=&#34;sd&#34;&gt;The following is not necessarily the &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;most robust way of handling exceptions, IMO.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;Python allows you to write custom exceptions &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;that one can `raise from` others for good reason.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;This is just meant as a way to think about how we &lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;would model the initial scenario described.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;typing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;requests&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;logging&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;enum&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;The 3 possible states we can expect when interacting with the API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    This is sort of a really dumbed-down version of an HTTP response,&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    if you think of it in terms of status codes and response bodies.&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-
-
-        
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    1. Send an http request to a url&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    2. Parse the json response as a dictionary&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    3. Return an ApiResponse object&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    
-    
-    &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        
-        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# step 1&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# step 2&lt;/span&gt;
-        
-    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;decoder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;JSONDecodeError&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# something went wrong in step 2; we knew this might happen&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# log a simple error message&lt;/span&gt;
-        
-        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;could not decode json from {url}&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# log the full traceback at a lower level&lt;/span&gt;
-        
-        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exc_info&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# since we anticipated this error, make the&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;# ApiResponse.status an ERROR as opposed to a failure&lt;/span&gt;
-        
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;# &amp;#39;except Exception&amp;#39; is seen as an anti-pattern by many but&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;# this is just a trivial example. Another article for another time.&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;Exception&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# something went wrong in step 1 or 2 that&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;# we couldn&amp;#39;t anticipate&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# log the exception with the traceback&lt;/span&gt;
-        
-        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Something bad happened trying to reach {url}&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exc_info&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# Since something catastrophic happened that&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;# we didn&amp;#39;t anticipate i.e. (DivideByBananaError)&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;# we set the ApiResponse.status to FAILURE&lt;/span&gt;
-        
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-    
-    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        
-        &lt;span class=&#34;c1&#34;&gt;# Everything worked as planned! No errors!&lt;/span&gt;
-        
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;c1&#34;&gt;# Python is awesome. We can either use the function by itself&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# or use it as a constructor for our ApiResponse class &lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# by doing thefollowing:&lt;/span&gt;
-
-
-&lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;test_endpoint_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-
-    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://httpbin.org/headers&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# our function and constructor work the same!&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
-
-
-    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://twitter.com&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
-
-
-    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
-        
-    
-&lt;span class=&#34;n&#34;&gt;test_endpoint_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code&gt;ERROR:root:could not decode json from http://twitter.com
-ERROR:root:could not decode json from http://twitter.com
-ERROR:root:Something bad happened trying to reach foo
-ERROR:root:Something bad happened trying to reach foo
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;in-collusion&#34;&gt;In collusion&lt;/h2&gt;
-
-&lt;p&gt;I&amp;rsquo;m really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness of the language and provide us with some really useful guarantees when leveraged through mypy.&lt;/p&gt;
-
-&lt;p&gt;Using &lt;strong&gt;Enums&lt;/strong&gt; and &lt;strong&gt;NamedTuples&lt;/strong&gt; this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and even more &lt;strong&gt;testable&lt;/strong&gt; in certain scenarios. I also like the idea of having relatively simple data structures that we can create arbitrary constructors for outside of their class definitions, similar to other languages, although I can see why some might disagree on that point. I reserve the right to change my mind.&lt;/p&gt;
-
-&lt;p&gt;Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python&amp;rsquo;s type system is what has him most excited about the language moving forward, according to his latest interview with on &lt;a href=&#34;https://twitter.com/mkennedy&#34;&gt;Michael Kennedy&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum&#34;&gt;TalkPython.fm&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The more I read about these features and use them, the more I understand why.&lt;/p&gt;</description>
+&lt;pre&gt;&lt;code&gt;&#39;Notice the previous line was also printed out&#39;
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -589,9 +246,258 @@ ERROR:root:Something bad happened trying to reach foo
     </item>
     
     <item>
+      <title>Postmodern Error Handling in Python 3.6</title>
+      <link>https://knowsuchagency.github.io/post/postmodern-error-handling/</link>
+      <pubDate>Fri, 24 Feb 2017 00:00:00 +0000</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/postmodern-error-handling/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;postmodern-error-handling-in-python-3-6&#34;&gt;Postmodern error handling in Python 3.6&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;ll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling, and I would argue that the facilities (post?)modern Python provides for handling errors is pretty damn cool. derp&lt;/p&gt;
+
+&lt;p&gt;Recently, an acquaintance of mine posed this question on a message board we both participate in:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;okay nerds
+what do you call a union-type with three states?&lt;/p&gt;
+
+&lt;p&gt;so I was writing a Maybe implementation (in python) to deal with a processing pipeline, but then it turned into an Either, and then it turned into something with three states&lt;/p&gt;
+
+&lt;p&gt;basically there&amp;rsquo;s either 1) the final value, 2) no value but a known error occurred, 3) no value but an unknown error occurred&lt;/p&gt;
+
+&lt;p&gt;the final states could be: 1) hey it succeeded, here&amp;rsquo;s the object&amp;rsquo;s id 2) no value but your json blob was missing a required attribute (or some other known error), or 3) we encountered an error that the programmer didn&amp;rsquo;t forsee&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To which another strapping young gentleman replied:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;if it were Rust you could enum your errors ಠ‿ಠ&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Well, truth be told, I feel like I probably know about as little about &lt;a href=&#34;https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/&#34;&gt;&lt;strong&gt;fp&lt;/strong&gt;&lt;/a&gt; as I do about postmodernism, but I thought this was an interesting question and I do at least know that Python&amp;rsquo;s standard library does provide us Enums ┬─┬﻿ ノ( ゜-゜ノ) so I figured I would take a crack at it.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;To start, let&amp;rsquo;s quickly talk about what an Enum (enumeration) is for those of us who have yet to encounter them.&lt;/p&gt;
+
+&lt;p&gt;At a very basic level, I would define an Enum as a particular set of choices (or states).&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say, for example, that you &lt;a href=&#34;https://www.youtube.com/watch?v=zBYz_RInbrQ&#34;&gt;lost a bet&lt;/a&gt;, and now have a set of options to choose from as punishment.&lt;/p&gt;
+
+&lt;p&gt;Those options are&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;A&lt;/strong&gt;: Get slapped 10 times right now&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;B&lt;/strong&gt;: Get slapped 5 times at any random time from now to eternity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Those are the only 2 possibilities; you don&amp;rsquo;t get any other choices. We could model this idea using an Enum.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# get slapped ten times right now&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;FIVE_SLAPS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# fear slaps possibly for eternity&lt;/span&gt;
+    
+&lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;stupid_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FIVE_SLAPS&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# notice the pretty repr&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SlapBet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEN_SLAPS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;smart_choice&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;stupid_choice&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;sep&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;SlapBet.TEN_SLAPS
+True
+False
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, why would we do this? Why go through the trouble of using an Enum when we could functionally do the same thing with something like integers? Well, the first reason, and the most important one, in my opinion, is readability.&lt;/p&gt;
+
+&lt;p&gt;The second reason is that Enum instances can hold values we may want to use.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say you have a function that has an optional parameter.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    
+    &lt;span class=&#34;c1&#34;&gt;# this sexy f&amp;quot;&amp;quot; string format is part of the new Python 3.6&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# hotness. An article for another day.&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship} {person_2}&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s say we want to restrain the possible relationships that people can have.&lt;/p&gt;
+
+&lt;p&gt;Maybe we want to do this to prevent errors or to simply prevent weirdness like the following.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;is dating Hermoine but secretly wants&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;Ron is dating Hermoine but secretly wants Harry&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;enums-to-the-rescue&#34;&gt;Enums to the rescue!&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;likes&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;loves&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;loves&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;detests&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;detests&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    
+    &lt;span class=&#34;c1&#34;&gt;# notice we use the .value of the Relationship instance to get the string&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship.value} {person_2}&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;interlude&#34;&gt;Interlude&lt;/h2&gt;
+
+&lt;p&gt;Now, before tackle the original question that started us on this journey, let&amp;rsquo;s quickly talk about another new and incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.&lt;/p&gt;
+
+&lt;p&gt;In our previous example, there would be nothing to prevent someone from doing the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;power&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;corrupts&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;Ron corrupts Harry&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s obviously not how we intended our function to be used, but part of what makes Python so powerful, its dynamic nature, is what allows such nefarious behavior. If only there were a way to save ourselves and people who use our code from making such mistakes&amp;hellip;&lt;/p&gt;
+
+&lt;h3 id=&#34;behold&#34;&gt;Behold!&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;knows&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;likes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;likes&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;loves&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;loves&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;detests&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;detests&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;is best friends with&amp;quot;&lt;/span&gt;
+    
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;person_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+               &lt;span class=&#34;n&#34;&gt;person_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+               &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;knows&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a string that represents the relationship between two people.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    
+    &lt;span class=&#34;c1&#34;&gt;# notice we use the .value of the Relationship instance to get the string&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;{person_1} {relationship.value} {person_2}&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;Ron is best friends with Harry&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;ldquo;Huh?&amp;rdquo;, you say. &amp;ldquo;It looks to me like things just got more verbosified. I like making up words.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;Cool word, and you would be right, things did get more wordy. Moreover, adding all those annotations won&amp;rsquo;t prevent someone from doing what we mentioned before,&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;power&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;corrupts&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Ron&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Harry&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;relationship&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;evil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# this still works, though we don&amp;#39;t want it to&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&amp;hellip; &lt;strong&gt;unless&lt;/strong&gt;, that is, we run that code using - &lt;a href=&#34;http://mypy-lang.org/&#34;&gt;&lt;strong&gt;mypy&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Mypy allows you to add type annotations and enforce them prior to running your program, so the only way the above function would run is if the relationship parameter was of type Relationship when called. Amazing!&lt;/p&gt;
+
+&lt;p&gt;Now, anyone reading our code would know exactly the types of things that could be passed as parameters to functions, and mypy will help us to enforce the type annotations we set.&lt;/p&gt;
+
+&lt;p&gt;That makes our code much more legible and provides us and people using our code some nice sanity checks - knowing certain kinds of human errors will be caught prior to our code being run.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;now-back-to-our-original-question-about-modeling-3-possible-conditions&#34;&gt;Now, back to our original question about modeling 3 possible conditions.&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Task ran without error. Data returned.&lt;/li&gt;
+&lt;li&gt;A known error occurred during task execution. No data returned.&lt;/li&gt;
+&lt;li&gt;A catastrophic runtime error occurred. No data returned&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So, before we look at the code, it&amp;rsquo;s cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax in 3.6. We had this typed namedtuples in Python 3.5 but I think the new syntax is much cleaner.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# old way&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Employee&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Employee&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# new sauce&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Employee&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;id&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Also, an Optional describes something that can be of a certain type, or None.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;possible_integer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# we could make this an integer later on&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You&amp;rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.&lt;/p&gt;
+
+&lt;p&gt;Optionals are a really handy concept, and now Python has them as well as a lot of the other type safety goodness of other languages through mypy.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;test_endpoint_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://httpbin.org/headers&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# our function and constructor work the same!&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
+
+
+    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://twitter.com&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
+
+
+    &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;
+        
+    
+&lt;span class=&#34;n&#34;&gt;test_endpoint_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR:root:could not decode json from http://twitter.com
+ERROR:root:could not decode json from http://twitter.com
+ERROR:root:Something bad happened trying to reach foo
+ERROR:root:Something bad happened trying to reach foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;in-collusion&#34;&gt;In collusion&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;m really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness to the language and provide us with some really useful guarantees when leveraged through mypy.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;strong&gt;Enums&lt;/strong&gt; and &lt;strong&gt;NamedTuples&lt;/strong&gt; this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and &lt;strong&gt;testable&lt;/strong&gt;. I also really like the idea of having relatively simple data structures that define a finite set of possible states that we can create arbitrary constructors for outside of their class definitions, similar to other languages like Go. This isn&amp;rsquo;t something new to Python, but recent developments in Python&amp;rsquo;s syntax and its ecosystem make patterns like these much more useful and intuitive, in my opinion.&lt;/p&gt;
+
+&lt;p&gt;Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python&amp;rsquo;s type system is what has him most excited about the language moving forward, according to his latest interview with on &lt;a href=&#34;https://twitter.com/mkennedy&#34;&gt;Michael Kennedy&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum&#34;&gt;TalkPython.fm&lt;/a&gt;. The more I read about these features and use them, the more I understand why.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Sentiment analysis of the new MBP</title>
       <link>https://knowsuchagency.github.io/post/mbp_sentiment_analysis/</link>
-      <pubDate>Thu, 23 Feb 2017 18:21:31 -0800</pubDate>
+      <pubDate>Tue, 21 Feb 2017 00:00:00 +0000</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
       <guid>https://knowsuchagency.github.io/post/mbp_sentiment_analysis/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
