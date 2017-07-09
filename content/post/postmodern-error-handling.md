@@ -1,14 +1,15 @@
-+++
-subtitle = "How to catch some TYPES of errors before they happen"
-title = "Postmodern Error Handling in Python 3.6"
-bigimg = ""
-date = "2017-02-24T19:32:47-08:00"
-
-+++
+---
+{
+  "date": "2017-02-24",
+  "subtitle": "How to catch some TYPES of errors before they happen",
+  "title": "Postmodern Error Handling in Python 3.6"
+}
+---
 <!--more-->
 
+## Postmodern error handling in Python 3.6
 
-I'll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling (or rather how to prevent them from happening in the first place), and I would argue that the facilities (post?)modern Python provides us for doing so are pretty damn cool.
+I'll be the first person to admit I have no idea what postmodernism actually means, but it sounds cool for an article on error-handling, and I would argue that the facilities (post?)modern Python provides for handling errors is pretty damn cool. derp
 
 Recently, an acquaintance of mine posed this question on a message board we both participate in:
 
@@ -25,7 +26,7 @@ To which another strapping young gentleman replied:
 
 >  if it were Rust you could enum your errors ಠ‿ಠ
 
-Well, truth be told, I feel like I probably know about as little about [**fp**](https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/) as I do about postmodernism, but I thought this was an interesting question and I know that Python's standard library does, actually, provide us Enums ┬─┬﻿ ノ( ゜-゜ノ) so I figured I would take a crack at it.
+Well, truth be told, I feel like I probably know about as little about [**fp**](https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/) as I do about postmodernism, but I thought this was an interesting question and I do at least know that Python's standard library does provide us Enums ┬─┬﻿ ノ( ゜-゜ノ) so I figured I would take a crack at it.
 
 ---
 
@@ -54,21 +55,22 @@ smart_choice = SlapBet.TEN_SLAPS
 
 stupid_choice = SlapBet.FIVE_SLAPS
 
-smart_choice # notice the pretty repr
-
-smart_choice == SlapBet.TEN_SLAPS
-
-smart_choice == stupid_choice
+print(
+    smart_choice, # notice the pretty repr
+    smart_choice == SlapBet.TEN_SLAPS,
+    smart_choice == stupid_choice,
+    sep='\n'
+)
 ```
-    <SlapBet.TEN_SLAPS: 1>
+
+    SlapBet.TEN_SLAPS
     True
     False
 
 
-
 So, why would we do this? Why go through the trouble of using an Enum when we could functionally do the same thing with something like integers? Well, the first reason, and the most important one, in my opinion, is readability. 
 
-Another reason is that Enum instances can hold values we may want to use. 
+The second reason is that Enum instances can hold values we may want to use. 
 
 Let's say you have a function that has an optional parameter.
 
@@ -92,7 +94,7 @@ connection("Ron", "Harry", relationship="is best friends with")
 
 
 
-Now let's say we want to constrain the possible types of relationships that people can have.
+Now let's say we want to restrain the possible relationships that people can have.
 
 Maybe we want to do this to prevent errors or to simply prevent weirdness like the following.
 
@@ -140,7 +142,7 @@ connection("Ron", "Harry", relationship=Relationship.bff)
 
 ## Interlude
 
-Before tackle the original question that started us on this journey, let's quickly talk about a new incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.
+Now, before tackle the original question that started us on this journey, let's quickly talk about another new and incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.
 
 In our previous example, there would be nothing to prevent someone from doing the following:
 
@@ -201,8 +203,7 @@ Cool word, and you would be right, things did get more wordy. Moreover, adding a
 evil = lambda: 'power'
 evil.value = 'corrupts'
 
-connection("Ron", "Harry", relationship=evil)
-# this still works ಠ_ಠ
+connection("Ron", "Harry", relationship=evil) # this still works, though we don't want it to
 ```
 
 ... **unless**, that is, we run that code using - [**mypy**](http://mypy-lang.org/)
@@ -222,7 +223,7 @@ That makes our code much more legible and provides us and people using our code 
 2. A known error occurred during task execution. No data returned.
 3. A catastrophic runtime error occurred. No data returned
 
-So, before we look at the code, it's cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax. We had typed namedtuples in Python 3.5 but I think the new syntax for declaring them is much nicer.
+So, before we look at the code, it's cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax in 3.6. We had this typed namedtuples in Python 3.5 but I think the new syntax is much cleaner.
 
 ```python
 
@@ -235,115 +236,15 @@ class Employee(NamedTuple):
     id   : int
 ```
 
-Note, an Optional describes something that can be of a certain type, or None.
+Also, an Optional describes something that can be of a certain type, or None.
 
 ```python
-# declare a variable, that can be either an int or None
-possible_integer: Optional[int]
+possible_integer: Optional[int] = None # we could make this an integer later on
 ```
 
-You'll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is very similar to the way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling. 
+You'll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling. 
 
-Optionals are a really handy concept, and now Python has them as well as a lot of the other type-checking goodness of other languages through mypy and the standard library.
-
-
-```python
-"""
-Caveat:
-
-The following is not necessarily the 
-most robust way of handling exceptions, IMO.
-Python allows you to write custom exceptions 
-that one can `raise from` others for good reason.
-This is just meant as a way to think about how we 
-would model the initial scenario described.
-"""
-from typing import NamedTuple, Optional
-import requests
-import logging
-import json
-import enum
-
-
-class ApiInteraction(enum.Enum):
-    """The 3 possible states we can expect when interacting with the API."""
-    SUCCESS = 1
-    ERROR = 2
-    FAILURE = 3
-
-
-class ApiResponse(NamedTuple):
-    """
-    This is sort of a really dumbed-down version of an HTTP response,
-    if you think of it in terms of status codes and response bodies.
-    """
-    status: ApiInteraction
-    payload: Optional[dict]
-
-
-        
-def hit_endpoint(url: str) -> ApiResponse:
-    """
-    1. Send an http request to a url
-    2. Parse the json response as a dictionary
-    3. Return an ApiResponse object
-    """
-    
-    
-    try:
-        
-        response = requests.get(url) # step 1
-        payload = response.json() # step 2
-        
-    except json.decoder.JSONDecodeError as e:
-        
-        # something went wrong in step 2; we knew this might happen
-        
-        # log a simple error message
-        
-        logging.error(f'could not decode json from {url}')
-        
-        # log the full traceback at a lower level
-        
-        logging.info(e, exc_info=True)
-        
-        # since we anticipated this error, make the
-        # ApiResponse.status an ERROR as opposed to a failure
-        
-        return ApiResponse(ApiInteraction.ERROR, None)
-
-    # 'except Exception' is seen as an anti-pattern by many but
-    # this is just a trivial example. Another article for another time.
-    except Exception as e:
-        
-        # something went wrong in step 1 or 2 that
-        # we couldn't anticipate
-        
-        # log the exception with the traceback
-        
-        logging.error(f"Something bad happened trying to reach {url}")
-        logging.info(e, exc_info=True)
-        
-        # Since something catastrophic happened that
-        # we didn't anticipate i.e. (DivideByBananaError)
-        # we set the ApiResponse.status to FAILURE
-        
-        return ApiResponse(ApiInteraction.FAILURE, None)
-    
-    else:
-        
-        # Everything worked as planned! No errors!
-        
-        return ApiResponse(ApiInteraction.SUCCESS, payload)
-
-
-# Python is awesome. We can either use the function by itself
-# or use it as a constructor for our ApiResponse class 
-# by doing thefollowing:
-
-
-ApiResponse.from_url = hit_endpoint
-```
+Optionals are a really handy concept, and now Python has them as well as a lot of the other type safety goodness of other languages through mypy.
 
 
 ```python
@@ -381,10 +282,8 @@ test_endpoint_response()
 
 ## In collusion
 
-I'm really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness of the language and provide us with some really useful guarantees when leveraged through mypy.
+I'm really excited about the way Python is evolving as a language, ecosystem, and community. I think that recent developments in typing add a lot to the expressiveness to the language and provide us with some really useful guarantees when leveraged through mypy.
 
-Using **Enums** and **NamedTuples** this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and even more **testable** in certain scenarios. I also like the idea of having relatively simple data structures that we can create arbitrary constructors for outside of their class definitions, similar to other languages, although I can see why some might disagree on that point. I reserve the right to change my mind.
+Using **Enums** and **NamedTuples** this way not only provides us with some welcome sanity checks, I think it makes the code much more readable and **testable**. I also really like the idea of having relatively simple data structures that define a finite set of possible states that we can create arbitrary constructors for outside of their class definitions, similar to other languages like Go. This isn't something new to Python, but recent developments in Python's syntax and its ecosystem make patterns like these much more useful and intuitive, in my opinion.
 
-Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python's type system is what has him most excited about the language moving forward, according to his latest interview with on [Michael Kennedy's](https://twitter.com/mkennedy) [TalkPython.fm](https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum)
-
-The more I read about these features and use them, the more I understand why.
+Guido Van Rossum, our benevolent dictator, himself, has said innovations in Python's type system is what has him most excited about the language moving forward, according to his latest interview with on [Michael Kennedy's](https://twitter.com/mkennedy) [TalkPython.fm](https://talkpython.fm/episodes/show/100/python-past-present-and-future-with-guido-van-rossum). The more I read about these features and use them, the more I understand why.

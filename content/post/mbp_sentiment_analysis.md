@@ -1,6 +1,6 @@
 +++
 bigimg = ""
-date = "2017-02-23T18:21:31-08:00"
+date = "2017-02-21"
 subtitle = "Some are cold on the new hotness"
 title = "Sentiment analysis of the new MBP"
 

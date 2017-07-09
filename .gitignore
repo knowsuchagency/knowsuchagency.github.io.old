@@ -7,11 +7,12 @@
 # hugo
 public
 
-#pyenv
-.python-version
 
 # jetbrains
 .idea/
 
 # Visual Studio Code
 .vscode/
+
+# python
+__pycache__/

@@ -1,89 +1,107 @@
-+++
-bigimg = ""
-date = "2017-03-19T16:12:36-07:00"
-subtitle = "Add type-checking to Jupyter Notebook cells"
-title = "Spice Up Thy Jupyter Notebooks With mypy"
-
-+++
+---
+{
+  "date": "2017-03-19",
+  "subtitle": "Add type-checking to Jupyter Notebook cells",
+  "title": "Spice Up Thy Jupyter Notebooks with mypy"
+}
+---
 <!--more-->
 
-I use [Jupyter](http://jupyter.org/) notebooks all the time. I use them to author the content for articles like the one you're reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more. 
+# Spice Up Thy Jupyter Notebooks With mypy
 
-I've recently become interested in Python's new typing module and [mypy](http://mypy-lang.org/), and I wanted to be able to use them seamlessly in the context of my Jupyter notebooks. IPython (the project that bridges Jupyter and Python) allows us to alter the behavior of a code cell through the use of ["magics"](http://ipython.readthedocs.io/en/stable/interactive/magics.html?highlight=magic) - lines that begin with % for a single-line magic or %% for magics that work over multiple lines.
+I use [Jupyter](http://jupyter.org/) notebooks all the time. I use them to author the content for articles like the one you're reading. I use them to explore data. And I use them whenever I want to prototype standalone modules or learn new programming concepts, since notebooks allow us to quickly iterate on new ideas and provide powerful ways introspect, profile, and debug code - and more.
+
+I've also recently become interested in Python's new typing module and mypy, and I wanted to be able to use them seamlessly in the context of my Jupyter notebooks.
+
+Before we continue, I should mention that Jupyter is an evolution of the original IPython project. I bring this up because I'm going to reference the documentation for IPython, which can be thought of as the the code that enables Python to work with Jupyter. Think of Jupyter as the tooling that allows for us to do all the fancy code editing and visualization browser, and IPython as the compatibility layer between Jupyter and Python. This is a bit simplistic, but hopefully avoids confusion for anyone who isn't intimately familiar with both projects and the genesis of the Jupyter project.
+
+Jupyter has a concept of cell "magics" which allow us to perform helpful functions in the context of a Jupyter shell. For example, when using IPython, the `%pastebin` magic allows us to easily upload bits of code to Github's Gist pastebin, `%pdoc [object]` prints the docstring for a particular object, and `%%latex` renders a block of text as latex.
+
+Magics that start with  '%' apply only to the line that it is written on, while
+magics that start with '%%' apply to a block of code proceeding that line.
+
+Jupyter allows us to write our own custom magics, apart from the built-in magics provided. Detailed documentation on how to do that can be found [here](http://ipython.readthedocs.io/en/stable/config/custommagics.html).
+
+Since the custom magics you use depend on how you have IPython configured and what profile you're using, I'm providing the following code in the form of a gist, since distributing it as a package would be finicky as the package would need to attempt to figure out your IPython configuration, a task which seems best left to you, the human.
+
+I'm going to assume that you have Jupyter installed and that you have at least a default profile created. If not `pip install -U jupyter` will install Jupyter and `ipython profile create` will create a default profile for you if you don't yet have one. This will allow you to use custom magics and configure the way IPython works in various other ways.
+
+For example, my IPython configuration for my default profile, 'ipython_config.py' has the following lines
+
+    c.TerminalInteractiveShell.ast_node_interactivity = 'all'
+    c.InteractiveShell.ast_node_interactivity = 'all'
+    
+which tells IPython to print the the repr for any object which has it's own line. 
+
+For example:
 
 
-So I wanted [my own custom magic](http://ipython.readthedocs.io/en/stable/config/custommagics.html) to do 4 things.
+```python
+foo = 'bar'
+bar = 'baz'
+
+foo
+
+bar # normally, only this object is printed
+```
+
+
+
+
+    'bar'
+
+
+
+
+
+
+    'baz'
+
+
+
+The configuration for your current IPython profile can be found using `ipython locate profile`
+
+I wanted my magic to do 4 things, primarily.
 
 1. Run the block of code through mypy and print its output
 2. Allow me to alter mypy's behavior, as with the mypy cli
 2. Not conflict with the normal behavior of the block of code
 3. Run the block of code in the context of my current profile
 
-Since my IPython configuration file has the following lines
+Though the code it took to do this is really straightforward, it took some digging around in the Jupyter and IPython docs to get it to work as I wanted. Hopefully you find it useful and elucidating.
 
-    c.TerminalInteractiveShell.ast_node_interactivity = 'all'
-    c.InteractiveShell.ast_node_interactivity = 'all'
-    
-which tells IPython to print the repr for any object which has its own line, I want to ensure this behavior is respected by my magic command.
-
-You can find your own IPython configuration file using the command `ipython locate profile`.
-If you don't yet have a profile, you can create a default one with `ipython profile create`.
-
-**To demonstrate:**
+Without further ado, {{<gist knowsuchagency f7b2203dd613756a45f816d6809f01a6 >}}
 
 
 ```python
 %%typecheck --ignore-missing-imports
 
 from sympy import sympify, init_printing
-from typing import NewType
 init_printing()
 
-Country = NewType('Country', str)
-argentina = Country('Argentina')
-
-Vegetable = NewType('Vegetable', str)
-onion = Vegetable('onion')
-
-pizza = Vegetable(['dough', 'cheese', 'pepperoni']) # error
-
-def dont_cry_for_me(country: Country):
-    return f"Don't cry for me, {country}." 
-
-
-# The output of the following two statements 
-# will be printed since I have the
-
-# c.TerminalInteractiveShell.ast_node_interactivity = 'all'
-# c.InteractiveShell.ast_node_interactivity = 'all'
-
-# lines in my IPython configuration
-
-
-dont_cry_for_me(onion) # error
-
-dont_cry_for_me(argentina) 
-
-number: int
+integer: int
     
-number = "mypy will not like this" # error
+integer = "mypy won't like this"
 
-sympify("(e**3)**(1/2)")
+sympify('(e**3)**(1/2)')
+
+"Notice the previous line was also printed out"
 ```
-    <string>:13: error: Argument 1 to "Vegetable" has incompatible type List[str]; expected "str"
-    <string>:18: error: Argument 1 to "dont_cry_for_me" has incompatible type "Vegetable"; expected "Country"
-    <string>:24: error: Incompatible types in assignment (expression has type "str", variable has type "int")
 
-    "Don't cry for me, onion."
-    "Don't cry for me, Argentina."
-
-$$\sqrt{e^{3}}$$
+    <string>:7: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+    
 
 
----
 
-The code it took to do this is really straightforward, but it took some digging around in the Jupyter and IPython docs to get it to work as I wanted. Hopefully you find it useful and elucidating.
 
-Without further ado, {{<gist knowsuchagency f7b2203dd613756a45f816d6809f01a6 >}}
+
+![png](output_5_1.png)
+
+
+
+
+
+
+    'Notice the previous line is also printed out'
 
 
