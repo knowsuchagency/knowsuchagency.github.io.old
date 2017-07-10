@@ -143,7 +143,12 @@ def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
 def write_jupyter_to_md(notebook):
     notebook = Path(notebook)
     hugo_markdown = convert_notebook_to_hugo_markdown(notebook)
-    hugo_file = Path('content/post/', notebook.stem + '.md')
+    front_matter = json.loads(notebook.read_text())['metadata']['front-matter']
+    if 'slug' in front_matter:
+        slug = front_matter['slug']
+    else:
+        slug = '-'.join(e for e in front_matter['title'].lower().split())
+    hugo_file = Path('content/post/', slug + '.md')
     hugo_file.write_text(hugo_markdown)
     print(notebook.name, '->', hugo_file.name)
 
