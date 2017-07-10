@@ -46,7 +46,7 @@ At minimum, this recipe assumes you have a hugo site already generated as descri
 
 
 
-Fabric and your fabfile.py will then allow you to render notebooks, serve the website on your localhost and have re-render dynamically update while you edit your notebooks, and publish to github once you're ready.
+Fabric and your fabfile.py will then allow you to render notebooks, serve the website on your localhost and have them re-render dynamically update while you edit your notebooks, and publish to github once you're ready.
 
 All you need to do is run the commands from the root of your project i.e.
 
