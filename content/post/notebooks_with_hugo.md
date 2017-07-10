@@ -9,9 +9,11 @@
 
 ### TL;DR
 
-* Read the docs for [fabric](http://www.fabfile.org/) if you've yet to use it (takes two minutes)
-* Read the [fabfile for this blog](https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py)
-* Profit
+    pip install jupyter fabric3 watchdog
+    cd your_hugo_project_root
+    curl https://raw.githubusercontent.com/knowsuchagency/knowsuchagency.github.io/src/fabfile.py > fabfile.py
+    mkdir notebooks
+    fab -l
 
 ----------
 

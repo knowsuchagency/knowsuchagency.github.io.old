@@ -19,7 +19,9 @@ from fabric.api import *
 
 @task
 def render_notebooks():
-    """Render jupyter notebooks to markdown"""
+    """
+    Render jupyter notebooks it notebooks directory to respective markdown in content/post directory.
+    """
     notebooks = Path('notebooks').glob('*.ipynb')
     for notebook in notebooks:
         write_jupyter_to_md(notebook)
@@ -81,6 +83,7 @@ def publish():
     local('git push upstream master')
     print('push succeeded')
 
+
 ########## Jupyter stuff #################
 
 class CustomPreprocessor(Preprocessor):
@@ -107,6 +110,17 @@ class CustomPreprocessor(Preprocessor):
         return cell, resources
 
 
+def doctor(string: str) -> str:
+    """Get rid of all the wacky newlines nbconvert adds to markdown output and return result."""
+    post_code_newlines_patt = re.compile(r'(```)(\n+)')
+    inter_output_newlines_patt = re.compile(r'(\s{4}\S+)(\n+)(\s{4})')
+
+    post_code_filtered = re.sub(post_code_newlines_patt, r'\1\n\n', string)
+    inter_output_filtered = re.sub(inter_output_newlines_patt, r'\1\n\3', post_code_filtered)
+
+    return inter_output_filtered
+
+
 def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
     with open(Path(path)) as fp:
         notebook = nbformat.read(fp, as_version=4)
@@ -119,29 +133,20 @@ def convert_notebook_to_hugo_markdown(path: Union[Path, str]) -> str:
     markdown_exporter = MarkdownExporter(config=c)
 
     markdown, _ = markdown_exporter.from_notebook_node(notebook)
+    doctored_md = doctor(markdown)
     # added <!--more--> comment to prevent summary creation
-    output = '\n'.join(('---', front_matter, '---', '<!--more-->', markdown))
+    output = '\n'.join(('---', front_matter, '---', '<!--more-->', doctored_md))
 
     return output
-
-
-def doctor(string: str) -> str:
-    """Get rid of all the wacky newlines nbconvert adds to markdown output and return result."""
-    post_code_newlines_patt = re.compile(r'(```)(\n+)')
-    inter_output_newlines_patt = re.compile(r'(\s{4}\S+)(\n+)(\s{4})')
-
-    post_code_filtered = re.sub(post_code_newlines_patt, r'\1\n\n', string)
-    inter_output_filtered = re.sub(inter_output_newlines_patt, r'\1\n\3', post_code_filtered)
-
-    return inter_output_filtered
 
 
 def write_jupyter_to_md(notebook):
     notebook = Path(notebook)
     hugo_markdown = convert_notebook_to_hugo_markdown(notebook)
     hugo_file = Path('content/post/', notebook.stem + '.md')
-    hugo_file.write_text(doctor(hugo_markdown))
+    hugo_file.write_text(hugo_markdown)
     print(notebook.name, '->', hugo_file.name)
+
 
 ########## Watchdog stuff #################
 
