@@ -149,7 +149,11 @@ class NotebookHandler(PatternMatchingEventHandler):
     patterns = ["*.ipynb"]
 
     def process(self, event):
-        write_jupyter_to_md(event.src_path)
+        try:
+            write_jupyter_to_md(event.src_path)
+        except Exception as e:
+            print('could not successfully render', event.src_path)
+            print(e)
 
     def on_modified(self, event):
         self.process(event)
