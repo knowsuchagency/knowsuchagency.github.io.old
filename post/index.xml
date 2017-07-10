@@ -57,9 +57,9 @@
 &lt;p&gt;&lt;img src=&#34;https://knowsuchagency.github.io/img/tut1.png&#34;&gt;
 &lt;img src=&#34;https://knowsuchagency.github.io/img/tut2.png&#34;&gt;&lt;/p&gt;
 
-&lt;p&gt;Fabric and your fabfile.py will then allow you to Render notebooks, serving the website on your localhost and having it dynamically update while you edit your notebooks.&lt;/p&gt;
+&lt;p&gt;Fabric and your fabfile.py will then allow you to render notebooks, serve the website on your localhost and have re-render dynamically update while you edit your notebooks, and publish to github once you&amp;rsquo;re ready.&lt;/p&gt;
 
-&lt;p&gt;All you need to do is run the commands from the root of your project using i.e.&lt;/p&gt;
+&lt;p&gt;All you need to do is run the commands from the root of your project i.e.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;fab render_notebooks
 fab serve
