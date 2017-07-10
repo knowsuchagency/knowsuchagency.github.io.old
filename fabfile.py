@@ -28,6 +28,7 @@ def render_notebooks():
 @task
 def serve():
     """Watch for changes in jupyter notebooks and render them anew while hugo runs"""
+    render_notebooks()
     stop_observing = threading.Event()
     notebook_observation_thread = threading.Thread(
         target=observe_notebooks,
@@ -90,7 +91,7 @@ class CustomPreprocessor(Preprocessor):
         Remove blank cells
         """
         for index, cell in enumerate(nb.cells):
-            if cell.cell_type == 'code' and (not cell.outputs or not cell.source):
+            if cell.cell_type == 'code' and not cell.source:
                 nb.cells.pop(index)
             else:
                 nb.cells[index], resources = self.preprocess_cell(cell, resources, index)

@@ -233,6 +233,92 @@ Optionals are a really handy concept, and now Python has them as well as a lot o
 
 
 ```python
+from typing import NamedTuple, Optional
+import requests
+import logging
+import json
+import enum
+
+
+class ApiInteraction(enum.Enum):
+    """The 3 possible states we can expect when interacting with the API."""
+    SUCCESS = 1
+    ERROR = 2
+    FAILURE = 3
+
+
+class ApiResponse(NamedTuple):
+    """
+    This is sort of a really dumbed-down version of an HTTP response,
+    if you think of it in terms of status codes and response bodies.
+    """
+    status: ApiInteraction
+    payload: Optional[dict]
+
+
+        
+def hit_endpoint(url: str) -> ApiResponse:
+    """
+    1. Send an http request to a url
+    2. Parse the json response as a dictionary
+    3. Return an ApiResponse object
+    """
+    
+    
+    try:
+        
+        response = requests.get(url) # step 1
+        payload = response.json() # step 2
+        
+    except json.decoder.JSONDecodeError as e:
+        
+        # something went wrong in step 2; we knew this might happen
+        
+        # log a simple error message
+        
+        logging.error(f'could not decode json from {url}')
+        
+        # log the full traceback at a lower level
+        
+        logging.info(e, exc_info=True)
+        
+        # since we anticipated this error, make the
+        # ApiResponse.status an ERROR as opposed to a failure
+        
+        return ApiResponse(ApiInteraction.ERROR, None)
+    
+    except Exception as e:
+        
+        # something went wrong in step 1 or 2 that
+        # we couldn't anticipate
+        
+        # log the exception with the traceback
+        
+        logging.error(f"Something bad happened trying to reach {url}")
+        logging.info(e, exc_info=True)
+        
+        # Since something catastrophic happened that
+        # we didn't anticipate i.e. (DivideByBananaError)
+        # we set the ApiResponse.status to FAILURE
+        
+        return ApiResponse(ApiInteraction.FAILURE, None)
+    
+    else:
+        
+        # Everything worked as planned! No errors!
+        
+        return ApiResponse(ApiInteraction.SUCCESS, payload)
+
+
+# Python is awesome. We can either use the function by itself
+# or use it as a constructor for our ApiResponse class 
+# by doing thefollowing:
+
+
+ApiResponse.from_url = hit_endpoint
+```
+
+```python
 def test_endpoint_response():
 
     url = 'http://httpbin.org/headers'
