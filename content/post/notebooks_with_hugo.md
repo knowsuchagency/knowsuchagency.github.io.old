@@ -1,8 +1,8 @@
 ---
 {
   "date": "2017-07-10",
-  "subtitle": "Blogging with Jupyter, the easy way",
-  "title": "Jupyter notebooks with Hugo"
+  "subtitle": "Hugo + Jupyter, the easy way",
+  "title": "Blogging with Hugo and Jupyter Notebooks"
 }
 ---
 <!--more-->
