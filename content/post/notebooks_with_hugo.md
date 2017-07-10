@@ -9,7 +9,7 @@
 
 ### TL;DR
 
-* Read the docs for fabric if you've yet to use it http://www.fabfile.org/ (takes two minutes)
+* Read the docs for [fabric](http://www.fabfile.org/) if you've yet to use it (takes two minutes)
 * Read the [fabfile for this blog](https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py)
 * Profit
 
