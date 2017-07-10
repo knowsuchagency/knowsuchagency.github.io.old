@@ -196,6 +196,16 @@
       <article role="main" class="blog-post">
         <p></p>
 
+<h3 id="tl-dr">TL;DR</h3>
+
+<ul>
+<li>Read the docs for fabric if you&rsquo;ve yet to use it <a href="http://www.fabfile.org/">http://www.fabfile.org/</a> (takes two minutes)</li>
+<li>Read the <a href="https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py">fabfile for this blog</a></li>
+<li>Profit</li>
+</ul>
+
+<hr />
+
 <p>If you&rsquo;ve read my previous posts, you&rsquo;ve probably guessed I really, really like <a href="http://jupyter.org/">Jupyter notebooks</a>. I think they&rsquo;re not only a great coding environment - they&rsquo;re also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.</p>
 
 <p>I&rsquo;ve used a number of static site generators in the past, namely <a href="https://blog.getpelican.com/">Pelican</a>, <a href="https://getnikola.com/">Nikola</a>, and <a href="https://gohugo.io/">Hugo</a>.</p>
@@ -206,7 +216,7 @@
 
 <p>If you haven&rsquo;t yet used or heard of <a href="http://www.fabfile.org/">Fabric</a>, it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like <a href="https://www.ansible.com/">ansible</a> may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that&rsquo;s true for me are an article for another day, but suffice to say this is the way that we&rsquo;re going to convert our notebooks to markdown for hugo.</p>
 
-<h2 id="how">How</h2>
+<h3 id="how">How</h3>
 
 <p>This recipe is going to be more helpful if you&rsquo;re hosting your hugo blog your personal github page as described in <a href="https://help.github.com/articles/user-organization-and-project-pages/">their documentation on the subject</a> i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.</p>
 

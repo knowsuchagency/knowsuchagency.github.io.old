@@ -19,6 +19,16 @@
       <guid>https://knowsuchagency.github.io/post/notebooks_with_hugo/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
+&lt;h3 id=&#34;tl-dr&#34;&gt;TL;DR&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read the docs for fabric if you&amp;rsquo;ve yet to use it &lt;a href=&#34;http://www.fabfile.org/&#34;&gt;http://www.fabfile.org/&lt;/a&gt; (takes two minutes)&lt;/li&gt;
+&lt;li&gt;Read the &lt;a href=&#34;https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py&#34;&gt;fabfile for this blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Profit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
 &lt;p&gt;If you&amp;rsquo;ve read my previous posts, you&amp;rsquo;ve probably guessed I really, really like &lt;a href=&#34;http://jupyter.org/&#34;&gt;Jupyter notebooks&lt;/a&gt;. I think they&amp;rsquo;re not only a great coding environment - they&amp;rsquo;re also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;ve used a number of static site generators in the past, namely &lt;a href=&#34;https://blog.getpelican.com/&#34;&gt;Pelican&lt;/a&gt;, &lt;a href=&#34;https://getnikola.com/&#34;&gt;Nikola&lt;/a&gt;, and &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;
@@ -29,7 +39,7 @@
 
 &lt;p&gt;If you haven&amp;rsquo;t yet used or heard of &lt;a href=&#34;http://www.fabfile.org/&#34;&gt;Fabric&lt;/a&gt;, it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like &lt;a href=&#34;https://www.ansible.com/&#34;&gt;ansible&lt;/a&gt; may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that&amp;rsquo;s true for me are an article for another day, but suffice to say this is the way that we&amp;rsquo;re going to convert our notebooks to markdown for hugo.&lt;/p&gt;
 
-&lt;h2 id=&#34;how&#34;&gt;How&lt;/h2&gt;
+&lt;h3 id=&#34;how&#34;&gt;How&lt;/h3&gt;
 
 &lt;p&gt;This recipe is going to be more helpful if you&amp;rsquo;re hosting your hugo blog your personal github page as described in &lt;a href=&#34;https://help.github.com/articles/user-organization-and-project-pages/&#34;&gt;their documentation on the subject&lt;/a&gt; i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.&lt;/p&gt;
 
