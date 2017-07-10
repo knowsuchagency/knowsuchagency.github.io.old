@@ -8,8 +8,54 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Fri, 30 Jun 2017 13:47:58 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 10 Jul 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://knowsuchagency.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Jupyter notebooks with Hugo</title>
+      <link>https://knowsuchagency.github.io/post/notebooks_with_hugo/</link>
+      <pubDate>Mon, 10 Jul 2017 00:00:00 +0000</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/notebooks_with_hugo/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve read my previous posts, you&amp;rsquo;ve probably guessed I really, really like &lt;a href=&#34;http://jupyter.org/&#34;&gt;Jupyter notebooks&lt;/a&gt;. I think they&amp;rsquo;re not only a great coding environment - they&amp;rsquo;re also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve used a number of static site generators in the past, namely &lt;a href=&#34;https://blog.getpelican.com/&#34;&gt;Pelican&lt;/a&gt;, &lt;a href=&#34;https://getnikola.com/&#34;&gt;Nikola&lt;/a&gt;, and &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;While each of those tools has their strengths and weaknesses (Nikola has first-class support for Jupyter notebooks, for example), Hugo has been my favorite one to use overall.&lt;/p&gt;
+
+&lt;p&gt;The problem is that Jupyter notebooks are not yet supported &amp;ldquo;&lt;a href=&#34;https://gohugo.io/content/supported-formats/&#34;&gt;out-of-the-box&lt;/a&gt;&amp;rdquo; by Hugo. While that&amp;rsquo;s something I may look into rectifying myself in the future, I wanted a way to reliably convert my notebooks to markdown for hugo today. Up till now I&amp;rsquo;d been doing it mostly manually, but I now offer a better solution.&lt;/p&gt;
+
+&lt;p&gt;If you haven&amp;rsquo;t yet used or heard of &lt;a href=&#34;http://www.fabfile.org/&#34;&gt;Fabric&lt;/a&gt;, it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like &lt;a href=&#34;https://www.ansible.com/&#34;&gt;ansible&lt;/a&gt; may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that&amp;rsquo;s true for me are an article for another day, but suffice to say this is the way that we&amp;rsquo;re going to convert our notebooks to markdown for hugo.&lt;/p&gt;
+
+&lt;h2 id=&#34;how&#34;&gt;How&lt;/h2&gt;
+
+&lt;p&gt;This recipe is going to be more helpful if you&amp;rsquo;re hosting your hugo blog your personal github page as described in &lt;a href=&#34;https://help.github.com/articles/user-organization-and-project-pages/&#34;&gt;their documentation on the subject&lt;/a&gt; i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.&lt;/p&gt;
+
+&lt;p&gt;The fabfile is still useful even if that isn&amp;rsquo;t the case, but the &lt;code&gt;publish&lt;/code&gt; command does a lot for you if you&amp;rsquo;re hosting your blog on your personal github page as described.&lt;/p&gt;
+
+&lt;p&gt;At minimum, this recipe assumes you have a hugo site already generated as described in &lt;a href=&#34;https://gohugo.io/overview/quickstart/&#34;&gt;their documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Make sure you&amp;rsquo;re using Python 3 and have jupyter, fabric3, and watchdog installed in your environment. &lt;code&gt;pip install jupyter fabric3 watchdog&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copy the &lt;a href=&#34;https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py&#34;&gt;fabfile&lt;/a&gt; I&amp;rsquo;m using to generate this same page on my github repo to the root of your hugo project&lt;/li&gt;
+&lt;li&gt;Create a &lt;code&gt;notebooks&lt;/code&gt; directory in the root of your project where your jupyter notebooks will be.&lt;/li&gt;
+&lt;li&gt;As you create new notebooks, edit the notebook metadata to include the &lt;code&gt;front-matter&lt;/code&gt; hugo needs to render posts.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://knowsuchagency.github.io/img/tut1.png&#34;&gt;
+&lt;img src=&#34;https://knowsuchagency.github.io/img/tut2.png&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Fabric and your fabfile.py will then allow you to Render notebooks, serving the website on your localhost and having it dynamically update while you edit your notebooks.&lt;/p&gt;
+
+&lt;p&gt;All you need to do is run the commands from the root of your project using i.e.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;fab render_notebooks
+fab serve
+fab publish
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>Projects</title>
@@ -445,6 +491,90 @@ False
 &lt;p&gt;You&amp;rsquo;ll see the use of optional values a lot in functional programming. In fact, the following pattern of combining tuples and optional values is the primary way we handle errors in Go. Optionals are also ubiquitous in Swift - not only in the context of error-handling.&lt;/p&gt;
 
 &lt;p&gt;Optionals are a really handy concept, and now Python has them as well as a lot of the other type safety goodness of other languages through mypy.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;typing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;requests&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;logging&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;json&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;enum&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;enum&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;The 3 possible states we can expect when interacting with the API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NamedTuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    This is sort of a really dumbed-down version of an HTTP response,&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    if you think of it in terms of status codes and response bodies.&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+
+
+        
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hit_endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    1. Send an http request to a url&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    2. Parse the json response as a dictionary&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    3. Return an ApiResponse object&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    
+    
+    &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        
+        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# step 1&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# step 2&lt;/span&gt;
+        
+    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;decoder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;JSONDecodeError&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# something went wrong in step 2; we knew this might happen&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# log a simple error message&lt;/span&gt;
+        
+        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;could not decode json from {url}&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# log the full traceback at a lower level&lt;/span&gt;
+        
+        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exc_info&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# since we anticipated this error, make the&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# ApiResponse.status an ERROR as opposed to a failure&lt;/span&gt;
+        
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;Exception&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# something went wrong in step 1 or 2 that&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# we couldn&amp;#39;t anticipate&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# log the exception with the traceback&lt;/span&gt;
+        
+        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;Something bad happened trying to reach {url}&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exc_info&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# Since something catastrophic happened that&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# we didn&amp;#39;t anticipate i.e. (DivideByBananaError)&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# we set the ApiResponse.status to FAILURE&lt;/span&gt;
+        
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FAILURE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        
+        &lt;span class=&#34;c1&#34;&gt;# Everything worked as planned! No errors!&lt;/span&gt;
+        
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ApiInteraction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SUCCESS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;payload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&#34;c1&#34;&gt;# Python is awesome. We can either use the function by itself&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# or use it as a constructor for our ApiResponse class &lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# by doing thefollowing:&lt;/span&gt;
+
+
+&lt;span class=&#34;n&#34;&gt;ApiResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hit_endpoint&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;test_endpoint_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
 
     &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://httpbin.org/headers&amp;#39;&lt;/span&gt;

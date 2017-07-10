@@ -5,9 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Posts</title>
-  <meta property="og:title" content="Posts" />
-  <meta name="twitter:title" content="Posts" />
+  <title>Jupyter notebooks with Hugo</title>
+  <meta property="og:title" content="Jupyter notebooks with Hugo" />
+  <meta name="twitter:title" content="Jupyter notebooks with Hugo" />
+  <meta name="description" content="Blogging with Jupyter, the easy way">
+  <meta property="og:description" content="Blogging with Jupyter, the easy way">
+  <meta name="twitter:description" content="Blogging with Jupyter, the easy way">
   <meta name="author" content="Stephan Fitzpatrick"/>
   <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
@@ -15,12 +18,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@knowsuchagency" />
   <meta name="twitter:creator" content="@knowsuchagency" />
-  <meta property="og:url" content="https://knowsuchagency.github.io/post/" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/notebooks_with_hugo/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
   <meta name="generator" content="Hugo 0.19" />
-  <link rel="canonical" href="https://knowsuchagency.github.io/post/" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/notebooks_with_hugo/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -147,14 +150,37 @@
 
 
     
+  
+  
+  
+
+
+
+
+  
+
   <header class="header-section ">
+    
     <div class="intro-header no-img">
+      
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="page-heading">
-              <h1>Posts</h1>
-              <hr class="small">
+            <div class="post-heading">
+              <h1>Jupyter notebooks with Hugo</h1>
+                
+                  
+                    <h2 class="post-subheading">Blogging with Jupyter, the easy way</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on July 10, 2017
+  
+</span>
+
+
+                
             </div>
           </div>
         </div>
@@ -162,118 +188,66 @@
     </div>
   </header>
 
+
     
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<p>If you&rsquo;ve read my previous posts, you&rsquo;ve probably guessed I really, really like <a href="http://jupyter.org/">Jupyter notebooks</a>. I think they&rsquo;re not only a great coding environment - they&rsquo;re also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.</p>
+
+<p>I&rsquo;ve used a number of static site generators in the past, namely <a href="https://blog.getpelican.com/">Pelican</a>, <a href="https://getnikola.com/">Nikola</a>, and <a href="https://gohugo.io/">Hugo</a>.</p>
+
+<p>While each of those tools has their strengths and weaknesses (Nikola has first-class support for Jupyter notebooks, for example), Hugo has been my favorite one to use overall.</p>
+
+<p>The problem is that Jupyter notebooks are not yet supported &ldquo;<a href="https://gohugo.io/content/supported-formats/">out-of-the-box</a>&rdquo; by Hugo. While that&rsquo;s something I may look into rectifying myself in the future, I wanted a way to reliably convert my notebooks to markdown for hugo today. Up till now I&rsquo;d been doing it mostly manually, but I now offer a better solution.</p>
+
+<p>If you haven&rsquo;t yet used or heard of <a href="http://www.fabfile.org/">Fabric</a>, it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like <a href="https://www.ansible.com/">ansible</a> may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that&rsquo;s true for me are an article for another day, but suffice to say this is the way that we&rsquo;re going to convert our notebooks to markdown for hugo.</p>
+
+<h2 id="how">How</h2>
+
+<p>This recipe is going to be more helpful if you&rsquo;re hosting your hugo blog your personal github page as described in <a href="https://help.github.com/articles/user-organization-and-project-pages/">their documentation on the subject</a> i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.</p>
+
+<p>The fabfile is still useful even if that isn&rsquo;t the case, but the <code>publish</code> command does a lot for you if you&rsquo;re hosting your blog on your personal github page as described.</p>
+
+<p>At minimum, this recipe assumes you have a hugo site already generated as described in <a href="https://gohugo.io/overview/quickstart/">their documentation</a>.</p>
+
+<ol>
+<li>Make sure you&rsquo;re using Python 3 and have jupyter, fabric3, and watchdog installed in your environment. <code>pip install jupyter fabric3 watchdog</code></li>
+<li>Copy the <a href="https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py">fabfile</a> I&rsquo;m using to generate this same page on my github repo to the root of your hugo project</li>
+<li>Create a <code>notebooks</code> directory in the root of your project where your jupyter notebooks will be.</li>
+<li>As you create new notebooks, edit the notebook metadata to include the <code>front-matter</code> hugo needs to render posts.</li>
+</ol>
+
+<p><img src="https://knowsuchagency.github.io/img/tut1.png">
+<img src="https://knowsuchagency.github.io/img/tut2.png"></p>
+
+<p>Fabric and your fabfile.py will then allow you to Render notebooks, serving the website on your localhost and having it dynamically update while you edit your notebooks.</p>
+
+<p>All you need to do is run the commands from the root of your project using i.e.</p>
+
+<pre><code>fab render_notebooks
+fab serve
+fab publish
+</code></pre>
+      </article>
+
+      <ul class="pager blog-pager">
         
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/notebooks_with_hugo/">
-                <h2 class="post-title">Jupyter notebooks with Hugo</h2>
-    
-                
-                  <h3 class="post-subtitle">
-                    Blogging with Jupyter, the easy way
-                  </h3>
-                
-              </a>
-    
-              <p class="post-meta">
-                Posted on July 10, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/notebooks_with_hugo/" class="post-read-more">[Read More]</a>
-                
-              </div>
-    
-              
-    
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/">
-                <h2 class="post-title">Spice Up Thy Jupyter Notebooks with mypy</h2>
-    
-                
-                  <h3 class="post-subtitle">
-                    Add type-checking to Jupyter Notebook cells
-                  </h3>
-                
-              </a>
-    
-              <p class="post-meta">
-                Posted on March 19, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/" class="post-read-more">[Read More]</a>
-                
-              </div>
-    
-              
-    
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/postmodern-error-handling/">
-                <h2 class="post-title">Postmodern Error Handling in Python 3.6</h2>
-    
-                
-                  <h3 class="post-subtitle">
-                    How to catch some TYPES of errors before they happen
-                  </h3>
-                
-              </a>
-    
-              <p class="post-meta">
-                Posted on February 24, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/postmodern-error-handling/" class="post-read-more">[Read More]</a>
-                
-              </div>
-    
-              
-    
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/mbp_sentiment_analysis/">
-                <h2 class="post-title">Sentiment analysis of the new MBP</h2>
-    
-                
-                  <h3 class="post-subtitle">
-                    Some are cold on the new hotness
-                  </h3>
-                
-              </a>
-    
-              <p class="post-meta">
-                Posted on February 21, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/mbp_sentiment_analysis/" class="post-read-more">[Read More]</a>
-                
-              </div>
-    
-              
-    
-            </article>
-          
-        </div>
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/" data-toggle="tooltip" data-placement="top" title="Spice Up Thy Jupyter Notebooks with mypy">&larr; Previous Post</a>
+          </li>
         
-      </div>
+        
+      </ul>
+
+      
+
     </div>
   </div>
+</div>
 
     <footer>
   <div class="container">
