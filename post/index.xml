@@ -13,10 +13,10 @@
     
     <item>
       <title>Blogging with Hugo and Jupyter Notebooks</title>
-      <link>https://knowsuchagency.github.io/post/notebooks_with_hugo/</link>
+      <link>https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/</link>
       <pubDate>Mon, 10 Jul 2017 00:00:00 +0000</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/post/notebooks_with_hugo/</guid>
+      <guid>https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;tl-dr&#34;&gt;TL;DR&lt;/h3&gt;
@@ -153,10 +153,10 @@ c.InteractiveShell.ast_node_interactivity = &#39;all&#39;
     
     <item>
       <title>Postmodern Error Handling in Python 3.6</title>
-      <link>https://knowsuchagency.github.io/post/postmodern-error-handling/</link>
+      <link>https://knowsuchagency.github.io/post/postmodern-error-handling-in-python-3.6/</link>
       <pubDate>Fri, 24 Feb 2017 00:00:00 +0000</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/post/postmodern-error-handling/</guid>
+      <guid>https://knowsuchagency.github.io/post/postmodern-error-handling-in-python-3.6/</guid>
       <description>&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;postmodern-error-handling-in-python-3-6&#34;&gt;Postmodern error handling in Python 3.6&lt;/h2&gt;
