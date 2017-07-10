@@ -7,6 +7,14 @@
 ---
 <!--more-->
 
+### TL;DR
+
+* Read the docs for fabric if you've yet to use it http://www.fabfile.org/ (takes two minutes)
+* Read the [fabfile for this blog](https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py)
+* Profit
+
+----------
+
 If you've read my previous posts, you've probably guessed I really, really like [Jupyter notebooks](http://jupyter.org/). I think they're not only a great coding environment - they're also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.
 
 I've used a number of static site generators in the past, namely [Pelican](https://blog.getpelican.com/), [Nikola](https://getnikola.com/), and [Hugo](https://gohugo.io/).
@@ -18,7 +26,7 @@ The problem is that Jupyter notebooks are not yet supported "[out-of-the-box](ht
 If you haven't yet used or heard of [Fabric](http://www.fabfile.org/), it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like [ansible](https://www.ansible.com/) may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that's true for me are an article for another day, but suffice to say this is the way that we're going to convert our notebooks to markdown for hugo.
 
 
-## How
+### How
 
 This recipe is going to be more helpful if you're hosting your hugo blog your personal github page as described in [their documentation on the subject](https://help.github.com/articles/user-organization-and-project-pages/) i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.
 
