@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0f4c1fad048757d073d88de73f5f541efb0c719283ce94213b0267c5ba63019a"
+            "sha256": "c8c25d10f541d6e80539f57ac113cd4173595f093b91bb7a499aeef4907bf757"
         },
         "requires": {},
         "sources": [
@@ -30,11 +30,17 @@
         "cffi": {
             "version": "==1.10.0"
         },
+        "colorama": {
+            "version": "==0.3.9"
+        },
         "cryptography": {
-            "version": "==1.9"
+            "version": "==2.0"
         },
         "decorator": {
-            "version": "==4.0.11"
+            "version": "==4.1.1"
+        },
+        "docopt": {
+            "version": "==0.6.2"
         },
         "entrypoints": {
             "version": "==0.2.3"
@@ -44,6 +50,9 @@
         },
         "html5lib": {
             "version": "==0.999999999"
+        },
+        "hugo-jupyter": {
+            "version": "==0.1.4"
         },
         "idna": {
             "version": "==2.5"
@@ -78,14 +87,26 @@
         "jupyter-console": {
             "version": "==5.1.0"
         },
+        "jupyter-contrib-core": {
+            "version": "==0.3.1"
+        },
         "jupyter-core": {
             "version": "==4.3.0"
+        },
+        "jupyter-nbextensions-configurator": {
+            "version": "==0.2.5"
         },
         "markupsafe": {
             "version": "==1.0"
         },
         "mistune": {
             "version": "==0.7.4"
+        },
+        "mpmath": {
+            "version": "==0.19"
+        },
+        "mypy": {
+            "version": "==0.520"
         },
         "nbconvert": {
             "version": "==5.2.1"
@@ -130,7 +151,7 @@
             "version": "==1.1.2"
         },
         "python-dateutil": {
-            "version": "==2.6.0"
+            "version": "==2.6.1"
         },
         "pyyaml": {
             "version": "==3.12"
@@ -142,13 +163,16 @@
             "version": "==4.3.0"
         },
         "setuptools": {
-            "version": "==36.0.1"
+            "version": "==36.2.0"
         },
         "simplegeneric": {
             "version": "==0.8.1"
         },
         "six": {
             "version": "==1.10.0"
+        },
+        "sympy": {
+            "version": "==1.1"
         },
         "terminado": {
             "version": "==0.6"
@@ -162,6 +186,9 @@
         "traitlets": {
             "version": "==4.3.2"
         },
+        "typed-ast": {
+            "version": "==1.0.4"
+        },
         "watchdog": {
             "version": "==0.8.3"
         },
@@ -173,9 +200,6 @@
         },
         "widgetsnbextension": {
             "version": "==2.0.0"
-        },
-        "yapf": {
-            "version": "==0.16.2"
         }
     },
     "develop": {}
