@@ -1,6 +1,8 @@
 import re
 import json
 import threading
+import signal
+import subprocess as sp
 from pathlib import Path
 from typing import *
 
@@ -28,18 +30,52 @@ def render_notebooks():
 
 
 @task
-def serve():
-    """Watch for changes in jupyter notebooks and render them anew while hugo runs"""
-    render_notebooks()
-    stop_observing = threading.Event()
-    notebook_observation_thread = threading.Thread(
-        target=observe_notebooks,
-        args=(stop_observing,)
-    )
-    notebook_observation_thread.start()
-    local('hugo serve')
-    # clean up watchdog process once hugo process terminated
-    stop_observing.set()
+def serve(init_jupyter=True):
+    """
+    Watch for changes in jupyter notebooks and render them anew while hugo runs.
+
+    Args:
+        init_jupyter: initialize jupyter if set to True
+    """
+    # render_notebooks()
+    # stop = threading.Event()
+    #
+    # notebook_observation_thread = threading.Thread(
+    #     target=observe_notebooks,
+    #     args=(stop,)
+    # )
+    # notebook_observation_thread.start()
+    #
+    # # if init_jupyter:
+    # #     jupyter_thread = threading.Thread(
+    # #         target=serve_notebooks,
+    # #         args=(stop,)
+    # #     )
+    # #     jupyter_thread.start()
+    #
+    # local('hugo serve')
+    # input('fuck your couch')
+    # # clean up watchdog process once hugo process terminated
+    # stop.set()
+    observer = Observer()
+    observer.schedule(NotebookHandler(), 'notebooks')
+    observer.start()
+
+    import shlex
+    hugo_process = sp.Popen(('hugo', 'serve'))
+    jupyter_process = sp.Popen(shlex.split('cd notebooks; jupyter notebook'))
+
+    def interruption_handler(*args):
+        print('closing shit down')
+        observer.stop()
+        observer.join()
+        hugo_process.kill()
+        jupyter_process.kill()
+
+    signal.signal(signal.SIGINT, interruption_handler)
+
+    while True:
+        pass
 
 
 @task
@@ -181,3 +217,10 @@ def observe_notebooks(event):
     if event.is_set():
         observer.stop()
         observer.join()
+
+
+def serve_notebooks(event):
+    process = sp.Popen('cd notebooks; jupyter notebook', shell=True, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+    if event.is_set():
+        input('killing process')
+        process.kill()
