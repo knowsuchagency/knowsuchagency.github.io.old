@@ -1,6 +1,6 @@
 import re
 import json
-import threading
+import sys
 import signal
 import subprocess as sp
 from pathlib import Path
@@ -15,6 +15,10 @@ from traitlets.config import Config
 
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
+
+from colorama import Fore, init
+
+init()
 
 from fabric.api import *
 
@@ -37,45 +41,52 @@ def serve(init_jupyter=True):
     Args:
         init_jupyter: initialize jupyter if set to True
     """
-    # render_notebooks()
-    # stop = threading.Event()
-    #
-    # notebook_observation_thread = threading.Thread(
-    #     target=observe_notebooks,
-    #     args=(stop,)
-    # )
-    # notebook_observation_thread.start()
-    #
-    # # if init_jupyter:
-    # #     jupyter_thread = threading.Thread(
-    # #         target=serve_notebooks,
-    # #         args=(stop,)
-    # #     )
-    # #     jupyter_thread.start()
-    #
-    # local('hugo serve')
-    # input('fuck your couch')
-    # # clean up watchdog process once hugo process terminated
-    # stop.set()
     observer = Observer()
     observer.schedule(NotebookHandler(), 'notebooks')
     observer.start()
 
-    import shlex
     hugo_process = sp.Popen(('hugo', 'serve'))
-    jupyter_process = sp.Popen(shlex.split('cd notebooks; jupyter notebook'))
+
+    if init_jupyter:
+        jupyter_process = sp.Popen(('jupyter', 'notebook'), cwd='notebooks')
+
+    local('open http://localhost:1313')
 
     def interruption_handler(*args):
-        print('closing shit down')
+        if init_jupyter:
+            print(Fore.YELLOW + 'shutting down jupyter')
+            jupyter_process.kill()
+
+        print(Fore.YELLOW + 'shutting down watchdog')
         observer.stop()
         observer.join()
+        print(Fore.YELLOW + 'shutting down hugo')
         hugo_process.kill()
-        jupyter_process.kill()
+        print(Fore.GREEN + 'all processes shut down successfully')
+        sys.exit(0)
 
-    signal.signal(signal.SIGINT, interruption_handler)
+    #signal.signal(signal.SIGINT, interruption_handler)
 
-    while True:
-        pass
+    try:
+        print(Fore.GREEN + 'Successfully initialized server(s)',
+              Fore.YELLOW + 'press ctrl+C at any time to quit',
+              Fore.WHITE)
+        while True:
+            pass
+    except KeyboardInterrupt:
+        print(Fore.YELLOW + 'Terminating')
+    finally:
+        if init_jupyter:
+            print(Fore.YELLOW + 'shutting down jupyter')
+            jupyter_process.kill()
+
+        print(Fore.YELLOW + 'shutting down watchdog')
+        observer.stop()
+        observer.join()
+        print(Fore.YELLOW + 'shutting down hugo')
+        hugo_process.kill()
+        print(Fore.GREEN + 'all processes shut down successfully')
+        sys.exit(0)
 
 
 @task
@@ -206,21 +217,3 @@ class NotebookHandler(PatternMatchingEventHandler):
 
     def on_created(self, event):
         self.process(event)
-
-
-def observe_notebooks(event):
-    """Write notebooks to markdown files until event is set."""
-    observer = Observer()
-    observer.schedule(NotebookHandler(), 'notebooks')
-    observer.start()
-
-    if event.is_set():
-        observer.stop()
-        observer.join()
-
-
-def serve_notebooks(event):
-    process = sp.Popen('cd notebooks; jupyter notebook', shell=True, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-    if event.is_set():
-        input('killing process')
-        process.kill()

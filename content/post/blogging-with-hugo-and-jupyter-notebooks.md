@@ -9,13 +9,18 @@
 
 ### TL;DR
 
-    pip install jupyter fabric3 watchdog
     cd your_hugo_project_root
-    curl https://raw.githubusercontent.com/knowsuchagency/knowsuchagency.github.io/src/fabfile.py > fabfile.py
-    mkdir notebooks
-    fab -l
+    pip install hugo_jupyter
+    hugo_jupyter --init
+    
 
 ----------
+
+### Update (19-July-2017)
+
+Since posting the article, I've created a package on pypi, [hugo_jupyter](https://pypi.org/project/hugo_jupyter/) that automates the creation of the fabfile and notebooks directory at the root of your hugo project.
+
+### What
 
 If you've read my previous posts, you've probably guessed I really, really like [Jupyter notebooks](http://jupyter.org/). I think they're not only a great coding environment - they're also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.
 
@@ -36,7 +41,7 @@ The fabfile is still useful even if that isn't the case, but the `publish` comma
 
 At minimum, this recipe assumes you have a hugo site already generated as described in [their documentation](https://gohugo.io/overview/quickstart/).
 
-1. Make sure you're using Python 3 and have jupyter, fabric3, and watchdog installed in your environment. `pip install jupyter fabric3 watchdog`
+1. Make sure you're using Python 3. You can use a package I wrote to quickly bootstrap your project for use with Jupyter notebooks. ``pip install hugo_jupyter; hugo_jupyter --init``
 2. Copy the [fabfile](https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py) I'm using to generate this same page on my github repo to the root of your hugo project
 3. Create a `notebooks` directory in the root of your project where your jupyter notebooks will be.
 4. As you create new notebooks, edit the notebook metadata to include the `front-matter` hugo needs to render posts. 
