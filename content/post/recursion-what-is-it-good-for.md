@@ -24,6 +24,10 @@ f(86400) -> "1 Day"
 f(172801) -> "2 Days 1 Second"
 ```
 
+### Full Disclaimer
+
+> I had the full intention of writing only about recursion but ended up getting side-tracked with closures, generators, and a couple other things and was too lazy to change the title once I finished typing this out. So feel free to hate on me if you feel like you got baited and switched by having to read about those other topics at least as well as recursion in the next minute or two of your life.
+
 My friend had to turn in the assignment that night, so I quickly banged out a naive solution with the promise that I'd go over it with them later.
 
 
@@ -262,7 +266,7 @@ For the uninitiated, comprehensions follow the following format,
 
 [**statement** for **variable** in **iterable** if **optional predicate**]
 
-in addition, the `.join` method of a string takes an iterable of strings as an argument and returns a string that joins strings of the iterable using the string that was joined.
+in addition, the `.join` method of a string takes an iterable of strings as an argument and returns a string that joins the elements of the iterable together.
 
 
 ```python
