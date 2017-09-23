@@ -211,6 +211,12 @@ f(86400) -&gt; &quot;1 Day&quot;
 f(172801) -&gt; &quot;2 Days 1 Second&quot;
 </code></pre>
 
+<h3 id="full-disclaimer">Full Disclaimer</h3>
+
+<blockquote>
+<p>I had the full intention of writing only about recursion but ended up getting side-tracked with closures, generators, and a couple other things and was too lazy to change the title once I finished typing this out. So feel free to hate on me if you feel like you got baited and switched by having to read about those other topics at least as well as recursion in the next minute or two of your life.</p>
+</blockquote>
+
 <p>My friend had to turn in the assignment that night, so I quickly banged out a naive solution with the promise that I&rsquo;d go over it with them later.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">seconds</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -435,7 +441,7 @@ conversions passed
 
 <p>[<strong>statement</strong> for <strong>variable</strong> in <strong>iterable</strong> if <strong>optional predicate</strong>]</p>
 
-<p>in addition, the <code>.join</code> method of a string takes an iterable of strings as an argument and returns a string that joins strings of the iterable using the string that was joined.</p>
+<p>in addition, the <code>.join</code> method of a string takes an iterable of strings as an argument and returns a string that joins the elements of the iterable together.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># for a comma-separated list of even numbers 0-through-10</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
