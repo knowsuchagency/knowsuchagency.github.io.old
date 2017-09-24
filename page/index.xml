@@ -2,14 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Journal Panic</title>
-    <link>https://knowsuchagency.github.io/page/index.xml</link>
+    <link>https://knowsuchagency.github.io/page/</link>
     <description>Recent content in Pages on Journal Panic</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
     <lastBuildDate>Fri, 30 Jun 2017 13:47:58 -0700</lastBuildDate>
-    <atom:link href="https://knowsuchagency.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://knowsuchagency.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Projects</title>
@@ -17,141 +19,22 @@
       <pubDate>Fri, 30 Jun 2017 13:47:58 -0700</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
       <guid>https://knowsuchagency.github.io/page/projects/</guid>
-      <description>&lt;hr /&gt;
-
-&lt;p&gt;&lt;h1 align=&#34;center&#34;&gt;ninjadog: pug + jinja2 == ❤️&lt;/h1&gt;
-&lt;h3 align=&#34;center&#34;&gt;&lt;a href=&#34;http://journalpanic.com/ninjadog/&#34;&gt;Documentation&lt;/h3&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://pugjs.org/api/getting-started.html&#34;&gt;Pug template&lt;/a&gt; (formerly &lt;a href=&#34;https://naltatis.github.io/jade-syntax-docs/&#34;&gt;Jade&lt;/a&gt;) support for Python 3.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.fabfile.org/&#34;&gt;&lt;strong&gt;fabric&lt;/strong&gt;&lt;/a&gt; for project automation&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://docopt.org/&#34;&gt;&lt;strong&gt;docopt&lt;/strong&gt;&lt;/a&gt; for the command-line interface&lt;/li&gt;
-&lt;li&gt;leverages the &lt;a href=&#34;https://github.com/pugjs/pug-cli&#34;&gt;&lt;strong&gt;pug-cli&lt;/strong&gt;&lt;/a&gt; library on npm to render pug templates through a subprocess&lt;/li&gt;
-&lt;li&gt;continuous integration through &lt;a href=&#34;https://travis-ci.org/&#34;&gt;&lt;strong&gt;travis-ci&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;tested on multiple version of Python through the use of &lt;a href=&#34;https://tox.readthedocs.io/en/latest/&#34;&gt;&lt;strong&gt;tox&lt;/strong&gt;&lt;/a&gt; prior to release on &lt;a href=&#34;https://pypi.org/&#34;&gt;&lt;strong&gt;pypi&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.sphinx-doc.org/en/stable/&#34;&gt;&lt;strong&gt;Sphinx&lt;/strong&gt;&lt;/a&gt; to build and render documentation prior to deployment on &lt;a href=&#34;https://pages.github.com/&#34;&gt;&lt;strong&gt;GitHub Pages&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>ninjadog: pug + jinja2 == ❤️ Documentation
+Pug template (formerly Jade) support for Python 3.
+ fabric for project automation docopt for the command-line interface leverages the pug-cli library on npm to render pug templates through a subprocess continuous integration through travis-ci tested on multiple version of Python through the use of tox prior to release on pypi Sphinx to build and render documentation prior to deployment on GitHub Pages  </description>
     </item>
     
     <item>
-      <title>Professional Background</title>
-      <link>https://knowsuchagency.github.io/page/resume/</link>
-      <pubDate>Fri, 24 Feb 2017 00:45:24 -0800</pubDate>
-      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/page/resume/</guid>
-      <description>
-
-&lt;h1 align=&#39;center&#39;&gt;&lt;a href=&#39;https://knowsuchagency.github.io/documents/resume.pdf&#39;&gt;Download This Resume in PDF&lt;/a&gt;&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;h1 id=&#34;software-engineer&#34;&gt;Software Engineer&lt;/h1&gt;
-
-&lt;h3 id=&#34;san-francisco-ca&#34;&gt;San Francisco, CA&lt;/h3&gt;
-
-&lt;p&gt;Focused, passionate, and technically competent. An excellent communicator; willing and able to engage people at different skill and leadership levels. Experienced in a broad array of disciplines to include; foreign languages, software development, data modeling, performing arts , blogging, fitness, public speaking, and teaching. An active member of the local tech community, helping to plan, organize, and present in local tech events. An avid learner with a voracious appetite for knowledge. Most importantly, a friendly human-being with a genuine desire to help others.&lt;/p&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;work-experience&#34;&gt;WORK EXPERIENCE&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;strong&gt;NATIONAL SECURITY AGENCY&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Software Developer/Analyst&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Jan, 2012 – May, 2016&lt;/p&gt;
-
-&lt;p&gt;Tasked with providing timely and accurate intelligence to various stakeholders. Granted a unique assignment amongst over 2000 military personnel to be a full-time software developer; working alongside National Security Agency Mathematicians, Computer Scientists, and Engineers, to create new software applications and data pipelines for intelligence analysts.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;US NAVY&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Cryptologic Technician Interpretive&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Jun, 2010 – May, 2016&lt;/p&gt;
-
-&lt;p&gt;Intelligence gathering and analysis as a Mandarin Chinese linguist.&lt;/p&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;education&#34;&gt;EDUCATION&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;strong&gt;DEFENSE LANGUAGE INSTITUTE&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Associate&amp;rsquo;s Degree - Mandarin Chinese&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Jul, 2010 – Dec, 2011&lt;/p&gt;
-
-&lt;p&gt;Graduated 2+/2 from elite military language program with an accredited Associate&amp;rsquo;s Degree.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;CITY COLLEGE OF SAN FRANCISCO&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Transfer - Cognitive Science&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Sep, 2016 – Current&lt;/p&gt;
-
-&lt;p&gt;The following are classes I have taken or am currently taking at CCSF prior to transferring to Berkeley for Cognitive Science&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;CS231 - Advanced Python Programming&lt;/li&gt;
-&lt;li&gt;CS 110B - C++ Programming&lt;/li&gt;
-&lt;li&gt;CS 212 - iPhone Programming (Swift)&lt;/li&gt;
-&lt;li&gt;PHIL 12A - Symbolic Logic&lt;/li&gt;
-&lt;li&gt;PHIL 25C - Modern Philosophy through Kant&lt;/li&gt;
-&lt;li&gt;MATH 100A - Calculus&lt;/li&gt;
-&lt;li&gt;CS260A/P - Linux System Administration&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;projects&#34;&gt;PROJECTS&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;strong&gt;GOFISH&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Sole Developer&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Jun, 2014 – May, 2016&lt;/p&gt;
-
-&lt;p&gt;A text parser that has so far processed over four million lines of data and saved analysts over three-thousand man-hours worth of work per year. Written over several months while working as an analyst. Led to a Joint Service Achievement Medal and placement into an official software development role.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;UNNAMED PROJECT&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Software Developer/ Military-Civilian liason/ SME&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Jun, 2014 – May, 2016&lt;/p&gt;
-
-&lt;p&gt;A collaborative project between DoD civilian leadership and military personnel designed to store, share, and analyze information for military analysts and their customers. Worked as a project lead, software developer, subject-matter expert, and military-civilian liason. Contributed greatly to the complete restructuring of a 60-person organization as a result of massive increase in analyst productivity.&lt;/p&gt;
-
-&lt;p&gt;ref-id: DJ2-2016-00904&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
+      <title></title>
       <link>https://knowsuchagency.github.io/page/about/</link>
       <pubDate>Thu, 23 Feb 2017 23:21:31 -0800</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
       <guid>https://knowsuchagency.github.io/page/about/</guid>
-      <description>&lt;p&gt;&lt;div style=&#34;text-align:center;&#34;&gt;&lt;img src=&#34;http://i.imgur.com/950C7EY.jpg&#34; width=500&gt;&lt;/div&gt;
-&lt;br&gt;&lt;/p&gt;
-
-&lt;p&gt;When I&amp;rsquo;m not programming, I&amp;rsquo;m reading, exercising, or volunteering.&lt;/p&gt;
-
-&lt;p&gt;I served six years in the Navy as a Chinese linguist. During that time, I transitioned from translation work, to intelligence analysis, and finally to software development.&lt;/p&gt;
-
-&lt;p&gt;Co-Founder of PyHawaii, Hawaii&amp;rsquo;s Python User Group.&lt;/p&gt;
-
-&lt;p&gt;I have also been involved in HiCapacity, Code for Hawaii, Code for San Francisco, and Data for Democracy.&lt;/p&gt;
-
-&lt;p&gt;Feel free to say hello. I love meeting new people :)&lt;/p&gt;
-</description>
+      <description>When I&amp;rsquo;m not programming, I&amp;rsquo;m reading, exercising, or volunteering.
+I served six years in the Navy as a Chinese linguist. During that time, I transitioned from translation work, to intelligence analysis, and finally to software development.
+Co-Founder of PyHawaii, Hawaii&amp;rsquo;s Python User Group.
+I have also been involved in HiCapacity, Code for Hawaii, Code for San Francisco, and Data for Democracy.
+Feel free to say hello. I love meeting new people :)</description>
     </item>
     
   </channel>

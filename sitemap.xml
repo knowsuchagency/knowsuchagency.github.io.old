@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/</loc>
@@ -22,7 +23,7 @@
   </url>
   
   <url>
-    <loc>https://knowsuchagency.github.io/page/resume/</loc>
+    <loc>https://knowsuchagency.github.io/resume/</loc>
     <lastmod>2017-02-24T00:45:24-08:00</lastmod>
   </url>
   
@@ -42,6 +43,11 @@
   </url>
   
   <url>
+    <loc>https://knowsuchagency.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://knowsuchagency.github.io/</loc>
     <lastmod>2017-09-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -56,6 +62,11 @@
   <url>
     <loc>https://knowsuchagency.github.io/post/</loc>
     <lastmod>2017-09-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://knowsuchagency.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
