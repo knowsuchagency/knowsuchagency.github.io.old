@@ -2,14 +2,9 @@
 bigimg = ""
 date = "2017-02-23T23:21:31-08:00"
 subtitle = ""
-title = "About Me"
+title = ""
 
 +++
-
-
-<div style="text-align:center;"><img src="http://i.imgur.com/950C7EY.jpg" width=500></div>
-<br>
-
 
 When I'm not programming, I'm reading, exercising, or volunteering.
 
