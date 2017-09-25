@@ -25,16 +25,7 @@ Pug template (formerly Jade) support for Python 3.
     </item>
     
     <item>
-      <title>Professional Background</title>
-      <link>https://knowsuchagency.github.io/page/resume/</link>
-      <pubDate>Fri, 24 Feb 2017 00:45:24 -0800</pubDate>
-      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/page/resume/</guid>
-      <description>Download This Resume in PDF Software Engineer San Francisco, CA Focused, passionate, and technically competent. An excellent communicator; willing and able to engage people at different skill and leadership levels. Experienced in a broad array of disciplines to include; foreign languages, software development, data modeling, performing arts , blogging, fitness, public speaking, and teaching. An active member of the local tech community, helping to plan, organize, and present in local tech events.</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
+      <title></title>
       <link>https://knowsuchagency.github.io/page/about/</link>
       <pubDate>Thu, 23 Feb 2017 23:21:31 -0800</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>

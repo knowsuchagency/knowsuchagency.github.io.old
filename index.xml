@@ -8,10 +8,19 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Wed, 20 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Sep 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://knowsuchagency.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Wrapping Subprocesses in Asyncio</title>
+      <link>https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/</link>
+      <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Recursion, what is it good for?</title>
@@ -53,15 +62,15 @@ Pug template (formerly Jade) support for Python 3.
     
     <item>
       <title>Professional Background</title>
-      <link>https://knowsuchagency.github.io/page/resume/</link>
+      <link>https://knowsuchagency.github.io/resume/</link>
       <pubDate>Fri, 24 Feb 2017 00:45:24 -0800</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
-      <guid>https://knowsuchagency.github.io/page/resume/</guid>
+      <guid>https://knowsuchagency.github.io/resume/</guid>
       <description>Download This Resume in PDF Software Engineer San Francisco, CA Focused, passionate, and technically competent. An excellent communicator; willing and able to engage people at different skill and leadership levels. Experienced in a broad array of disciplines to include; foreign languages, software development, data modeling, performing arts , blogging, fitness, public speaking, and teaching. An active member of the local tech community, helping to plan, organize, and present in local tech events.</description>
     </item>
     
     <item>
-      <title>About Me</title>
+      <title></title>
       <link>https://knowsuchagency.github.io/page/about/</link>
       <pubDate>Thu, 23 Feb 2017 23:21:31 -0800</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
