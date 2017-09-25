@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Blogging with Hugo and Jupyter Notebooks</title>
+  <meta property="og:title" content="Blogging with Hugo and Jupyter Notebooks" />
+  <meta name="twitter:title" content="Blogging with Hugo and Jupyter Notebooks" />
+  <meta name="description" content="Hugo &#43; Jupyter, the easy way">
+  <meta property="og:description" content="Hugo &#43; Jupyter, the easy way">
+  <meta name="twitter:description" content="Hugo &#43; Jupyter, the easy way">
+  <meta name="author" content="Stephan Fitzpatrick"/>
+  <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@knowsuchagency" />
+  <meta name="twitter:creator" content="@knowsuchagency" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Journal Panic" />
+
+  <meta name="generator" content="Hugo 0.27.1" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/" />
+  <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://knowsuchagency.github.io">Journal Panic</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="https://knowsuchagency.github.io/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="https://knowsuchagency.github.io/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Projects" href="https://knowsuchagency.github.io/page/projects/">Projects</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Resume" href="https://knowsuchagency.github.io/page/resume/">Resume</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Journal Panic" href="https://knowsuchagency.github.io">
+            <img class="avatar-img" src="https://knowsuchagency.github.io/img/lambda.png" alt="Journal Panic" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Blogging with Hugo and Jupyter Notebooks</h1>
+                
+                  
+                    <h2 class="post-subheading">Hugo &#43; Jupyter, the easy way</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on July 10, 2017
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<h3 id="tl-dr">TL;DR</h3>
+
+<pre><code>cd your_hugo_project_root
+pip install hugo_jupyter
+hugo_jupyter --init
+</code></pre>
+
+<hr />
+
+<h3 id="update-19-july-2017">Update (19-July-2017)</h3>
+
+<p>Since posting the article, I&rsquo;ve created a package on pypi, <a href="https://pypi.org/project/hugo_jupyter/">hugo_jupyter</a> that automates the creation of the fabfile and notebooks directory at the root of your hugo project.</p>
+
+<h3 id="what">What</h3>
+
+<p>If you&rsquo;ve read my previous posts, you&rsquo;ve probably guessed I really, really like <a href="http://jupyter.org/">Jupyter notebooks</a>. I think they&rsquo;re not only a great coding environment - they&rsquo;re also an amazing publishing tool and I wanted to use them as the primary way I write blog posts.</p>
+
+<p>I&rsquo;ve used a number of static site generators in the past, namely <a href="https://blog.getpelican.com/">Pelican</a>, <a href="https://getnikola.com/">Nikola</a>, and <a href="https://gohugo.io/">Hugo</a>.</p>
+
+<p>While each of those tools has their strengths and weaknesses (Nikola has first-class support for Jupyter notebooks, for example), Hugo has been my favorite one to use overall.</p>
+
+<p>The problem is that Jupyter notebooks are not yet supported &ldquo;<a href="https://gohugo.io/content/supported-formats/">out-of-the-box</a>&rdquo; by Hugo. While that&rsquo;s something I may look into rectifying myself in the future, I wanted a way to reliably convert my notebooks to markdown for hugo today. Up till now I&rsquo;d been doing it mostly manually, but I now offer a better solution.</p>
+
+<p>If you haven&rsquo;t yet used or heard of <a href="http://www.fabfile.org/">Fabric</a>, it is my absolute favorite high-level automation tool. Although their intended use-case seems to be automation of tasks on remote machines over ssh (something that more modern and robust tools like <a href="https://www.ansible.com/">ansible</a> may be better-suited for), I find it to be a perfect way to automate many tasks on my local machine as opposed to shell scripts, Python modules, or Makefiles. The reasons as to why that&rsquo;s true for me are an article for another day, but suffice to say this is the way that we&rsquo;re going to convert our notebooks to markdown for hugo.</p>
+
+<h3 id="how">How</h3>
+
+<p>This recipe is going to be more helpful if you&rsquo;re hosting your hugo blog your personal github page as described in <a href="https://help.github.com/articles/user-organization-and-project-pages/">their documentation on the subject</a> i.e. {yourname}.github.io repo and have an src branch where you work as normal and use the master branch only for the rendered website.</p>
+
+<p>The fabfile is still useful even if that isn&rsquo;t the case, but the <code>publish</code> command does a lot for you if you&rsquo;re hosting your blog on your personal github page as described.</p>
+
+<p>At minimum, this recipe assumes you have a hugo site already generated as described in <a href="https://gohugo.io/overview/quickstart/">their documentation</a>.</p>
+
+<ol>
+<li>Make sure you&rsquo;re using Python 3. You can use a package I wrote to quickly bootstrap your project for use with Jupyter notebooks. <code>pip install hugo_jupyter; hugo_jupyter --init</code></li>
+<li>Copy the <a href="https://github.com/knowsuchagency/knowsuchagency.github.io/blob/src/fabfile.py">fabfile</a> I&rsquo;m using to generate this same page on my github repo to the root of your hugo project</li>
+<li>Create a <code>notebooks</code> directory in the root of your project where your jupyter notebooks will be.</li>
+<li>As you create new notebooks, edit the notebook metadata to include the <code>front-matter</code> hugo needs to render posts.</li>
+</ol>
+
+<p><img src="https://knowsuchagency.github.io/img/tut1.png">
+<img src="https://knowsuchagency.github.io/img/tut2.png"></p>
+
+<p>Fabric and your fabfile.py will then allow you to render notebooks, serve the website on your localhost and have them re-render dynamically update while you edit your notebooks, and publish to github once you&rsquo;re ready.</p>
+
+<p>All you need to do is run the commands from the root of your project i.e.</p>
+
+<pre><code>fab render_notebooks
+fab serve
+fab publish
+</code></pre>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/" data-toggle="tooltip" data-placement="top" title="Spice Up Thy Jupyter Notebooks with mypy">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/" data-toggle="tooltip" data-placement="top" title="Recursion, what is it good for?">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:knowsuchagency@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/stephan.fitzpatrick" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/knowsuchagency" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/knowsuchagency" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/fitzpatrickstephan" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/users/5933618/stephan-fitzpatrick" title="StackOverflow">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/knowsuchagency" title="Instagram">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Stephan Fitzpatrick
+                      
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://knowsuchagency.github.io">Journal Panic</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.27.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/main.js"></script>
+<script src="https://knowsuchagency.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Wrapping Subprocesses in Asyncio</title>
+  <meta property="og:title" content="Wrapping Subprocesses in Asyncio" />
+  <meta name="twitter:title" content="Wrapping Subprocesses in Asyncio" />
+  <meta name="description" content="How I learned to stop worrying and love the event loop">
+  <meta property="og:description" content="How I learned to stop worrying and love the event loop">
+  <meta name="twitter:description" content="How I learned to stop worrying and love the event loop">
+  <meta name="author" content="Stephan Fitzpatrick"/>
+  <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@knowsuchagency" />
+  <meta name="twitter:creator" content="@knowsuchagency" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Journal Panic" />
+
+  <meta name="generator" content="Hugo 0.27.1" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" />
+  <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://knowsuchagency.github.io">Journal Panic</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="https://knowsuchagency.github.io/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="https://knowsuchagency.github.io/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Projects" href="https://knowsuchagency.github.io/page/projects/">Projects</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Resume" href="https://knowsuchagency.github.io/page/resume/">Resume</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Journal Panic" href="https://knowsuchagency.github.io">
+            <img class="avatar-img" src="https://knowsuchagency.github.io/img/lambda.png" alt="Journal Panic" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Wrapping Subprocesses in Asyncio</h1>
+                
+                  
+                    <h2 class="post-subheading">How I learned to stop worrying and love the event loop</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on September 25, 2017
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<p>I once had a coworker tasked with creating a web-based dashboard. Unfortunately, the data he needed to log and visualize came from this binary application that didn&rsquo;t have any sort of documented developer api &ndash; it just printed everything to stdout &ndash; that he didn&rsquo;t have the source code for either.</p>
+
+<p>It was basically a black box that he had to write a Python wrapper around, using the <a href="https://docs.python.org/3/library/subprocess.html">subprocess</a> module.</p>
+
+<p>His wrapper basically worked as such:</p>
+
+<ol>
+<li>Run the binary in a subprocess</li>
+<li>Write an infinite loop that with each iteration attempts to&hellip;
+
+<ul>
+<li>capture each new line as it&rsquo;s printed from the subprocess</li>
+<li>marshal the line into some form of structured data i.e. dictionary</li>
+<li>log the information in the data structure</li>
+</ul></li>
+</ol>
+
+<h2 id="a-synchronous-example">A Synchronous Example</h2>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">import</span> <span class="nn">logging</span><span class="p">;</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="n">PROG</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">import json</span>
+<span class="s2">import time</span>
+<span class="s2">from datetime import datetime</span>
+
+<span class="s2">while True:</span>
+<span class="s2">    data = {</span>
+<span class="s2">       &#39;time&#39;: datetime.now().strftime(&#39;</span><span class="si">%c</span><span class="s2"> </span><span class="si">%f</span><span class="s2"> milliseconds&#39;),</span>
+<span class="s2">       &#39;string&#39;: &#39;hello, world&#39;,</span>
+<span class="s2">    }</span>
+<span class="s2">    print(json.dumps(data))</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="k">with</span> <span class="n">Popen</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">PROG</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="k">as</span> <span class="n">proc</span><span class="p">:</span>
+    <span class="n">last_line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">start_time</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="mi">0</span>
+    
+    <span class="k">while</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span> <span class="c1"># only loop for 5 seconds</span>
+        
+        <span class="n">line</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        
+        <span class="c1"># pretend marshalling the data takes 1 second</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">);</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="n">last_line</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="n">last_line</span> <span class="o">=</span> <span class="n">line</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+</code></pre></div>
+
+<pre><code>INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690000 milliseconds', 'string': 'hello, world'}
+INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690084 milliseconds', 'string': 'hello, world'}
+INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690111 milliseconds', 'string': 'hello, world'}
+INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690131 milliseconds', 'string': 'hello, world'}
+INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'hello, world'}
+</code></pre>
+
+<h1 id="the-problem">The problem</h1>
+
+<p>The problem my coworker had is that in the time he marshaled one line of output of the program and logged the information, several more lines had already been printed by the subprocess. His wrapper simply couldn&rsquo;t keep up with the subprocess&rsquo; output.</p>
+
+<p>Notice in the example above, that although many more lines have obviously been printed from the program, we only capture the first few since our subprocess &ldquo;reads&rdquo; new lines more slowly than they&rsquo;re printed.</p>
+
+<h1 id="the-solution-asyncio">The solution-  asyncio</h1>
+
+<p>Instead of writing our own infinite loop, what if we had a loop that would allow us to run a subprocess and intelligently poll it to determine when a new line was ready to be read, yielding to the main thread to do other work if not?</p>
+
+<p>What if that same event loop allowed us to delegate the process of marshaling the json output to a ProcessPoolExecutor?</p>
+
+<p>What if this event loop was written into the Python standard library? Well&hellip;</p>
+
+<h3 id="printer-py">printer.py</h3>
+
+<p>This program simply prints random stuff to stdout on an infinite loop</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># printer.py </span>
+<span class="c1">#</span>
+<span class="c1"># print to stdout in infinite loop</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">def</span> <span class="nf">get_words_from_os_dict</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/usr/share/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># mac os</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/usr/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># debian/ubuntu</span>
+    <span class="n">words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">p2</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">words</span>
+
+
+<span class="k">def</span> <span class="nf">current_time</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="n">words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_words_from_os_dict</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">random_words</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span> <span class="k">if</span> <span class="n">words</span> <span class="k">else</span> <span class="s1">&#39;no OS words file found&#39;</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
+        <span class="s1">&#39;current_time&#39;</span><span class="p">:</span> <span class="n">current_time</span><span class="p">(),</span>
+        <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">random_words</span>
+    <span class="p">})</span>
+
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">seconds</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{__file__} in process {os.getpid()} waiting {seconds} seconds to print json string&#39;</span><span class="p">)</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">printer</span><span class="p">())</span>
+</code></pre></div>
+
+<h1 id="an-asynchronous-example">An Asynchronous Example</h1>
+
+<p>This program wraps printer.py in a subprocess. It then delegates the marshaling of json to another process using the event loop&rsquo;s <a href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_in_executor"><code>run_in_executor</code></a> method, and prints the results to the screen.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1">#</span>
+<span class="c1"># Spawns multiple instances of printer.py and attempts to deserialize the output</span>
+<span class="c1"># of each line in another process and print the result to the screen,</span>
+<span class="kn">import</span> <span class="nn">typing</span> <span class="kn">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">asyncio.subprocess</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">Executor</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">event_loop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span><span class="p">:</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="c1"># default asyncio event loop executor is</span>
+    <span class="c1"># ThreadPoolExecutor which is usually fine for IO-bound</span>
+    <span class="c1"># tasks, but bad if you need to do computation</span>
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">loop</span><span class="o">.</span><span class="n">set_default_executor</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">loop</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">---loop closed---</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># any `async def` function is a coroutine</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">read_json_from_subprocess</span><span class="p">(</span>
+        <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">(),</span>
+        <span class="n">executor</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Executor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># wait for asyncio to initiate our subprocess</span>
+    <span class="n">process</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">Process</span> <span class="o">=</span> <span class="n">await</span> <span class="n">create_process</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">bytes_</span> <span class="o">=</span> <span class="n">await</span> <span class="n">process</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">bytes_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="c1"># deserialize_json is a function that</span>
+        <span class="c1"># we&#39;ll send off to our executor</span>
+        <span class="n">deserialize_json</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># run deserialize_json in the loop&#39;s default executor (ProcessPoolExecutor)</span>
+            <span class="c1"># and wait for it to return</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">await</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="n">executor</span><span class="p">,</span> <span class="n">deserialize_json</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{process} -&gt; {output}&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;JSONDecodeError for input: &#39;</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">create_process</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">Process</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;printer.py&#39;</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+    <span class="p">)</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">run_for</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return after a set amount of time,</span>
+<span class="sd">    cancelling all other tasks before doing so.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">loop</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="c1"># cancel all other tasks</span>
+            <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">all_tasks</span><span class="p">(</span><span class="n">loop</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">current_task</span><span class="p">():</span>
+                    <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+            <span class="k">return</span>
+
+
+<span class="k">with</span> <span class="n">event_loop</span><span class="p">()</span> <span class="k">as</span> <span class="n">loop</span><span class="p">:</span>
+    <span class="n">coroutines</span> <span class="o">=</span> <span class="p">(</span><span class="n">read_json_from_subprocess</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># create Task from coroutines and schedule</span>
+    <span class="c1"># it for execution on the event loop</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">coroutines</span><span class="p">)</span>  <span class="c1"># this returns a Task and schedules it implicitly</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">run_for</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+
+<pre><code>&lt;_GatheringFuture pending&gt;
+
+
+
+ERROR:root:JSONDecodeError for input: printer.py in process 92541 waiting 4 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92540 waiting 4 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92542 waiting 4 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92543 waiting 2 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92544 waiting 2 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92544 waiting 3 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92543 waiting 1 seconds to print json string
+
+
+&lt;Process 92544&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:21 2017', 'words': 'threadway:redroot:perfidious'}
+&lt;Process 92543&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:21 2017', 'words': 'Ebionitism:procidence:Olpidium'}
+
+
+ERROR:root:JSONDecodeError for input: printer.py in process 92543 waiting 1 seconds to print json string
+
+
+&lt;Process 92543&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:22 2017', 'words': 'octantal:joculator'}
+
+
+ERROR:root:JSONDecodeError for input: printer.py in process 92540 waiting 0 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92540 waiting 4 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92541 waiting 2 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92542 waiting 3 seconds to print json string
+ERROR:root:JSONDecodeError for input: printer.py in process 92543 waiting 3 seconds to print json string
+
+
+&lt;Process 92540&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:23 2017', 'words': 'postclival:milammeter:gnathobase'}
+&lt;Process 92540&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:23 2017', 'words': 'Deuteronomic:photovoltaic'}
+&lt;Process 92541&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:23 2017', 'words': 'starwort:combure'}
+&lt;Process 92542&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:23 2017', 'words': 'infixion:Ailurus:effectualness'}
+&lt;Process 92543&gt; -&gt; {'current_time': 'Mon Sep 25 16:25:23 2017', 'words': 'Phoenicopteridae:Platyctenea:palpitatingly'}
+
+
+---loop closed---
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In our example, we spawn multiple instances of <code>printer.py</code> as subprocesses to get an idea of how the event loop intelligently delegates control to between multiple Tasks when it encounters an <code>await</code>.</p>
+
+<p>Although asyncio as a framework has a bit of a learning curve, in no small part due to its wonky api, (a <strong>Task</strong> is a <strong>Future</strong> that can be instantiated and scheduled with <code>ensure_future</code> or <code>loop.create_task</code> anyone?), it has many benefits in that it already has well-defined abstractions on top of common interfaces like subprocesses, file-descriptors, and sockets. That alone &ndash; not having to write non-blocking code that knows how and when to poll those <a href="https://docs.python.org/3/library/asyncio-stream.html">different interfaces</a> &ndash; is enough to be excited about asyncio, in my opinion.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/" data-toggle="tooltip" data-placement="top" title="Recursion, what is it good for?">&larr; Previous Post</a>
+          </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:knowsuchagency@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/stephan.fitzpatrick" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/knowsuchagency" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/knowsuchagency" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/fitzpatrickstephan" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/users/5933618/stephan-fitzpatrick" title="StackOverflow">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/knowsuchagency" title="Instagram">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Stephan Fitzpatrick
+                      
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://knowsuchagency.github.io">Journal Panic</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.27.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/main.js"></script>
+<script src="https://knowsuchagency.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+
