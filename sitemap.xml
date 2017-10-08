@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://knowsuchagency.github.io/page/resume/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/</loc>
     <lastmod>2017-09-25T00:00:00+00:00</lastmod>
   </url>
@@ -28,11 +33,6 @@
   </url>
   
   <url>
-    <loc>https://knowsuchagency.github.io/resume/</loc>
-    <lastmod>2017-02-24T00:45:24-08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://knowsuchagency.github.io/page/about/</loc>
     <lastmod>2017-02-23T23:21:31-08:00</lastmod>
   </url>
@@ -54,13 +54,13 @@
   
   <url>
     <loc>https://knowsuchagency.github.io/</loc>
-    <lastmod>2017-09-25T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://knowsuchagency.github.io/page/</loc>
-    <lastmod>2017-06-30T13:47:58-07:00</lastmod>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
