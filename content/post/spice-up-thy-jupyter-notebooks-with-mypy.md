@@ -1,8 +1,9 @@
 ---
 {
-  "date": "2017-03-19",
+  "title": "Spice Up Thy Jupyter Notebooks with mypy",
   "subtitle": "Add type-checking to Jupyter Notebook cells",
-  "title": "Spice Up Thy Jupyter Notebooks with mypy"
+  "date": "2017-03-19",
+  "slug": "spice-up-thy-jupyter-notebooks-with-mypy"
 }
 ---
 <!--more-->

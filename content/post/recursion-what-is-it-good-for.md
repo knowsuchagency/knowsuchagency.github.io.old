@@ -1,9 +1,9 @@
 ---
 {
-  "date": "2017-09-20",
-  "slug": "recursion-what-is-it-good-for",
+  "title": "Recursion, what is it good for?",
   "subtitle": "Absolutely, something",
-  "title": "Recursion, what is it good for?"
+  "date": "2017-09-20",
+  "slug": "recursion-what-is-it-good-for"
 }
 ---
 <!--more-->

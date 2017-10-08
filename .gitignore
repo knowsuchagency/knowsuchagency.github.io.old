@@ -19,3 +19,10 @@ __pycache__/
 
 # mypy
 **.mypy_cache/
+
+# jupyter
+notebooks/shell.log
+
+# hugo-jupyter
+fabfile.py.backup*
+

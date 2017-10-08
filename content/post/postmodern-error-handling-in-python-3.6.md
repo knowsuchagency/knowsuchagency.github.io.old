@@ -1,8 +1,9 @@
 ---
 {
-  "date": "2017-02-24",
+  "title": "Postmodern Error Handling in Python 3.6",
   "subtitle": "How to catch some TYPES of errors before they happen",
-  "title": "Postmodern Error Handling in Python 3.6"
+  "date": "2017-02-24",
+  "slug": "postmodern-error-handling-in-python-3.6"
 }
 ---
 <!--more-->

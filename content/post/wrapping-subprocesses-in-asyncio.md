@@ -1,8 +1,9 @@
 ---
 {
-  "date": "2017-09-25",
+  "title": "Wrapping Subprocesses in Asyncio",
   "subtitle": "How I learned to stop worrying and love the event loop",
-  "title": "Wrapping Subprocesses in Asyncio"
+  "date": "2017-09-25",
+  "slug": "wrapping-subprocesses-in-asyncio"
 }
 ---
 <!--more-->

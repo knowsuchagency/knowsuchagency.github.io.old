@@ -1,10 +1,12 @@
-+++
-subtitle = ""
-title = "Professional Background"
-bigimg = ""
-date = "2017-02-24T00:45:24-08:00"
-
-+++
+---
+{
+  "title": "Professional Experience",
+  "subtitle": "---",
+  "date": "2017-10-07",
+  "slug": "resume"
+}
+---
+<!--more-->
 
 <h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1>
 
