@@ -1,21 +1,20 @@
-+++
-bigimg = ""
-date = "2017-02-21"
-subtitle = "Some are cold on the new hotness"
-title = "Sentiment analysis of the new MBP"
-
-+++
+---
+{
+  "title": "Sentiment Analysis of the New MBP",
+  "subtitle": "Some are cold on the new hotness",
+  "date": "2016-10-28",
+  "slug": "sentiment-analysis-of-the-new-macbook-pro"
+}
+---
 <!--more-->
 
 ## What does Reddit think about the new MBP?
 ### Is it da bomb, or did it just bomb?
-[**Run this notebook in binder**](http://mybinder.org:/repo/knowsuchagency/mpb-sentiment-analysis-example)
 
 My friends and I have been talking today about Apple's announcement of their new Macbook Pro line.
 I personally own an Apple TV, Ipad mini, Macbook Pro, and an iPhone. I was definitely looking forward
 to see what Apple was going to come out with the new Macbook Pro line. My thoughts on the announcement aside,
 it seemed to me like the overwhelming majority of users on Reddit [didn't come away very impressed](https://www.reddit.com/r/apple/comments/59plnp/lets_talk_about_those_prices/) with the announcements Apple made in regards to the new Macbook Pro. I thought this would be a good opportunity to play with Reddit's API and to try out some rudimentary sentiment analysis.
-
 
 ## Tech
 
@@ -55,9 +54,6 @@ submissions = list(r.get_subreddit('apple').get_hot(limit=10))
 [str(s) for s in submissions]
 ```
 
-
-
-
     ['375 :: Apple Keynote, October 2016 | Post-Event Megathread',
      '44 :: Pre-order Shipping Megathread | Mac Lineup, 2016',
      "4942 :: Let's talk about those prices...",
@@ -80,9 +76,6 @@ Cool, so we have some data. From looking at the actual subreddit in a browser, w
 submissions = submissions[2:]
 [str(s) for s in submissions]
 ```
-
-
-
 
     ["4942 :: Let's talk about those prices...",
      "3027 :: I dont mind the lack of standard USB, but you're telling me I can't u...",
@@ -128,23 +121,19 @@ def get_comments(submission, n=20):
         """
         nonlocal count
         for c in iterable:
-            if hasattr(c, 'body') and count < n:
-                count += 1
+            if count == n:
+                break
+            elif hasattr(c, 'body'):
                 yield c.body
+                count += 1
             elif hasattr(c, '__iter__'):
                 # handle MoreComments classes
                 yield from barf_comments(c)
-            else:
-                # c was a Comment and did not have a body
-                continue
     return barf_comments()
                 
 comments = list(get_comments(submission))
 list(comments)
 ```
-
-
-
 
     ['I\'m still trying to figure out what justifies a $200 increase on the 13" ***without*** the Touch Bar...',
      "Probably shouldn't have been surprised, but it hit me like a slippery fish. My jaw dropped.\n\nThey've priced me out, sadly.",
@@ -181,6 +170,7 @@ According to the TextBlob docs, this is how to use their sentiment analysis api 
 ### The sentiment property returns a namedtuple of the form Sentiment(polarity, subjectivity). The polarity score is a float within the range [-1.0, 1.0]. The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.
 
 ```
+
 >>> testimonial = TextBlob("Textblob is amazingly simple to use. What great fun!")
 >>> testimonial.sentiment
 Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
@@ -188,15 +178,11 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 0.39166666666666666
 ```
 
-
 ```python
 from textblob import TextBlob
 
 comment_blob = TextBlob(''.join(comments))
 ```
-
-
-
 
     Sentiment(polarity=-0.06283927712499143, subjectivity=0.5978612657184086)
 
@@ -209,19 +195,14 @@ Huh, things aren't looking good so far. Well, let's look at more data.
 more_comments = []
 ```
 
-
 ```python
 for submission in submissions:
     more_comments.extend(get_comments(submission, 200))
 ```
 
-
 ```python
 len(more_comments)
 ```
-
-
-
 
     404
 
@@ -255,9 +236,6 @@ counter = Counter(bigger_blob.words)
 # the most common words are pretty mundane common parts of speech, so we'll skip the first few
 counter.most_common()[60:100]
 ```
-
-
-
 
     [('no', 43),
      ('about', 42),
@@ -309,9 +287,6 @@ counter.most_common()[60:100]
 bigger_blob.sentiment
 ```
 
-
-
-
     Sentiment(polarity=0.07565960941292733, subjectivity=0.52062214346886)
 
 
@@ -321,4 +296,3 @@ We see that the overall sentiment is much more positive when we include a larger
 ## In conclusion
 
 We've hopefully learned a little more about communicating with Reddit using Python and doing some simple sentiment analysis on the content there. This wasn't meant to be a very scientific excercise, but I thought it was a fun way to play around with [PRAW](https://praw.readthedocs.io/en/stable/index.html) and [TextBlob](https://textblob.readthedocs.io/en/dev/index.html). Both libraries are really powerful and simple to use and I can definitely see myself taking advantage of them a lot more in the future. 
-

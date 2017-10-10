@@ -166,6 +166,9 @@ def notebook_to_markdown(path: Union[Path, str]) -> str:
     Returns: hugo-formatted markdown
 
     """
+    # first, update the notebook's metadata
+    update_notebook_metadata(path)
+
     with open(Path(path)) as fp:
         notebook = nbformat.read(fp, as_version=4)
         assert 'front-matter' in notebook['metadata'], "You must have a front-matter field in the notebook's metadata"
@@ -270,22 +273,31 @@ class NotebookHandler(PatternMatchingEventHandler):
         self.notebook_render: Mapping[str, List[Path]] = defaultdict(list)
 
     def process(self, event):
-        # update filename_slug dictionary
-        self.update_notebook_metadata_registry(event)
-
         try:
             # don't automatically update front matter
             # and render notebook until filename is
             # changed from untitled...
-            if 'untitled' not in event.src_path.lower() and not event.src_path.startswith('.'):
+            if 'untitled' not in event.src_path.lower() and '.~' not in event.src_path:
                 self.delete_notebook_md(event)
+
+                if not self.notebook_metadata.get(event.src_path):
+                    update_notebook_metadata(event.src_path)
+
                 update_notebook_metadata(event.src_path)
+
+                # update filename_slug dictionary
+                self.update_notebook_metadata_registry(event)
+
                 render_to = self.get_render_to_field(event)
+
                 rendered = write_hugo_formatted_nb_to_md(event.src_path, render_to=render_to)
+
                 self.notebook_render[event.src_path].append(rendered)
+
         except Exception as e:
             print('could not successfully render', event.src_path)
             print(e)
+
 
     def on_modified(self, event):
         self.process(event)

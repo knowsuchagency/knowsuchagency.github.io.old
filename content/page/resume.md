@@ -8,7 +8,7 @@
 ---
 <!--more-->
 
-<h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1>
+<!-- <h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1> -->
 
 ---
 
@@ -76,7 +76,35 @@ The following are classes I have taken or am currently taking at CCSF prior to t
 
 ---
 
-**GOFISH**
+**hugo-jupyter**
+
+*Creator / Lead Contributor*
+
+Jul, 2017 - Present
+
+A [library](https://github.com/knowsuchagency/hugo_jupyter) to enable the use of [jupyter notebooks](http://jupyter.org/) to write content for the [hugo](https://gohugo.io/) static site generation framework.
+
+
+**ninjadog**
+
+*Creator / Lead Contributor*
+
+Jun, 2017 - Present
+
+An [html templating library for Python](http://journalpanic.com/ninjadog/) that allows one to combine both [pug](https://github.com/pugjs/pug)
+and [jinja2](https://github.com/pallets/jinja) syntax.
+
+
+**launchpad**
+
+*Creator / Lead Contributor*
+
+Jun, 2017 - Present
+
+A [project template to automate the creation and deployment of Python 3 packages](https://github.com/knowsuchagency/launchpad). Representing dozens of hours
+of work and many hundreds of hours of knowledge and experience from multiple developers, the template encourages best practices in Python packaging as well as embracing future-generation packing technology i.e. [Pipenv](http://docs.pipenv.org/en/latest/). It automates the creation of project documentation and deployment to [github pages](https://pages.github.com/) as well as automates the process of building, testing, -- via continuous integration with [TravisCI](http://travis-ci.org/) -- and deploying the package to [pypi](https://pypi.org/).
+
+**GoFish**
 
 *Sole Developer*
 
@@ -84,7 +112,7 @@ Jun, 2014 – May, 2016
 
 A text parser that has so far processed over four million lines of data and saved analysts over three-thousand man-hours worth of work per year. Written over several months while working as an analyst. Led to a Joint Service Achievement Medal and placement into an official software development role.
 
-**UNNAMED PROJECT**
+**Unnamed Project**
 
 *Software Developer/ Military-Civilian liason/ SME*
 
