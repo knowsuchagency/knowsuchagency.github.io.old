@@ -8,7 +8,7 @@
 ---
 <!--more-->
 
-<!-- <h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1> -->
+<h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1>
 
 ---
 
