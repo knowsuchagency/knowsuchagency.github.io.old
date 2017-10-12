@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Sentiment analysis of the new MBP</title>
-  <meta property="og:title" content="Sentiment analysis of the new MBP" />
-  <meta name="twitter:title" content="Sentiment analysis of the new MBP" />
+  <title>Sentiment Analysis of the New MBP</title>
+  <meta property="og:title" content="Sentiment Analysis of the New MBP" />
+  <meta name="twitter:title" content="Sentiment Analysis of the New MBP" />
   <meta name="description" content="Some are cold on the new hotness">
   <meta property="og:description" content="Some are cold on the new hotness">
   <meta name="twitter:description" content="Some are cold on the new hotness">
@@ -18,12 +18,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@knowsuchagency" />
   <meta name="twitter:creator" content="@knowsuchagency" />
-  <meta property="og:url" content="https://knowsuchagency.github.io/post/mbp_sentiment_analysis/" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/sentiment-analysis-of-the-new-macbook-pro/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
   <meta name="generator" content="Hugo 0.27.1" />
-  <link rel="canonical" href="https://knowsuchagency.github.io/post/mbp_sentiment_analysis/" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/sentiment-analysis-of-the-new-macbook-pro/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -167,7 +167,7 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>Sentiment analysis of the new MBP</h1>
+              <h1>Sentiment Analysis of the New MBP</h1>
                 
                   
                     <h2 class="post-subheading">Some are cold on the new hotness</h2>
@@ -175,7 +175,7 @@
                 
                 
                   <span class="post-meta">
-  Posted on February 21, 2017
+  Posted on October 28, 2016
   
 </span>
 
@@ -199,8 +199,6 @@
 <h2 id="what-does-reddit-think-about-the-new-mbp">What does Reddit think about the new MBP?</h2>
 
 <h3 id="is-it-da-bomb-or-did-it-just-bomb">Is it da bomb, or did it just bomb?</h3>
-
-<p><a href="http://mybinder.org:/repo/knowsuchagency/mpb-sentiment-analysis-example"><strong>Run this notebook in binder</strong></a></p>
 
 <p>My friends and I have been talking today about Apple&rsquo;s announcement of their new Macbook Pro line.
 I personally own an Apple TV, Ipad mini, Macbook Pro, and an iPhone. I was definitely looking forward
@@ -302,15 +300,14 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nonlocal</span> <span class="n">count</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">c</span><span class="o">.</span><span class="n">body</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
                 <span class="c1"># handle MoreComments classes</span>
                 <span class="k">yield from</span> <span class="n">barf_comments</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># c was a Comment and did not have a body</span>
-                <span class="k">continue</span>
     <span class="k">return</span> <span class="n">barf_comments</span><span class="p">()</span>
                 
 <span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">get_comments</span><span class="p">(</span><span class="n">submission</span><span class="p">))</span>
@@ -349,7 +346,8 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 
 <h3 id="the-sentiment-property-returns-a-namedtuple-of-the-form-sentiment-polarity-subjectivity-the-polarity-score-is-a-float-within-the-range-1-0-1-0-the-subjectivity-is-a-float-within-the-range-0-0-1-0-where-0-0-is-very-objective-and-1-0-is-very-subjective">The sentiment property returns a namedtuple of the form Sentiment(polarity, subjectivity). The polarity score is a float within the range [-1.0, 1.0]. The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.</h3>
 
-<pre><code>&gt;&gt;&gt; testimonial = TextBlob(&quot;Textblob is amazingly simple to use. What great fun!&quot;)
+<pre><code>
+&gt;&gt;&gt; testimonial = TextBlob(&quot;Textblob is amazingly simple to use. What great fun!&quot;)
 &gt;&gt;&gt; testimonial.sentiment
 Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 &gt;&gt;&gt; testimonial.sentiment.polarity
