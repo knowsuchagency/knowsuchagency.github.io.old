@@ -8,10 +8,19 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Sat, 07 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Oct 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://knowsuchagency.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How do I love thee, Python?</title>
+      <link>https://knowsuchagency.github.io/post/how-do-i-love-thee-python/</link>
+      <pubDate>Fri, 13 Oct 2017 00:00:00 +0000</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/how-do-i-love-thee-python/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Professional Experience</title>

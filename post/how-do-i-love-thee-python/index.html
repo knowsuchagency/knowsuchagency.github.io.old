@@ -5,9 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Posts</title>
-  <meta property="og:title" content="Posts" />
-  <meta name="twitter:title" content="Posts" />
+  <title>How do I love thee, Python?</title>
+  <meta property="og:title" content="How do I love thee, Python?" />
+  <meta name="twitter:title" content="How do I love thee, Python?" />
+  <meta name="description" content="Let me count the ways">
+  <meta property="og:description" content="Let me count the ways">
+  <meta name="twitter:description" content="Let me count the ways">
   <meta name="author" content="Stephan Fitzpatrick"/>
   <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
@@ -15,12 +18,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@knowsuchagency" />
   <meta name="twitter:creator" content="@knowsuchagency" />
-  <meta property="og:url" content="https://knowsuchagency.github.io/post/" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
   <meta name="generator" content="Hugo 0.27.1" />
-  <link rel="canonical" href="https://knowsuchagency.github.io/post/" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -147,14 +150,37 @@
 
 
     
+  
+  
+  
+
+
+
+
+  
+
   <header class="header-section ">
+    
     <div class="intro-header no-img">
+      
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="page-heading">
-              <h1>Posts</h1>
-              <hr class="small">
+            <div class="post-heading">
+              <h1>How do I love thee, Python?</h1>
+                
+                  
+                    <h2 class="post-subheading">Let me count the ways</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on October 13, 2017
+  
+</span>
+
+
+                
             </div>
           </div>
         </div>
@@ -162,193 +188,43 @@
     </div>
   </header>
 
+
     
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="nd">@partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gen</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">a</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
         
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/">
-                <h2 class="post-title">How do I love thee, Python?</h2>
+<span class="n">fib</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</code></pre></div>
 
-                
-                  <h3 class="post-subtitle">
-                    Let me count the ways
-                  </h3>
-                
-              </a>
+<pre><code>[0, 1, 1, 2, 3, 5, 8, 13]
+</code></pre>
+      </article>
 
-              <p class="post-meta">
-                Posted on October 13, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/">
-                <h2 class="post-title">Wrapping Subprocesses in Asyncio</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    How I learned to stop worrying and love the event loop
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on September 25, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/">
-                <h2 class="post-title">Recursion, what is it good for?</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    Absolutely, something
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on September 20, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/">
-                <h2 class="post-title">Blogging with Hugo and Jupyter Notebooks</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    Hugo &#43; Jupyter, the easy way
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on July 10, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/blogging-with-hugo-and-jupyter-notebooks/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/">
-                <h2 class="post-title">Spice Up Thy Jupyter Notebooks with mypy</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    Add type-checking to Jupyter Notebook cells
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on March 19, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/spice-up-thy-jupyter-notebooks-with-mypy/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/postmodern-error-handling-in-python-3.6/">
-                <h2 class="post-title">Postmodern Error Handling in Python 3.6</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    How to catch some TYPES of errors before they happen
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on February 24, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/postmodern-error-handling-in-python-3.6/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/post/sentiment-analysis-of-the-new-macbook-pro/">
-                <h2 class="post-title">Sentiment Analysis of the New MBP</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    Some are cold on the new hotness
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on October 28, 2016
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/post/sentiment-analysis-of-the-new-macbook-pro/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-        </div>
+      <ul class="pager blog-pager">
         
-      </div>
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" data-toggle="tooltip" data-placement="top" title="Wrapping Subprocesses in Asyncio">&larr; Previous Post</a>
+          </li>
+        
+        
+      </ul>
+
+      
+
     </div>
   </div>
+</div>
 
     <footer>
   <div class="container">
