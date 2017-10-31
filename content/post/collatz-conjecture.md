@@ -12,9 +12,9 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Collatz_conjecture)
 
 >The Collatz conjecture is a conjecture in mathematics named after Lothar Collatz. It concerns a sequence defined as follows: start with any positive integer n. Then each term is obtained from the previous term as follows: if the previous term is even, the next term is one half the previous term. Otherwise, the next term is 3 times the previous term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.
 
-## Recursive Solution
+## Recursive Implementation
 
-Mathematically, this problem is naturally recursive and this is one way you could solve it as such in Python.
+Mathematically, this problem is naturally recursive and this is one way you could implement it as such in Python.
 
 
 ```python
@@ -43,7 +43,7 @@ for n in range(1, 10):
     [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 
 
-## Curried Recursive Solution
+## Curried Recursive Implementation
 
 This shows an example of [currying](https://en.wikipedia.org/wiki/Currying), where you take a function that takes multiple arguments, and break it up into two or more functions where each function acts on only one argument in isolation. In functional languages like F#, variadic functions (those that take multiple arguments) are automatically curried, but this is how we would go about doing it in Python. 
 
@@ -78,7 +78,7 @@ for n in range(1, 10):
     [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 
 
-## Imperative Generator Solution
+## Imperative Generator Implementation
 
 Another way we can solve this problem is using Python generator functions. This example uses a while loop to evaluate new values.
 
@@ -118,7 +118,7 @@ for n in range(1, 10):
     [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 
 
-## Recursive Generator Solution
+## Recursive Generator Implementation
 
 Finally, this solution (my favorite) uses lazy evaluation and recursion to `yield from` itself until the base condition is met, that `n == 1`.
 
