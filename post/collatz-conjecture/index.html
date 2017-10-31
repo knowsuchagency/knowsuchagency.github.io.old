@@ -245,7 +245,22 @@
             <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">get</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">get</span><span class="p">([])</span>
+
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 </code></pre></div>
+
+<pre><code>[1]
+[2, 1]
+[3, 10, 5, 16, 8, 4, 2, 1]
+[4, 2, 1]
+[5, 16, 8, 4, 2, 1]
+[6, 3, 10, 5, 16, 8, 4, 2, 1]
+[7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+[8, 4, 2, 1]
+[9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+</code></pre>
 
 <h2 id="imperative-generator-solution">Imperative Generator Solution</h2>
 
@@ -257,14 +272,16 @@
 </code></pre></div>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">n</span>
-        <span class="k">return</span>
     <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">n</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        
     <span class="k">yield</span> <span class="n">n</span>
     
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> 
+
+
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 </code></pre></div>
