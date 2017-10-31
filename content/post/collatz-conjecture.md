@@ -24,7 +24,7 @@ def collatz(n, previous=None):
     if n == 1:
         return previous + [n]
     
-    next_number = int(n/2 if n % 2 == 0 else n*3 + 1)
+    next_number = n//2 if n % 2 == 0 else n*3 + 1
     return collatz(next_number, previous+[n])
 
 
@@ -58,7 +58,7 @@ def collatz(n):
             return previous + [n]
         else:
             previous += [n]
-            n = int(n/2 if n % 2 == 0 else n*3+1)
+            n = n//2 if n % 2 == 0 else n*3+1
             return get(previous)
     return get([])
 
@@ -95,7 +95,7 @@ listify = partial(lambda generator: lambda arg: list(generator(arg)))
 def collatz(n):
     while n != 1:
         yield n
-        n = int(n/2 if n % 2 == 0 else n*3 + 1)
+        n = n//2 if n % 2 == 0 else n*3 + 1
         
     yield n
     
@@ -131,7 +131,7 @@ def collatz(n):
     if n == 1:
         return
     
-    next_number = int(n/2 if n % 2 == 0 else n*3 + 1)
+    next_number = n//2 if n % 2 == 0 else n*3 + 1
     
     yield from collatz(next_number) 
         
