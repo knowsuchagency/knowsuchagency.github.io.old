@@ -61,7 +61,22 @@ def collatz(n):
             n = int(n/2 if n % 2 == 0 else n*3+1)
             return get(previous)
     return get([])
+
+
+for n in range(1, 10):
+    print(collatz(n))
 ```
+
+    [1]
+    [2, 1]
+    [3, 10, 5, 16, 8, 4, 2, 1]
+    [4, 2, 1]
+    [5, 16, 8, 4, 2, 1]
+    [6, 3, 10, 5, 16, 8, 4, 2, 1]
+    [7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+    [8, 4, 2, 1]
+    [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+
 
 ## Imperative Generator Solution
 
@@ -78,14 +93,16 @@ listify = partial(lambda generator: lambda arg: list(generator(arg)))
 ```python
 @listify
 def collatz(n):
-    if n == 1:
-        yield n
-        return
     while n != 1:
         yield n
         n = int(n/2 if n % 2 == 0 else n*3 + 1)
+        
     yield n
     
+    if n == 1:
+        return 
+
+
 for n in range(1, 10):
     print(collatz(n))
 ```
