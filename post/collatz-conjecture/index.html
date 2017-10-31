@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>How do I love thee, Python?</title>
-  <meta property="og:title" content="How do I love thee, Python?" />
-  <meta name="twitter:title" content="How do I love thee, Python?" />
-  <meta name="description" content="Let me count the ways">
-  <meta property="og:description" content="Let me count the ways">
-  <meta name="twitter:description" content="Let me count the ways">
+  <title>Collatz Conjecture</title>
+  <meta property="og:title" content="Collatz Conjecture" />
+  <meta name="twitter:title" content="Collatz Conjecture" />
+  <meta name="description" content="Math is cool">
+  <meta property="og:description" content="Math is cool">
+  <meta name="twitter:description" content="Math is cool">
   <meta name="author" content="Stephan Fitzpatrick"/>
   <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
@@ -18,12 +18,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@knowsuchagency" />
   <meta name="twitter:creator" content="@knowsuchagency" />
-  <meta property="og:url" content="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/collatz-conjecture/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
   <meta name="generator" content="Hugo 0.27.1" />
-  <link rel="canonical" href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/collatz-conjecture/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -167,15 +167,15 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>How do I love thee, Python?</h1>
+              <h1>Collatz Conjecture</h1>
                 
                   
-                    <h2 class="post-subheading">Let me count the ways</h2>
+                    <h2 class="post-subheading">Math is cool</h2>
                   
                 
                 
                   <span class="post-meta">
-  Posted on October 13, 2017
+  Posted on October 30, 2017
   
 </span>
 
@@ -195,32 +195,128 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <p></p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
-<span class="nd">@partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gen</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
-<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">yield</span> <span class="n">a</span>
-        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-        
-<span class="n">fib</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<p>According to <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">Wikipedia</a></p>
+
+<blockquote>
+<p>The Collatz conjecture is a conjecture in mathematics named after Lothar Collatz. It concerns a sequence defined as follows: start with any positive integer n. Then each term is obtained from the previous term as follows: if the previous term is even, the next term is one half the previous term. Otherwise, the next term is 3 times the previous term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.</p>
+</blockquote>
+
+<h2 id="recursive-solution">Recursive Solution</h2>
+
+<p>Mathematically, this problem is naturally recursive and this is one way you could solve it as such in Python.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">previous</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">previous</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">previous</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">previous</span> <span class="o">+</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    
+    <span class="n">next_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">collatz</span><span class="p">(</span><span class="n">next_number</span><span class="p">,</span> <span class="n">previous</span><span class="o">+</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 </code></pre></div>
 
-<pre><code>[0, 1, 1, 2, 3, 5, 8, 13]
+<pre><code>[1]
+[2, 1]
+[3, 10, 5, 16, 8, 4, 2, 1]
+[4, 2, 1]
+[5, 16, 8, 4, 2, 1]
+[6, 3, 10, 5, 16, 8, 4, 2, 1]
+[7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+[8, 4, 2, 1]
+[9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+</code></pre>
+
+<h2 id="curried-recursive-solution">Curried Recursive Solution</h2>
+
+<p>This shows an example of <a href="https://en.wikipedia.org/wiki/Currying">currying</a>, where you take a function that takes multiple arguments, and break it up into two or more functions where each function acts on only one argument in isolation. In functional languages like F#, variadic functions (those that take multiple arguments) are automatically curried, but this is how we would go about doing it in Python.</p>
+
+<p>What I like about this is that we no longer have to assign a default value to the <code>previous</code> parameter and check its value on each call to our recursive function (<code>if previous is None</code>) like in your previous recursive example.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">previous</span><span class="p">):</span>
+        <span class="n">nonlocal</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">previous</span> <span class="o">+</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">previous</span> <span class="o">+=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">get</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get</span><span class="p">([])</span>
+</code></pre></div>
+
+<h2 id="imperative-generator-solution">Imperative Generator Solution</h2>
+
+<p>Another way we can solve this problem is using Python generator functions. This example uses a while loop to evaluate new values.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="c1"># this decorator will turn a generator function to one that returns a list</span>
+<span class="n">listify</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">generator</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">generator</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
+</code></pre></div>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
+<span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">n</span>
+        <span class="k">return</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">n</span>
+    
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</code></pre></div>
+
+<pre><code>[1]
+[2, 1]
+[3, 10, 5, 16, 8, 4, 2, 1]
+[4, 2, 1]
+[5, 16, 8, 4, 2, 1]
+[6, 3, 10, 5, 16, 8, 4, 2, 1]
+[7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+[8, 4, 2, 1]
+[9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+</code></pre>
+
+<h2 id="recursive-generator-solution">Recursive Generator Solution</h2>
+
+<p>Finally, this solution (my favorite) uses lazy evaluation and recursion to <code>yield from</code> itself until the base condition is met, that <code>n == 1</code>.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
+<span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">yield</span> <span class="n">n</span>
+    
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span>
+    
+    <span class="n">next_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">yield from</span> <span class="n">collatz</span><span class="p">(</span><span class="n">next_number</span><span class="p">)</span> 
+        
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</code></pre></div>
+
+<pre><code>[1]
+[2, 1]
+[3, 10, 5, 16, 8, 4, 2, 1]
+[4, 2, 1]
+[5, 16, 8, 4, 2, 1]
+[6, 3, 10, 5, 16, 8, 4, 2, 1]
+[7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+[8, 4, 2, 1]
+[9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 </code></pre>
       </article>
 
       <ul class="pager blog-pager">
         
           <li class="previous">
-            <a href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" data-toggle="tooltip" data-placement="top" title="Wrapping Subprocesses in Asyncio">&larr; Previous Post</a>
+            <a href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" data-toggle="tooltip" data-placement="top" title="How do I love thee, Python?">&larr; Previous Post</a>
           </li>
         
-        
-          <li class="next">
-            <a href="https://knowsuchagency.github.io/post/collatz-conjecture/" data-toggle="tooltip" data-placement="top" title="Collatz Conjecture">Next Post &rarr;</a>
-          </li>
         
       </ul>
 
