@@ -202,9 +202,9 @@
 <p>The Collatz conjecture is a conjecture in mathematics named after Lothar Collatz. It concerns a sequence defined as follows: start with any positive integer n. Then each term is obtained from the previous term as follows: if the previous term is even, the next term is one half the previous term. Otherwise, the next term is 3 times the previous term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.</p>
 </blockquote>
 
-<h2 id="recursive-solution">Recursive Solution</h2>
+<h2 id="recursive-implementation">Recursive Implementation</h2>
 
-<p>Mathematically, this problem is naturally recursive and this is one way you could solve it as such in Python.</p>
+<p>Mathematically, this problem is naturally recursive and this is one way you could implement it as such in Python.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">previous</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">previous</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">previous</span> <span class="o">=</span> <span class="p">[]</span>
@@ -230,7 +230,7 @@
 [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 </code></pre>
 
-<h2 id="curried-recursive-solution">Curried Recursive Solution</h2>
+<h2 id="curried-recursive-implementation">Curried Recursive Implementation</h2>
 
 <p>This shows an example of <a href="https://en.wikipedia.org/wiki/Currying">currying</a>, where you take a function that takes multiple arguments, and break it up into two or more functions where each function acts on only one argument in isolation. In functional languages like F#, variadic functions (those that take multiple arguments) are automatically curried, but this is how we would go about doing it in Python.</p>
 
@@ -262,7 +262,7 @@
 [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 </code></pre>
 
-<h2 id="imperative-generator-solution">Imperative Generator Solution</h2>
+<h2 id="imperative-generator-implementation">Imperative Generator Implementation</h2>
 
 <p>Another way we can solve this problem is using Python generator functions. This example uses a while loop to evaluate new values.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
@@ -297,7 +297,7 @@
 [9, 28, 14, 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
 </code></pre>
 
-<h2 id="recursive-generator-solution">Recursive Generator Solution</h2>
+<h2 id="recursive-generator-implementation">Recursive Generator Implementation</h2>
 
 <p>Finally, this solution (my favorite) uses lazy evaluation and recursion to <code>yield from</code> itself until the base condition is met, that <code>n == 1</code>.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
