@@ -41,6 +41,15 @@
     </item>
     
     <item>
+      <title>Professional Experience</title>
+      <link>https://knowsuchagency.github.io/page/resume/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/page/resume/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Wrapping Subprocesses in Asyncio</title>
       <link>https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/</link>
       <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
@@ -93,10 +102,11 @@ Pug template (formerly Jade) support for Python 3.
       <pubDate>Thu, 23 Feb 2017 23:21:31 -0800</pubDate>
       <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
       <guid>https://knowsuchagency.github.io/page/about/</guid>
-      <description>When I&amp;rsquo;m not programming, I&amp;rsquo;m reading, exercising, or volunteering.
+      <description>Currently a software engineere @kalo
 I served six years in the Navy as a Chinese linguist. During that time, I transitioned from translation work, to intelligence analysis, and finally to software development.
 Co-Founder of PyHawaii, Hawaii&amp;rsquo;s Python User Group.
-I have also been involved in HiCapacity, Code for Hawaii, Code for San Francisco, and Data for Democracy.
+I have also been involved in HiCapacity, Code for Hawaii, and sfpython.
+I besides software engineering, my other love is academic debate - particularly parliamentary debate.
 Feel free to say hello. I love meeting new people :)</description>
     </item>
     

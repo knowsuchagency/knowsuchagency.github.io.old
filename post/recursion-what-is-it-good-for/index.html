@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.36" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -218,43 +218,41 @@ f(172801) -&gt; &quot;2 Days 1 Second&quot;
 </blockquote>
 
 <p>My friend had to turn in the assignment that night, so I quickly banged out a naive solution with the promise that I&rsquo;d go over it with them later.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">seconds</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;seconds must be greater than zero&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;seconds must be greater than zero&#34;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">seconds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;0 seconds&#39;</span>
+        <span class="k">return</span> <span class="sa"></span><span class="s1">&#39;0 seconds&#39;</span>
     
-    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;&#39;</span>
     
     <span class="n">weeks</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">24</span> <span class="o">//</span> <span class="mi">7</span>
     <span class="k">if</span> <span class="n">weeks</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{weeks} weeks &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{weeks} weeks &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">weeks</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span>
     
     <span class="n">days</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">//</span> <span class="mi">24</span>
     <span class="k">if</span> <span class="n">days</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{days} days &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{days} days &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">days</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
     
     <span class="n">hours</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">//</span> <span class="mi">60</span>
     <span class="k">if</span> <span class="n">hours</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{hours} hours &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{hours} hours &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">hours</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
     
     <span class="n">minutes</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">//</span> <span class="mi">60</span>
     <span class="k">if</span> <span class="n">minutes</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{minutes} minutes &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{minutes} minutes &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">minutes</span> <span class="o">*</span> <span class="mi">60</span>
         
     <span class="k">if</span> <span class="n">seconds</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{seconds} seconds&#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{seconds} seconds&#39;</span>
         
     <span class="k">return</span> <span class="n">string</span>
     
     
-<span class="n">seconds_to_string</span><span class="p">(</span><span class="mi">987987</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">seconds_to_string</span><span class="p">(</span><span class="mi">987987</span><span class="p">)</span></code></pre></div>
 <pre><code>'1.0 weeks 4.0 days 10.0 hours 26.0 minutes 27.0 seconds'
 </code></pre>
 
@@ -283,15 +281,15 @@ str(Seconds(101)) -&gt; '101 Seconds'
 </code></pre>
 
 <hr />
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
 
 <span class="k">class</span> <span class="nc">TimeUnit</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A class that defines the semantics of a unit of time i.e. seconds, minutes, hours etc.&quot;&quot;&quot;</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;A class that defines the semantics of a unit of time i.e. seconds, minutes, hours etc.&#34;&#34;&#34;</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Ensure no negative units are created.&quot;&quot;&quot;</span>
+        <span class="sa"></span><span class="s2">&#34;&#34;&#34;Ensure no negative units are created.&#34;&#34;&#34;</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{cls.__name__} must be greater than zero. x={x}&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{cls.__name__} must be greater than zero. x={x}&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -327,7 +325,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">singular</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">singular</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;{int(self)} {units}&#39;</span>
+        <span class="k">return</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{int(self)} {units}&#39;</span>
     
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -384,9 +382,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Fraction</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">to_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Seconds</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># poor man&#39;s tests</span>
+        <span class="k">return</span> <span class="n">Seconds</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># poor man&#39;s tests</span>
 <span class="c1"># in the real world, we should test all the operations</span>
 <span class="c1"># ideally using something like hypothesis, but this hopefully</span>
 <span class="c1"># serves well enough to demonstrate that our units of measure</span>
@@ -397,7 +393,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">assert</span> <span class="n">Minutes</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="o">==</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="o">==</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;equality tests passed&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;equality tests passed&#39;</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">test_conversions</span><span class="p">():</span>
     <span class="k">assert</span> <span class="n">Seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Minutes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">61</span>
@@ -408,12 +404,10 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
     <span class="k">assert</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;conversions passed&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;conversions passed&#39;</span><span class="p">)</span>
     
 <span class="n">test_equality</span><span class="p">()</span>
-<span class="n">test_conversions</span><span class="p">()</span>
-</code></pre></div>
-
+<span class="n">test_conversions</span><span class="p">()</span></code></pre></div>
 <pre><code>equality tests passed
 conversions passed
 </code></pre>
@@ -423,13 +417,11 @@ conversions passed
 <p>For starters, we know that any instances of our units of time will be positive whole numbers. Additionally, we can also compare and convert our units of measurement to one another pretty easily now that we&rsquo;ve defined the respective <em>dunder</em> methods</p>
 
 <p>So that&rsquo;s pretty cool. We can even continue to use our old function with our new types so long as we make sure the argument is in <em>seconds</em>.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">seconds_to_string</span><span class="p">(</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">seconds_to_string</span><span class="p">(</span>
     <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_seconds</span><span class="p">()</span> <span class="o">+</span> \
     <span class="n">Hours</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_seconds</span><span class="p">()</span> <span class="o">+</span> \
     <span class="n">Seconds</span><span class="p">(</span><span class="mi">78</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div>
-
+<span class="p">)</span></code></pre></div>
 <pre><code>'1.0 weeks 3.0 hours 1.0 minutes 18.0 seconds'
 </code></pre>
 
@@ -442,21 +434,19 @@ conversions passed
 <p>[<strong>statement</strong> for <strong>variable</strong> in <strong>iterable</strong> if <strong>optional predicate</strong>]</p>
 
 <p>in addition, the <code>.join</code> method of a string takes an iterable of strings as an argument and returns a string that joins the elements of the iterable together.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># for a comma-separated list of even numbers 0-through-10</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># for a comma-separated list of even numbers 0-through-10</span>
+<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="n">random_things</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pizza&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s2">&quot;beer&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{},</span> <span class="s1">&#39;netflix&#39;</span><span class="p">]</span>
-<span class="n">things_string</span> <span class="o">=</span> <span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span><span class="p">)</span>
+<span class="n">random_things</span> <span class="o">=</span> <span class="p">[</span><span class="sa"></span><span class="s1">&#39;pizza&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;beer&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{},</span> <span class="sa"></span><span class="s1">&#39;netflix&#39;</span><span class="p">]</span>
+<span class="n">things_string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;all the things:&#39;</span><span class="p">,</span> <span class="n">things_string</span> <span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;all the things:&#39;</span><span class="p">,</span> <span class="n">things_string</span> <span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="c1"># notice the predicate can be a variable itself, it will be</span>
-<span class="c1"># evaluated on its &quot;truthiness&quot;</span>
-<span class="n">some_things_string</span> <span class="o">=</span> <span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span> <span class="k">if</span> <span class="n">thing</span><span class="p">)</span>
+<span class="c1"># evaluated on its &#34;truthiness&#34;</span>
+<span class="n">some_things_string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span> <span class="k">if</span> <span class="n">thing</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;only that which is True:&#39;</span><span class="p">,</span> <span class="n">some_things_string</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;only that which is True:&#39;</span><span class="p">,</span> <span class="n">some_things_string</span><span class="p">)</span></code></pre></div>
 <pre><code>0, 2, 4, 6, 8
 
 all the things: pizza++None++beer++0++42++{}++netflix
@@ -467,7 +457,7 @@ only that which is True: pizza++beer++42++netflix
 <p>Anyway, we can still do better.</p>
 
 <p>Let&rsquo;s start by re-writing our old function to take any instance <strong>TimeUnit</strong>. Since <strong>TimeUnit</strong> instances can&rsquo;t be negative, we don&rsquo;t have to test for that in our function. In addition, every <strong>TimeUnit</strong> has a <code>from_seconds</code> method and knows how to perform arithmetic correctly with other members of the same type &ndash; saving us some code.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">time_unit_to_string</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">time_unit_to_string</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
     
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">to_seconds</span><span class="p">()</span>
     
@@ -502,9 +492,7 @@ only that which is True: pizza++beer++42++netflix
     <span class="k">if</span> <span class="n">seconds</span><span class="p">:</span>
         <span class="n">units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
         
-    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
-</code></pre></div>
-
+    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">units</span><span class="p">)</span></code></pre></div>
 <h2 id="you-promised-recursion">You promised recursion</h2>
 
 <p>&ldquo;But, Stephan&rdquo;, you interject.</p>
@@ -516,19 +504,17 @@ only that which is True: pizza++beer++42++netflix
 <h3 id="recursion">Recursion</h3>
 
 <p>A <strong>recursive</strong> function, is simply a function that calls itself. A recursive function must have at least one <strong>base case</strong>, which is the point at which the function ceases to return from itself and actually spits something out.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># This contrived example of a recursive function that doesn&#39;t do much</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># This contrived example of a recursive function that doesn&#39;t do much</span>
 
 <span class="k">def</span> <span class="nf">diminish</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;this is the base case&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;this is the base case&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;called diminish({n})&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;called diminish({n})&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">diminish</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">diminish</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span>
-</code></pre></div>
-
+<span class="k">assert</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span></code></pre></div>
 <pre><code>called diminish(5)
 called diminish(4)
 called diminish(3)
@@ -542,9 +528,9 @@ this is the base case
 <p>A <strong>closure</strong> is simply a fancy name for a function defined within another function. The inner function will have access to the higher function&rsquo;s <a href="https://stackoverflow.com/questions/3913217/what-are-python-namespaces-all-about">namespace</a>.</p>
 
 <p>Let&rsquo;s create a function that allows us to &ldquo;count&rdquo; by certain numbers as an example.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># we define from_ as a nonlocal variable in our closure </span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># we define from_ as a nonlocal variable in our closure </span>
 <span class="c1"># since we want to change its value from that scope,</span>
-<span class="c1"># not just &quot;read&quot; it</span>
+<span class="c1"># not just &#34;read&#34; it</span>
 
 <span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="n">from_</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">closure</span><span class="p">():</span>
@@ -558,9 +544,7 @@ this is the base case
 <span class="k">print</span><span class="p">(</span><span class="n">counter</span><span class="p">(),</span> <span class="n">counter</span><span class="p">(),</span> <span class="n">counter</span><span class="p">())</span>
 
 <span class="n">count_from_10_by_5</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">from_</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count_from_10_by_5</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
-</code></pre></div>
-
+<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count_from_10_by_5</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span></code></pre></div>
 <pre><code>1 2 3
 15 20 25
 </code></pre>
@@ -570,7 +554,7 @@ this is the base case
 <p>This following example is just one way you <em>could</em> use recursion to avoid loops and changing variables. I am <strong>definitely</strong> not trying to argue this is the &ldquo;best&rdquo; way to solve this particular problem, as we&rsquo;ll see. Also, I just want to make it clear that as a mere mortal that doesn&rsquo;t intuitively perceive the universe in its natural resplendent recursive beauty, this is probably (almost certainly) not the best example of a recursive function that solves our problem.</p>
 
 <p>With that out of the way&hellip;</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="c1"># coerce integers into our Seconds class</span>
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
 
@@ -597,7 +581,7 @@ this is the base case
         <span class="c1"># then we append the string for that unit of time to the last string</span>
         <span class="c1"># that was input to the function and add it as a parameter to the </span>
         <span class="c1"># next function call</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="k">if</span> <span class="n">time_unit</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="sa"></span><span class="s1">&#39; &#39;</span> <span class="k">if</span> <span class="n">time_unit</span> <span class="k">else</span> <span class="sa"></span><span class="s1">&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">time_unit</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">Weeks</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span><span class="o">+</span><span class="n">s</span><span class="p">,</span> <span class="n">Days</span><span class="p">)</span>
@@ -608,44 +592,42 @@ this is the base case
         <span class="k">elif</span> <span class="n">time_unit</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">Minutes</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span><span class="o">+</span><span class="n">s</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">)</span>
             
-    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">)</span>
 
 
 
 <span class="k">def</span> <span class="nf">test_string_func</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">8989</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;2 Hours 29 Minutes 49 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;2 Hours 29 Minutes 49 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;0 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;0 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">60</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Minute&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Minute&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="mi">61</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Week 1 Hour 1 Minute 1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Week 1 Hour 1 Minute 1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;stringification tests passed for {func.__name__}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;stringification tests passed for {func.__name__}&#39;</span><span class="p">)</span>
     
     
-<span class="n">test_string_func</span><span class="p">(</span><span class="n">seconds_to_string</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">test_string_func</span><span class="p">(</span><span class="n">seconds_to_string</span><span class="p">)</span></code></pre></div>
 <pre><code>stringification tests passed for seconds_to_string
 </code></pre>
 
 <h3 id="how-can-we-make-this-less-horrible">How can we make this less horrible?</h3>
 
 <p>Well, for one, we could use iteration to avoid dispatching on the <code>time_class</code> argument in the recursive function</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">seconds_to_string_with_for_loop</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seconds_to_string_with_for_loop</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
 
@@ -660,20 +642,18 @@ this is the base case
         <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Weeks</span><span class="p">,</span> <span class="n">Days</span><span class="p">,</span> <span class="n">Hours</span><span class="p">,</span> <span class="n">Minutes</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">):</span>
             <span class="n">time_unit</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">from_seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">time_unit</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-<span class="n">seconds_to_string_with_for_loop</span><span class="p">(</span><span class="mi">72783</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">seconds_to_string_with_for_loop</span><span class="p">(</span><span class="mi">72783</span><span class="p">)</span></code></pre></div>
 <pre><code>'20 Hours 13 Minutes 3 Seconds'
 </code></pre>
 
 <h3 id="closures-again">Closures, again</h3>
 
 <p>Let&rsquo;s see another example with a factory function that uses a closure. Again, I don&rsquo;t think this is actually a good solution to this problem at all, but I think it&rsquo;s useful as an example in how one might think about using closures.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">unit_factory</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">unit_factory</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
 
@@ -694,12 +674,10 @@ this is the base case
     <span class="n">factory</span> <span class="o">=</span> <span class="n">unit_factory</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
     <span class="n">time_units</span> <span class="o">=</span> <span class="p">(</span><span class="n">factory</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Weeks</span><span class="p">,</span> <span class="n">Days</span><span class="p">,</span> <span class="n">Hours</span><span class="p">,</span> <span class="n">Minutes</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">))</span>
     
-    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">time_units</span> <span class="k">if</span> <span class="n">unit</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">time_units</span> <span class="k">if</span> <span class="n">unit</span><span class="p">)</span>
 
 
-<span class="n">seconds_to_string_with_closure_factory</span><span class="p">(</span><span class="mi">27364283</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">seconds_to_string_with_closure_factory</span><span class="p">(</span><span class="mi">27364283</span><span class="p">)</span></code></pre></div>
 <pre><code>'45 Weeks 1 Day 17 Hours 11 Minutes 23 Seconds'
 </code></pre>
 
@@ -714,7 +692,7 @@ this is the base case
 <p>This works because the Python interpreter basically suspends execution and starts back up immediately after the yield statement of a generator function, so we know that <code>secs</code> will be decremented before the next iteration of the loop, every time.</p>
 
 <p>I think this really makes more intuitive sense than any of the previous examples, but at least we may have a couple more tools in our mental toolbox now that we&rsquo;ve seen a couple different solutions.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">seconds_to_string_with_generator_func</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seconds_to_string_with_generator_func</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
     
@@ -727,12 +705,10 @@ this is the base case
             <span class="k">if</span> <span class="n">unit</span><span class="p">:</span> <span class="k">yield</span> <span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
             <span class="n">secs</span> <span class="o">-=</span> <span class="n">unit</span>
     
-    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen_unit_strings</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen_unit_strings</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
 
 
-<span class="n">seconds_to_string_with_generator_func</span><span class="p">(</span><span class="mi">2342455</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">seconds_to_string_with_generator_func</span><span class="p">(</span><span class="mi">2342455</span><span class="p">)</span></code></pre></div>
 <pre><code>'3 Weeks 6 Days 2 Hours 40 Minutes 55 Seconds'
 </code></pre>
       </article>
@@ -837,7 +813,7 @@ this is the base case
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.27.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

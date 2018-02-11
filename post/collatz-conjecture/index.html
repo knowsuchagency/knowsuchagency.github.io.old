@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.36" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/collatz-conjecture/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -205,7 +205,7 @@
 <h2 id="recursive-implementation">Recursive Implementation</h2>
 
 <p>Mathematically, this problem is naturally recursive and this is one way you could implement it as such in Python.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">previous</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">previous</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">previous</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">previous</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -216,9 +216,7 @@
 
 
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</code></pre></div>
-
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></code></pre></div>
 <pre><code>[1]
 [2, 1]
 [3, 10, 5, 16, 8, 4, 2, 1]
@@ -235,7 +233,7 @@
 <p>This shows an example of <a href="https://en.wikipedia.org/wiki/Currying">currying</a>, where you take a function that takes multiple arguments, and break it up into two or more functions where each function acts on only one argument in isolation. In functional languages like F#, variadic functions (those that take multiple arguments) are automatically curried, but this is how we would go about doing it in Python.</p>
 
 <p>What I like about this is that we no longer have to assign a default value to the <code>previous</code> parameter and check its value on each call to our recursive function (<code>if previous is None</code>) like in your previous recursive example.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">previous</span><span class="p">):</span>
         <span class="n">nonlocal</span> <span class="n">n</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -248,9 +246,7 @@
 
 
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</code></pre></div>
-
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></code></pre></div>
 <pre><code>[1]
 [2, 1]
 [3, 10, 5, 16, 8, 4, 2, 1]
@@ -265,12 +261,10 @@
 <h2 id="imperative-generator-implementation">Imperative Generator Implementation</h2>
 
 <p>Another way we can solve this problem is using Python generator functions. This example uses a while loop to evaluate new values.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="c1"># this decorator will turn a generator function to one that returns a list</span>
-<span class="n">listify</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">generator</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">generator</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
+<span class="n">listify</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">generator</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">generator</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">n</span>
@@ -283,9 +277,7 @@
 
 
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</code></pre></div>
-
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></code></pre></div>
 <pre><code>[1]
 [2, 1]
 [3, 10, 5, 16, 8, 4, 2, 1]
@@ -300,7 +292,7 @@
 <h2 id="recursive-generator-implementation">Recursive Generator Implementation</h2>
 
 <p>Finally, this solution (my favorite) uses lazy evaluation and recursion to <code>yield from</code> itself until the base condition is met, that <code>n == 1</code>.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@listify</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">yield</span> <span class="n">n</span>
     
@@ -309,13 +301,11 @@
     
     <span class="n">next_number</span> <span class="o">=</span> <span class="n">n</span><span class="o">//</span><span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
     
-    <span class="k">yield from</span> <span class="n">collatz</span><span class="p">(</span><span class="n">next_number</span><span class="p">)</span> 
+    <span class="k">yield</span> <span class="kn">from</span> <span class="nn">collatz</span><span class="p">(</span><span class="n">next_number</span><span class="p">)</span> 
         
 
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</code></pre></div>
-
+    <span class="k">print</span><span class="p">(</span><span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></code></pre></div>
 <pre><code>[1]
 [2, 1]
 [3, 10, 5, 16, 8, 4, 2, 1]
@@ -424,7 +414,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.27.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

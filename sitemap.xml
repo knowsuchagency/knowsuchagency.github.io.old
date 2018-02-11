@@ -18,6 +18,11 @@
   </url>
   
   <url>
+    <loc>https://knowsuchagency.github.io/page/resume/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/</loc>
     <lastmod>2017-09-25T00:00:00+00:00</lastmod>
   </url>

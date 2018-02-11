@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.36" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/how-do-i-love-thee-python/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -195,7 +195,7 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <p></p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="nd">@partial</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gen</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 <span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -204,9 +204,7 @@
         <span class="k">yield</span> <span class="n">a</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
         
-<span class="n">fib</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-</code></pre></div>
-
+<span class="n">fib</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span></code></pre></div>
 <pre><code>[0, 1, 1, 2, 3, 5, 8, 13]
 </code></pre>
       </article>
@@ -311,7 +309,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.27.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>
