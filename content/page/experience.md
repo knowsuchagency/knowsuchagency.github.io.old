@@ -8,7 +8,7 @@
 ---
 <!--more-->
 
-<h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1>
+<h1 align='center'><a href='/documents/CoverLetter.pdf'>Download This Resume in PDF</a></h1>
 
 ---
 
@@ -22,6 +22,16 @@ Focused, passionate, and technically competent. An excellent communicator; willi
 # WORK EXPERIENCE
 
 ---
+
+**Kalo**
+
+*Software Engineer*
+
+Jan 2018 - Present
+
+Utilizing mostly Python (asyncio), PostgeSQL, and various other technologies
+to ensure our backend infrastructure is reliant, performant, maintainable, and auditable.
+
 
 **NATIONAL SECURITY AGENCY**
 
@@ -56,11 +66,9 @@ Graduated 2+/2 from elite military language program with an accredited Associate
 
 **CITY COLLEGE OF SAN FRANCISCO**
 
-*Transfer - Cognitive Science*
+*Continuing Education*
 
 Sep, 2016 – Current
-
-The following are classes I have taken or am currently taking at CCSF prior to transferring to Berkeley for Cognitive Science 
 
 * CS231 - Advanced Python Programming 
 * CS 110B - C++ Programming
@@ -69,6 +77,7 @@ The following are classes I have taken or am currently taking at CCSF prior to t
 * PHIL 25C - Modern Philosophy through Kant
 * MATH 100A - Calculus
 * CS260A/P - Linux System Administration
+* Forensic Debate
 
 <br>
 
