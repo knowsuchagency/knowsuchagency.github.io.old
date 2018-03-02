@@ -21,7 +21,7 @@ use Python (in particular, those writing packages) but hopefully there's somethi
 
 ## In the beginning, there were shell scripts.
 
-But we found shell scripts to be difficultbecause even the best shell languages i.e. `zsh`, `bash`, `fish` 
+But we found shell scripts to be difficult because even the best shell languages i.e. `zsh`, `bash`, `fish` 
 have syntax and behavior that are much different than most other programming 
 languages, which can make them hard to reason about. 
 
