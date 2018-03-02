@@ -10,7 +10,9 @@
 
 This story is about task automation and build tools.
 
-Feel free to [**skip ahead**](#yotar) to the code.
+Feel free to [**skip ahead**](#yotar) to the code and check out [the repo itself](https://github.com/knowsuchagency/yotar).
+
+For a far more fleshed out example of the following, [**check out my cookiecutter**](https://github.com/knowsuchagency/python-package-template/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/run.py).
 
 These are two separate, but inter-related domains, however, we're going to treat them both as the same requirement in this article for the sake of argumentation.
 
