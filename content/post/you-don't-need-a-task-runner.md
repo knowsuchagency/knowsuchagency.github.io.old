@@ -14,7 +14,7 @@ Feel free to [**skip ahead**](#yotar) to the code and check out [the repo itself
 
 For a far more fleshed out example of the following, [**check out my cookiecutter**](https://github.com/knowsuchagency/python-package-template/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/run.py).
 
-These are two separate, but inter-related domains, however, we're going to treat them both as the same requirement in this article for the sake of argumentation.
+Automation and build tools are two separate, but inter-related domains, however, we're going to treat them both as the same requirement in this article for the sake of argumentation.
 
 This means most of what is written is going to be more relevant for those who primarily
 use Python (in particular, those writing packages) but hopefully there's something here for everyone.
@@ -269,6 +269,8 @@ with quiet():
     print('hello, world')
 ```
 
+```
+
 stephanfitzpatrick: mkdir -p foo
 
 stephanfitzpatrick: pwd
@@ -294,6 +296,7 @@ stephanfitzpatrick: rm -rf foo
 
 stephanfitzpatrick: ls
 yotar.py
+```
 
 ## Command-line interface with composition and chaining?
 
