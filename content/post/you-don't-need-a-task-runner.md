@@ -171,19 +171,20 @@ to alter the $PATH environment variable.
 
 ```python
 @contextmanager
-def path(*paths: T.Union[os.PathLike, str], prepend=False) -> T.List[str]:
+def path(*paths: T.Union[os.PathLike, str], prepend=False, expand_user=True) -> T.List[str]:
     """
     Add the paths to $PATH and yield the new $PATH as a list.
 
     Args:
         prepend: prepend paths to $PATH else append
+        expand_user: expands home if ~ is used in path strings
     """
     paths = list(paths)
 
     for index, _path in enumerate(paths):
         if not isinstance(_path, str):
             paths[index] = _path.__fspath__()
-        elif '~' in _path:
+        elif expand_user:
             paths[index] = os.path.expanduser(_path)
 
     original_path = os.environ['PATH'].split(':')
