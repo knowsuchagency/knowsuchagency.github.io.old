@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>You Don&#39;t Need a Task Runner</title>
+  <meta property="og:title" content="You Don&#39;t Need a Task Runner" />
+  <meta name="twitter:title" content="You Don&#39;t Need a Task Runner" />
+  <meta name="description" content="With Python">
+  <meta property="og:description" content="With Python">
+  <meta name="twitter:description" content="With Python">
+  <meta name="author" content="Stephan Fitzpatrick"/>
+  <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:image" content="https://knowsuchagency.github.io/img/lambda.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@knowsuchagency" />
+  <meta name="twitter:creator" content="@knowsuchagency" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/you-dont-need-a-task-runner/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Journal Panic" />
+
+  <meta name="generator" content="Hugo 0.36" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/you-dont-need-a-task-runner/" />
+  <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://knowsuchagency.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://knowsuchagency.github.io">Journal Panic</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="https://knowsuchagency.github.io/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="https://knowsuchagency.github.io/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Projects" href="https://knowsuchagency.github.io/page/projects/">Projects</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Resume" href="https://knowsuchagency.github.io/page/resume/">Resume</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Journal Panic" href="https://knowsuchagency.github.io">
+            <img class="avatar-img" src="https://knowsuchagency.github.io/img/lambda.png" alt="Journal Panic" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>You Don&#39;t Need a Task Runner</h1>
+                
+                  
+                    <h2 class="post-subheading">With Python</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on March 1, 2018
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<p>This story is about task automation and build tools.</p>
+
+<p>Feel free to <a href="#yotar"><strong>skip ahead</strong></a> to the code.</p>
+
+<p>These are two separate, but inter-related domains, however, we&rsquo;re going to treat them both as the same requirement in this article for the sake of argumentation.</p>
+
+<p>This means most of what is written is going to be more relevant for those who primarily
+use Python (in particular, those writing packages) but hopefully there&rsquo;s something here for everyone.</p>
+
+<h2 id="in-the-beginning-there-were-shell-scripts">In the beginning, there were shell scripts.</h2>
+
+<p>But we found shell scripts to be difficultbecause even the best shell languages i.e. <code>zsh</code>, <code>bash</code>, <code>fish</code>
+have syntax and behavior that are much different than most other programming
+languages, which can make them hard to reason about.</p>
+
+<p>Everything (with few exceptions) is a string, it&rsquo;s almost impossible to avoid global
+state, individual commands spawn subshells with their own environments and semantics,
+and it&rsquo;s hard to write functions which do only one thing and chain those functions together easily.</p>
+
+<p>From that primordial rigmarole, <a href="https://www.gnu.org/software/make/">GNU Make</a> was born.</p>
+
+<p>One of the benefits of Make is that it&rsquo;s language agnostic.</p>
+
+<p>As a sidenote, although this may not have been true at the time of Make&rsquo;s inception,
+I would argue that BASH is now so ubiquitous that it would be used as the lingua franca of task automation,
+if not for its wonkiness. Indeed, many developers use BASH in precisely that way. Masochists.</p>
+
+<p>Among its other benefits, Make is more easily read than bash and allows one to document and chain &ldquo;atomic&rdquo; tasks
+together.</p>
+
+<p>However, many felt Make didn&rsquo;t go far enough, so other task runners/build automation tools were created.</p>
+
+<p>Among them: Fabric, Ansible, Gulp, Grunt, Chef, Puppet, npm (in some capacity) - just to name a few.</p>
+
+<p>Granted, what many of these tools offer is beyond the scope of Make or the typical bash script (automation on other machines through SSH, for example), but at the core of each of these tools is the intent to keep you from repeating yourself. It&rsquo;s task automation in one form or another, either for building software, automating dev-ops, or whatever.</p>
+
+<p><strong>Enough pontification! Let&rsquo;s look at some code!</strong><a name="yotar"></a></p>
+
+<h1 id="yotar-https-github-com-knowsuchagency-yotar"><a href="https://github.com/knowsuchagency/yotar">YOTAR</a></h1>
+
+<h2 id="your-own-task-runner">Your own Task Runner</h2>
+
+<p>Apart from the fact that Python is a great programming language to begin with, the standard library provides bevy of utilities that make it really powerful as a means of interacting with the operating system.</p>
+
+<p>In particular, we&rsquo;re going to focus primarily on 3 language features that are going go make our task automation a breeze. The <a href="https://docs.python.org/3/library/subprocess.html">subprocess module</a>, the <a href="https://docs.python.org/3/library/os.html">os module</a>, and <a href="https://docs.python.org/3/library/contextlib.html#contextlib.contextmanager">context managers</a>.</p>
+
+<p>I should mention that I was inspired by the way fabric uses its <a href="http://docs.fabfile.org/en/1.14/api/core/context_managers.html">context managers</a>, but I found fabric to be overkill
+for what I used it for, and I wanted one-less dependency and to have less magic in-general by using
+the standard library to do the same things I was using Fabric for.</p>
+
+<p>For our task runner, we&rsquo;re going to want 4 basic features (and one bonus) that will handle 95% of the tasks we commonly perform in a bash script or Makefile.</p>
+
+<ul>
+<li>a function that allows command execution in a bash shell spawned from our Python process</li>
+<li>a context manager that allows us to easily navigate the file-system</li>
+<li>a context manager that allows us to temporary alter environment variables</li>
+<li>a context manager that allows us to easily manipulate the $PATH variable temporarily</li>
+<li><strong>bonus</strong>: a context manager that allows us to temporarily suppress stdout and stderr</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span> <span class="nn">subprocess</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">typing</span> <span class="kn">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span></code></pre></div>
+<h2 id="the-shell-execution-function">The shell execution function</h2>
+
+<p>The following function will allow us to run commands in a bash
+shell spawned from our interpreter.</p>
+
+<p><strong>Word to the wise</strong>, make sure you trust the commands you&rsquo;re executing
+using this function.</p>
+
+<p>Python won&rsquo;t be there to save you if you run something malicious
+or just accidentally delete something important.</p>
+
+<p>This is true of any task runner, or even bash script, but it&rsquo;s still worth
+mentioning.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Run the command in a shell.
+</span><span class="s2">
+</span><span class="s2">    Args:
+</span><span class="s2">        command: the command to be run
+</span><span class="s2">        check: raise exception if return code not zero
+</span><span class="s2">        capture: if set to True, captures stdout and stderr,
+</span><span class="s2">                 making them available as stdout and stderr
+</span><span class="s2">                 attributes on the returned CompletedProcess.
+</span><span class="s2">
+</span><span class="s2">                 This also means the command&#39;s stdout and stderr won&#39;t be
+</span><span class="s2">                 piped to FD 1 and 2 by default
+</span><span class="s2">
+</span><span class="s2">    Returns: Completed Process
+</span><span class="s2">
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{user}: {command}&#39;</span><span class="p">)</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span>
+                     <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                     <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                     <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+                     <span class="n">stderr</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span>
+                     <span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">process</span></code></pre></div>
+<h2 id="the-cd-context-manager">The cd context manager</h2>
+
+<p>This context manager just lets use change our current working
+directory, returning to the directory we were in once it goes out of scope.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">cd</span><span class="p">(</span><span class="n">path_</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Change the current working directory.&#34;&#34;&#34;</span>
+    <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
+    <span class="k">yield</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span></code></pre></div>
+<h2 id="the-environment-variable-context-manager">The environment variable context manager</h2>
+
+<p>This context manager just makes it so we can temporarily add or alter
+existing environment variables, returning the environment to its
+previous state once out of scope.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">env</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Set environment variables and yield new environment dict.&#34;&#34;&#34;</span>
+    <span class="n">original_environment</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">original_environment</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_environment</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></code></pre></div>
+<h2 id="the-path-context-manager">The path context manager</h2>
+
+<p>This is just some sugar sprinkled over the <code>env</code> context manager, making it easier
+to alter the $PATH environment variable.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">prepend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Add the paths to $PATH and yield the new $PATH as a list.
+</span><span class="s2">
+</span><span class="s2">    Args:
+</span><span class="s2">        prepend: prepend paths to $PATH else append
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">_path</span><span class="o">.</span><span class="n">__fspath__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="sa"></span><span class="s1">&#39;~&#39;</span> <span class="ow">in</span> <span class="n">_path</span><span class="p">:</span>
+            <span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">_path</span><span class="p">)</span>
+
+    <span class="n">original_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="sa"></span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span> <span class="o">+</span> <span class="n">original_path</span> <span class="k">if</span> <span class="n">prepend</span> <span class="k">else</span> <span class="n">original_path</span> <span class="o">+</span> <span class="n">paths</span>
+
+    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
+        <span class="k">yield</span> <span class="n">paths</span></code></pre></div>
+<h2 id="bonus-quieting-stdout-and-stderr">Bonus: Quieting stdout and stderr</h2>
+
+<p>This context manager just makes it easy to suppress stdout and stderr temporarily.</p>
+
+<p>It probably won&rsquo;t be used as much as the other tools we&rsquo;ve written, but may yet come
+in handy.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">quiet</span><span class="p">():</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Suppress stdout and stderr.
+</span><span class="s2">
+</span><span class="s2">    https://stackoverflow.com/questions/11130156/suppress-stdout-stderr-print-from-python-functions
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="c1"># open null file descriptors</span>
+    <span class="n">null_file_descriptors</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">),</span>
+        <span class="n">os</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># save stdout and stderr</span>
+    <span class="n">stdout_and_stderr</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">dup</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">dup</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="c1"># assign the null pointers to stdout and stderr</span>
+    <span class="n">null_fd1</span><span class="p">,</span> <span class="n">null_fd2</span> <span class="o">=</span> <span class="n">null_file_descriptors</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">null_fd1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">null_fd2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">yield</span>
+    <span class="c1"># re-assign the real stdout/stderr back to (1) and (2)</span>
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">stdout_and_stderr</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># close all file descriptors.</span>
+    <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">null_file_descriptors</span> <span class="o">+</span> <span class="n">stdout_and_stderr</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span></code></pre></div>
+<h2 id="usage">Usage</h2>
+
+<p>So the above already gets us pretty far. What does it look like in-practice?</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;mkdir -p foo&#39;</span><span class="p">)</span>
+
+<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;foo&#39;</span><span class="p">):</span>
+    <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;bar&#39;</span><span class="p">):</span>
+        <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
+    <span class="c1"># shouldn&#39;t output anything</span>
+    <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo hello&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;The output was: {output}&#39;</span><span class="p">)</span>
+
+<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+
+<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;rm -rf foo&#39;</span><span class="p">)</span>
+
+<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;ls&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">quiet</span><span class="p">():</span>
+    <span class="c1"># shouldn&#39;t output anything</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;hello, world&#39;</span><span class="p">)</span></code></pre></div>
+<p>stephanfitzpatrick: mkdir -p foo</p>
+
+<p>stephanfitzpatrick: pwd
+../yotar</p>
+
+<p>stephanfitzpatrick: pwd
+../yotar/foo</p>
+
+<p>stephanfitzpatrick: echo $foo
+bar</p>
+
+<p>stephanfitzpatrick: echo $foo</p>
+
+<p>stephanfitzpatrick: echo hello</p>
+
+<p>The output was: hello</p>
+
+<p>stephanfitzpatrick: pwd
+../yotar</p>
+
+<p>stephanfitzpatrick: rm -rf foo</p>
+
+<p>stephanfitzpatrick: ls
+yotar.py</p>
+
+<h2 id="command-line-interface-with-composition-and-chaining">Command-line interface with composition and chaining?</h2>
+
+<p>So we already have some really handy utilites for doing 90% ish of the tasks on our local machine. What about getting function composition and chaining and a nice command-line interface?</p>
+
+<p>In part 2 we&rsquo;re going to use the excellent <a href="http://click.pocoo.org/">Click</a> library by Armin Ronacher to do just that.</p>
+
+<p>Part 3 will deal with combining our sripting utilities and the &ldquo;tasks&rdquo; we create with click with <code>setuptools</code> to bundle our tasks with our project&rsquo;s command-line interface.</p>
+
+<p>If you want to go ahead and see how that works and start using that functionality now, feel free to check out my <a href="https://github.com/kalohq/python-package-template">cookiecutter</a> that inspired this article.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/collatz-conjecture/" data-toggle="tooltip" data-placement="top" title="Collatz Conjecture">&larr; Previous Post</a>
+          </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:knowsuchagency@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/stephan.fitzpatrick" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/knowsuchagency" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/knowsuchagency" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/fitzpatrickstephan" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/users/5933618/stephan-fitzpatrick" title="StackOverflow">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/knowsuchagency" title="Instagram">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Stephan Fitzpatrick
+                      
+          
+          
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://knowsuchagency.github.io">Journal Panic</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/main.js"></script>
+<script src="https://knowsuchagency.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://knowsuchagency.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+
