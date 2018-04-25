@@ -70,14 +70,22 @@ For our task runner, we're going to want 4 basic features (and one bonus) that w
 
 
 ```python
-from contextlib import contextmanager
-import subprocess as sp
-import typing as T
 import copy
 import os
+import types
+import subprocess as sp
+import typing as T
+from functools import singledispatch, wraps
+from contextlib import contextmanager
+from getpass import getuser
+from socket import gethostname
+
+import click
+
+Pathy = T.Union[os.PathLike, str]
 ```
 
-## The shell execution function
+## Executing code in the shell
 
 The following function will allow us to run commands in a bash
 shell spawned from our interpreter. 
@@ -93,9 +101,14 @@ mentioning.
 
 
 ```python
-def shell(command: str, check=True, capture=False) -> sp.CompletedProcess:
+def shell(command: str,
+          check=True,
+          capture=False,
+          show_command=True) -> sp.CompletedProcess:
     """
     Run the command in a shell.
+
+    !!! Make sure you trust the input to this command !!!
 
     Args:
         command: the command to be run
@@ -106,23 +119,33 @@ def shell(command: str, check=True, capture=False) -> sp.CompletedProcess:
 
                  This also means the command's stdout and stderr won't be
                  piped to FD 1 and 2 by default
+        show_command: show command being run prefixed by user
 
     Returns: Completed Process
 
     """
-    user = os.getlogin()
-    print(f'{user}: {command}')
-    process = sp.run(command,
-                     check=check,
-                     shell=True,
-                     stdout=sp.PIPE if capture else None,
-                     stderr=sp.PIPE if capture else None
-                     )
+    user = click.style(getuser(), fg='green')
+    hostname = click.style(gethostname(), fg='magenta')
+
+    print()
+    if show_command:
+        print(f'{user}@{hostname}: {command}')
+
+    try:
+        process = sp.run(command,
+                         check=check,
+                         shell=True,
+                         stdout=sp.PIPE if capture else None,
+                         stderr=sp.PIPE if capture else None
+                         )
+    except sp.CalledProcessError as err:
+        raise SystemExit(err)
+
     print()
     return process
 ```
 
-## The cd context manager
+## Changing Directories
 
 This context manager just lets use change our current working
 directory, returning to the directory we were in once it goes out of scope.
@@ -138,7 +161,7 @@ def cd(path_: T.Union[os.PathLike, str]):
     os.chdir(cwd)
 ```
 
-## The environment variable context manager
+## Changing Environment Variables
 
 This context manager just makes it so we can temporarily add or alter
 existing environment variables, returning the environment to its
@@ -147,7 +170,7 @@ previous state once out of scope.
 
 ```python
 @contextmanager
-def env(**kwargs) -> dict:
+def env(**kwargs) -> T.Iterator[os._Environ]:
     """Set environment variables and yield new environment dict."""
     original_environment = copy.deepcopy(os.environ)
 
@@ -156,14 +179,10 @@ def env(**kwargs) -> dict:
 
     yield os.environ
 
-    for key in os.environ:
-        if key not in original_environment:
-            del os.environ[key]
-        else:
-            os.environ[key] = original_environment[key]
+    os.environ = original_environment
 ```
 
-## The path context manager
+## Changing the $PATH
 
 This is just some sugar sprinkled over the `env` context manager, making it easier
 to alter the $PATH environment variable.
@@ -171,7 +190,8 @@ to alter the $PATH environment variable.
 
 ```python
 @contextmanager
-def path(*paths: T.Union[os.PathLike, str], prepend=False, expand_user=True) -> T.List[str]:
+def path(*paths: Pathy, prepend=False, expand_user=True) -> T.Iterator[
+        T.List[str]]:
     """
     Add the paths to $PATH and yield the new $PATH as a list.
 
@@ -179,23 +199,28 @@ def path(*paths: T.Union[os.PathLike, str], prepend=False, expand_user=True) -> 
         prepend: prepend paths to $PATH else append
         expand_user: expands home if ~ is used in path strings
     """
-    paths = list(paths)
+    paths_list: T.List[Pathy] = list(paths)
 
-    for index, _path in enumerate(paths):
+    paths_str_list: T.List[str] = []
+
+    for index, _path in enumerate(paths_list):
         if not isinstance(_path, str):
-            paths[index] = _path.__fspath__()
+            print(f'index: {index}')
+            paths_str_list.append(_path.__fspath__())
         elif expand_user:
-            paths[index] = os.path.expanduser(_path)
-
+            paths_str_list.append(os.path.expanduser(_path))
     original_path = os.environ['PATH'].split(':')
 
-    paths = paths + original_path if prepend else original_path + paths
+    paths_str_list = paths_str_list + \
+        original_path if prepend else original_path + paths_str_list
 
-    with env(PATH=':'.join(paths)):
-        yield paths
+    with env(PATH=':'.join(paths_str_list)):
+        yield paths_str_list
 ```
 
-## Bonus: Quieting stdout and stderr
+# Bonus
+
+## Quieting stdout and stderr
 
 This context manager just makes it easy to suppress stdout and stderr temporarily.
 
@@ -234,6 +259,44 @@ def quiet():
     # close all file descriptors.
     for fd in null_file_descriptors + stdout_and_stderr:
         os.close(fd)
+```
+
+## Send yourself notifications when tasks finish
+
+We'll use our above functions and the aptly-named [terminal notifier](https://github.com/julienXX/terminal-notifier) library to create ourselves a function that acts as either a simple function or as a decorator to notify us when tasks complete.
+
+
+```python
+@singledispatch
+def notify(message: str, title='run.py'):
+    """Mac os pop-up notification."""
+    shell(f'terminal-notifier -title {title} -message {message} '
+          f'-sound default', capture=True, show_command=False)
+
+
+@notify.register(types.FunctionType)
+def _(func):
+    """
+    Send notification that task has finished.
+
+    Especially useful for long-running tasks
+    """
+    @wraps(func)
+    def inner(*args, **kwargs):
+        result = None
+        message = 'Succeeded!'
+
+        try:
+            result = func(*args, **kwargs)
+        except Exception:
+            message = 'Failed'
+            raise
+        else:
+            return result
+        finally:
+            notify(message, title=getattr(func, '__name__'))
+
+    return inner
 ```
 
 ## Usage

@@ -1,14 +1,12 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
-
 [packages]
-
 mypy = "*"
 sympy = "*"
 hugo-jupyter = "*"
 yapf = "*"
 numba = "*"
 eliot = "*"
+click = "*"
