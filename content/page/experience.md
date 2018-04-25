@@ -3,12 +3,12 @@
   "title": "Professional Experience",
   "subtitle": "---",
   "date": "2017-10-07",
-  "slug": "resume"
+  "slug": "experience"
 }
 ---
 <!--more-->
 
-<h1 align='center'><a href='/documents/CoverLetter.pdf'>Download This Resume in PDF</a></h1>
+<h1 align='center'><a href='/documents/resume.pdf'>Download This Resume in PDF</a></h1>
 
 ---
 
@@ -27,9 +27,9 @@ Focused, passionate, and technically competent. An excellent communicator; willi
 
 *Software Engineer*
 
-Jan 2018 - Present
+Jan 2018 - Apr 2018
 
-Utilizing mostly Python (asyncio), PostgeSQL, and various other technologies
+Utilizing Python (Flask/asyncio), PostgreSQL, AWS, CloudFoundry, and various other technologies
 to ensure our backend infrastructure is reliant, performant, maintainable, and auditable.
 
 
@@ -37,7 +37,7 @@ to ensure our backend infrastructure is reliant, performant, maintainable, and a
 
 *Software Developer/Analyst*
 
-Jan, 2012 – May, 2016
+Jan 2012 – May 2016
 
 Tasked with providing timely and accurate intelligence to various stakeholders. Granted a unique assignment amongst over 2000 military personnel to be a full-time software developer; working alongside National Security Agency Mathematicians, Computer Scientists, and Engineers, to create new software applications and data pipelines for intelligence analysts.
 
@@ -45,7 +45,7 @@ Tasked with providing timely and accurate intelligence to various stakeholders. 
 
 *Cryptologic Technician Interpretive*
 
-Jun, 2010 – May, 2016
+Jun 2010 – May 2016
 
 Intelligence gathering and analysis as a Mandarin Chinese linguist.
 
@@ -60,7 +60,7 @@ Intelligence gathering and analysis as a Mandarin Chinese linguist.
 *Associate's Degree - Mandarin Chinese*
 
 
-Jul, 2010 – Dec, 2011
+Jul 2010 – Dec 2011
 
 Graduated 2+/2 from elite military language program with an accredited Associate's Degree.
 
@@ -68,7 +68,7 @@ Graduated 2+/2 from elite military language program with an accredited Associate
 
 *Continuing Education*
 
-Sep, 2016 – Current
+Sep 2016 – Current
 
 * CS231 - Advanced Python Programming 
 * CS 110B - C++ Programming
@@ -89,7 +89,7 @@ Sep, 2016 – Current
 
 *Creator / Lead Contributor*
 
-Jul, 2017 - Present
+Jul 2017 - Present
 
 A [library](https://github.com/knowsuchagency/hugo_jupyter) to enable the use of [jupyter notebooks](http://jupyter.org/) to write content for the [hugo](https://gohugo.io/) static site generation framework.
 
@@ -98,7 +98,7 @@ A [library](https://github.com/knowsuchagency/hugo_jupyter) to enable the use of
 
 *Creator / Lead Contributor*
 
-Jun, 2017 - Present
+Jun 2017 - Present
 
 An [html templating library for Python](http://journalpanic.com/ninjadog/) that allows one to combine both [pug](https://github.com/pugjs/pug)
 and [jinja2](https://github.com/pallets/jinja) syntax.
@@ -108,7 +108,7 @@ and [jinja2](https://github.com/pallets/jinja) syntax.
 
 *Creator / Lead Contributor*
 
-Jun, 2017 - Present
+Jun 2017 - Present
 
 A [project template to automate the creation and deployment of Python 3 packages](https://github.com/knowsuchagency/launchpad). Representing dozens of hours
 of work and many hundreds of hours of knowledge and experience from multiple developers, the template encourages best practices in Python packaging as well as embracing future-generation packing technology i.e. [Pipenv](http://docs.pipenv.org/en/latest/). It automates the creation of project documentation and deployment to [github pages](https://pages.github.com/) as well as automates the process of building, testing, -- via continuous integration with [TravisCI](http://travis-ci.org/) -- and deploying the package to [pypi](https://pypi.org/).
@@ -117,7 +117,7 @@ of work and many hundreds of hours of knowledge and experience from multiple dev
 
 *Sole Developer*
 
-Jun, 2014 – May, 2016
+Jun 2014 – May 2016
 
 A text parser that has so far processed over four million lines of data and saved analysts over three-thousand man-hours worth of work per year. Written over several months while working as an analyst. Led to a Joint Service Achievement Medal and placement into an official software development role.
 
@@ -126,7 +126,7 @@ A text parser that has so far processed over four million lines of data and save
 *Software Developer/ Military-Civilian liason/ SME*
 
 
-Jun, 2014 – May, 2016
+Jun 2014 – May 2016
 
 A collaborative project between DoD civilian leadership and military personnel designed to store, share, and analyze information for military analysts and their customers. Worked as a project lead, software developer, subject-matter expert, and military-civilian liason. Contributed greatly to the complete restructuring of a 60-person organization as a result of massive increase in analyst productivity.
 

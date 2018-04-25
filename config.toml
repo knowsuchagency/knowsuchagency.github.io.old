@@ -38,8 +38,8 @@ canonifyURLs = true
     weight = 3
 
 [[menu.main]]
-    name = "Resume"
-    url = "/page/resume/"
+    name = "Experience"
+    url = "/page/experience/"
     weight = 4
 
 [[menu.main]]
