@@ -257,12 +257,20 @@ the standard library to do the same things I was using Fabric for.</p>
 <li>a context manager that allows us to easily manipulate the $PATH variable temporarily</li>
 <li><strong>bonus</strong>: a context manager that allows us to temporarily suppress stdout and stderr</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">import</span> <span class="nn">subprocess</span> <span class="kn">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">typing</span> <span class="kn">as</span> <span class="nn">T</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">os</span></code></pre></div>
-<h2 id="the-shell-execution-function">The shell execution function</h2>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">singledispatch</span><span class="p">,</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getuser</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+
+<span class="kn">import</span> <span class="nn">click</span>
+
+<span class="n">Pathy</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></code></pre></div>
+<h2 id="executing-code-in-the-shell">Executing code in the shell</h2>
 
 <p>The following function will allow us to run commands in a bash
 shell spawned from our interpreter.</p>
@@ -275,9 +283,14 @@ or just accidentally delete something important.</p>
 
 <p>This is true of any task runner, or even bash script, but it&rsquo;s still worth
 mentioning.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">:</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+          <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+          <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+          <span class="n">show_command</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">:</span>
     <span class="sa"></span><span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Run the command in a shell.
+</span><span class="s2">
+</span><span class="s2">    !!! Make sure you trust the input to this command !!!
 </span><span class="s2">
 </span><span class="s2">    Args:
 </span><span class="s2">        command: the command to be run
@@ -288,21 +301,31 @@ mentioning.</p>
 </span><span class="s2">
 </span><span class="s2">                 This also means the command&#39;s stdout and stderr won&#39;t be
 </span><span class="s2">                 piped to FD 1 and 2 by default
+</span><span class="s2">        show_command: show command being run prefixed by user
 </span><span class="s2">
 </span><span class="s2">    Returns: Completed Process
 </span><span class="s2">
 </span><span class="s2">    &#34;&#34;&#34;</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{user}: {command}&#39;</span><span class="p">)</span>
-    <span class="n">process</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span>
-                     <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
-                     <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                     <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
-                     <span class="n">stderr</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span>
-                     <span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">getuser</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+    <span class="n">hostname</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">gethostname</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;magenta&#39;</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">show_command</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{user}@{hostname}: {command}&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">process</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span>
+                         <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                         <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                         <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="n">stderr</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">capture</span> <span class="k">else</span> <span class="bp">None</span>
+                         <span class="p">)</span>
+    <span class="k">except</span> <span class="n">sp</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
     <span class="k">print</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">process</span></code></pre></div>
-<h2 id="the-cd-context-manager">The cd context manager</h2>
+<h2 id="changing-directories">Changing Directories</h2>
 
 <p>This context manager just lets use change our current working
 directory, returning to the directory we were in once it goes out of scope.</p>
@@ -313,13 +336,13 @@ directory, returning to the directory we were in once it goes out of scope.</p>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
     <span class="k">yield</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span></code></pre></div>
-<h2 id="the-environment-variable-context-manager">The environment variable context manager</h2>
+<h2 id="changing-environment-variables">Changing Environment Variables</h2>
 
 <p>This context manager just makes it so we can temporarily add or alter
 existing environment variables, returning the environment to its
 previous state once out of scope.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">env</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">env</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">_Environ</span><span class="p">]:</span>
     <span class="sa"></span><span class="s2">&#34;&#34;&#34;Set environment variables and yield new environment dict.&#34;&#34;&#34;</span>
     <span class="n">original_environment</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
 
@@ -328,17 +351,14 @@ previous state once out of scope.</p>
 
     <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
 
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-            <span class="k">del</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_environment</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></code></pre></div>
-<h2 id="the-path-context-manager">The path context manager</h2>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="o">=</span> <span class="n">original_environment</span></code></pre></div>
+<h2 id="changing-the-path">Changing the $PATH</h2>
 
 <p>This is just some sugar sprinkled over the <code>env</code> context manager, making it easier
 to alter the $PATH environment variable.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">prepend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">expand_user</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">:</span> <span class="n">Pathy</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">expand_user</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sa"></span><span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Add the paths to $PATH and yield the new $PATH as a list.
 </span><span class="s2">
@@ -346,21 +366,26 @@ to alter the $PATH environment variable.</p>
 </span><span class="s2">        prepend: prepend paths to $PATH else append
 </span><span class="s2">        expand_user: expands home if ~ is used in path strings
 </span><span class="s2">    &#34;&#34;&#34;</span>
-    <span class="n">paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+    <span class="n">paths_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Pathy</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="n">paths_str_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths_list</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">_path</span><span class="o">.</span><span class="n">__fspath__</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;index: {index}&#39;</span><span class="p">)</span>
+            <span class="n">paths_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_path</span><span class="o">.</span><span class="n">__fspath__</span><span class="p">())</span>
         <span class="k">elif</span> <span class="n">expand_user</span><span class="p">:</span>
-            <span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">_path</span><span class="p">)</span>
-
+            <span class="n">paths_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">_path</span><span class="p">))</span>
     <span class="n">original_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="sa"></span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
 
-    <span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span> <span class="o">+</span> <span class="n">original_path</span> <span class="k">if</span> <span class="n">prepend</span> <span class="k">else</span> <span class="n">original_path</span> <span class="o">+</span> <span class="n">paths</span>
+    <span class="n">paths_str_list</span> <span class="o">=</span> <span class="n">paths_str_list</span> <span class="o">+</span> \
+        <span class="n">original_path</span> <span class="k">if</span> <span class="n">prepend</span> <span class="k">else</span> <span class="n">original_path</span> <span class="o">+</span> <span class="n">paths_str_list</span>
 
-    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
-        <span class="k">yield</span> <span class="n">paths</span></code></pre></div>
-<h2 id="bonus-quieting-stdout-and-stderr">Bonus: Quieting stdout and stderr</h2>
+    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths_str_list</span><span class="p">)):</span>
+        <span class="k">yield</span> <span class="n">paths_str_list</span></code></pre></div>
+<h1 id="bonus">Bonus</h1>
+
+<h2 id="quieting-stdout-and-stderr">Quieting stdout and stderr</h2>
 
 <p>This context manager just makes it easy to suppress stdout and stderr temporarily.</p>
 
@@ -396,6 +421,39 @@ in handy.</p>
     <span class="c1"># close all file descriptors.</span>
     <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">null_file_descriptors</span> <span class="o">+</span> <span class="n">stdout_and_stderr</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span></code></pre></div>
+<h2 id="send-yourself-notifications-when-tasks-finish">Send yourself notifications when tasks finish</h2>
+
+<p>We&rsquo;ll use our above functions and the aptly-named <a href="https://github.com/julienXX/terminal-notifier">terminal notifier</a> library to create ourselves a function that acts as either a simple function or as a decorator to notify us when tasks complete.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@singledispatch</span>
+<span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;run.py&#39;</span><span class="p">):</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Mac os pop-up notification.&#34;&#34;&#34;</span>
+    <span class="n">shell</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;terminal-notifier -title {title} -message {message} &#39;</span>
+          <span class="n">f</span><span class="sa"></span><span class="s1">&#39;-sound default&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+
+<span class="nd">@notify.register</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Send notification that task has finished.
+</span><span class="s2">
+</span><span class="s2">    Especially useful for long-running tasks
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;Succeeded!&#39;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;Failed&#39;</span>
+            <span class="k">raise</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">notify</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;__name__&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">inner</span></code></pre></div>
 <h2 id="usage">Usage</h2>
 
 <p>So the above already gets us pretty far. What does it look like in-practice?</p>
