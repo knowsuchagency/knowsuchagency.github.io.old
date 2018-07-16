@@ -5,9 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Pages</title>
-  <meta property="og:title" content="Pages" />
-  <meta name="twitter:title" content="Pages" />
+  <title>Pip Make Docker and SSH Oh My</title>
+  <meta property="og:title" content="Pip Make Docker and SSH Oh My" />
+  <meta name="twitter:title" content="Pip Make Docker and SSH Oh My" />
+  <meta name="description" content="Installing packages easily and securely in a docker container">
+  <meta property="og:description" content="Installing packages easily and securely in a docker container">
+  <meta name="twitter:description" content="Installing packages easily and securely in a docker container">
   <meta name="author" content="Stephan Fitzpatrick"/>
   <link href='https://knowsuchagency.github.io/img/lambda.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://knowsuchagency.github.io/img/lambda.png" />
@@ -15,12 +18,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@knowsuchagency" />
   <meta name="twitter:creator" content="@knowsuchagency" />
-  <meta property="og:url" content="https://knowsuchagency.github.io/page/" />
+  <meta property="og:url" content="https://knowsuchagency.github.io/post/python-docker-ssh/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
   <meta name="generator" content="Hugo 0.44" />
-  <link rel="canonical" href="https://knowsuchagency.github.io/page/" />
+  <link rel="canonical" href="https://knowsuchagency.github.io/post/python-docker-ssh/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -147,14 +150,37 @@
 
 
     
+  
+  
+  
+
+
+
+
+  
+
   <header class="header-section ">
+    
     <div class="intro-header no-img">
+      
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="page-heading">
-              <h1>Pages</h1>
-              <hr class="small">
+            <div class="post-heading">
+              <h1>Pip Make Docker and SSH Oh My</h1>
+                
+                  
+                    <h2 class="post-subheading">Installing packages easily and securely in a docker container</h2>
+                  
+                
+                
+                  <span class="post-meta">
+  Posted on July 15, 2018
+  
+</span>
+
+
+                
             </div>
           </div>
         </div>
@@ -162,138 +188,90 @@
     </div>
   </header>
 
+
     
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<h2 id="tldr">TLDR</h2>
+
+<p>this is how you use your ssh keys with Make and Docker to securely download/build Python packages</p>
+
+<p>The relevant <a href="https://gist.github.com/knowsuchagency/e0ccd472e8ccf0cb6c378ebe467face4">github gist can be found here</a></p>
+
+<h2 id="explanation">Explanation</h2>
+
+<p>Docker is a great tool for building and shipping applications.
+However, it can be difficult to know how to know when and how
+to lock, build, and/or vendor your packages for use in a container.</p>
+
+<p>You may think to download and vendor your packages locally and add
+them to your container image from your local filesystem, but the
+packages may not be &ldquo;built&rdquo; properly for the container.</p>
+
+<p>Instead you try instead to build those packages from within the container
+itself by adding a layer in your dockerfile i.e. <code>RUN pip install -r requirements.txt</code>
+but come to find that your docker container doesn&rsquo;t have the proper
+permissions to access the needed repositories.</p>
+
+<p>The following recipe uses your local filesystem&rsquo;s private key and Docker&rsquo;s
+new multi-stage build capabilities to allow you to download and vendor your packages
+within a container image that will be purged once the build is complete so as to
+not expose your private key in the final image.</p>
+
+<h2 id="makefile">Makefile</h2>
+<div class="highlight"><pre class="chroma"><code class="language-Makefile" data-lang="Makefile"><span class="nv">SSH_PRIVATE_KEY</span><span class="o">=</span><span class="sb">`</span>cat ~/.ssh/id_rsa<span class="sb">`</span>
+
+<span class="nf">build-image</span><span class="o">:</span>
+	docker build . --build-arg <span class="nv">SSH_PRIVATE_KEY</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">SSH_PRIVATE_KEY</span><span class="si">}</span><span class="s2">&#34;</span>
+</code></pre></div>
+<h2 id="dockerfile">Dockerfile</h2>
+<div class="highlight"><pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> python:3 as build-system</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> pip install -U pip<span class="err">
+</span><span class="err">
+</span><span class="err"></span>COPY requirements.txt requirements.txt<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c">### create temporary image used to download and vendor packages using private key ###</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> build-system as intermediate</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># add credentials on build</span><span class="err">
+</span><span class="err"></span>ARG SSH_PRIVATE_KEY<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> mkdir /root/.ssh/<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">SSH_PRIVATE_KEY</span><span class="si">}</span><span class="s2">&#34;</span> &gt; /root/.ssh/id_rsa<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chmod <span class="m">600</span> /root/.ssh/*<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> ssh-keyscan github.com &gt;&gt; /root/.ssh/known_hosts<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># vendor python dependencies</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> pip download -r requirements.txt -d /vendor/python<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c">### create the runtime image ###</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> build-system as runtime</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># install vendored python dependencies</span><span class="err">
+</span><span class="err"></span>COPY --from<span class="o">=</span>intermediate /vendor/python /vendor/python<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> pip install /vendor/python/*</code></pre></div>
+<h2 id="requirements-txt">Requirements.txt</h2>
+<div class="highlight"><pre class="chroma"><code class="language-requirements.txt" data-lang="requirements.txt">git+ssh://git@github.com/{user-or-group}/{repo}.git@{optional-tag-or-commit_hash}#egg={package_name}</code></pre></div>
+      </article>
+
+      <ul class="pager blog-pager">
         
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/page/experience/">
-                <h2 class="post-title">Professional Experience</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    ---
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on October 7, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/page/experience/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/page/resume/">
-                <h2 class="post-title">Professional Experience</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    ---
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on October 7, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://knowsuchagency.github.io/page/resume/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/page/projects/">
-                <h2 class="post-title">Projects</h2>
-
-                
-                  <h3 class="post-subtitle">
-                    for fun, not profit
-                  </h3>
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 30, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <hr />
-
-<p><h1 align="center">ninjadog: pug + jinja2 == ❤️</h1>
-<h3 align="center"><a href="http://journalpanic.com/ninjadog/">Documentation</h3></p>
-
-<p><a href="https://pugjs.org/api/getting-started.html">Pug template</a> (formerly <a href="https://naltatis.github.io/jade-syntax-docs/">Jade</a>) support for Python 3.</p>
-
-<ul>
-<li><a href="http://www.fabfile.org/"><strong>fabric</strong></a> for project automation</li>
-<li><a href="http://docopt.org/"><strong>docopt</strong></a> for the command-line interface</li>
-<li>leverages the <a href="https://github.com/pugjs/pug-cli"><strong>pug-cli</strong></a> library on npm to render pug templates through a subprocess</li>
-<li>continuous integration through <a href="https://travis-ci.org/"><strong>travis-ci</strong></a></li>
-<li>tested on multiple version of Python through the use of <a href="https://tox.readthedocs.io/en/latest/"><strong>tox</strong></a> prior to release on <a href="https://pypi.org/"><strong>pypi</strong></a></li>
-<li><a href="http://www.sphinx-doc.org/en/stable/"><strong>Sphinx</strong></a> to build and render documentation prior to deployment on <a href="https://pages.github.com/"><strong>GitHub Pages</strong></a></li>
-</ul>
-
-                
-              </div>
-
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://knowsuchagency.github.io/page/about/">
-                <h2 class="post-title"></h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on February 23, 2017
-              </p>
-              <div class="post-entry">
-                
-                  <p>Currently a software engineere <a href="https://kalohq.com/">@kalo</a></p>
-
-<p>I served six years in the Navy as a Chinese linguist. During that time, I transitioned from translation work, to intelligence analysis, and finally to software development.</p>
-
-<p>Co-Founder of PyHawaii, Hawaii&rsquo;s Python User Group.</p>
-
-<p>I have also been involved in HiCapacity, Code for Hawaii, and sfpython.</p>
-
-<p>I besides software engineering, my other love is academic debate - particularly parliamentary debate.</p>
-
-<p>Feel free to say hello. I love meeting new people :)</p>
-
-                
-              </div>
-
-              
-
-            </article>
-          
-        </div>
+          <li class="previous">
+            <a href="https://knowsuchagency.github.io/post/you-dont-need-a-task-runner/" data-toggle="tooltip" data-placement="top" title="You Don&#39;t Need a Task Runner">&larr; Previous Post</a>
+          </li>
         
-      </div>
+        
+      </ul>
+
+      
+
     </div>
   </div>
+</div>
 
     <footer>
   <div class="container">

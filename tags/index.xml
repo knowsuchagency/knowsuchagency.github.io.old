@@ -8,9 +8,46 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
+    <lastBuildDate>Sun, 15 Jul 2018 22:33:27 -0700</lastBuildDate>
     
 	<atom:link href="https://knowsuchagency.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker</title>
+      <link>https://knowsuchagency.github.io/tags/docker/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Make</title>
+      <link>https://knowsuchagency.github.io/tags/make/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/tags/make/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://knowsuchagency.github.io/tags/python/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ssh</title>
+      <link>https://knowsuchagency.github.io/tags/ssh/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/tags/ssh/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

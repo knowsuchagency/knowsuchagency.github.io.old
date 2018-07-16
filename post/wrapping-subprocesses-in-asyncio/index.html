@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.36" />
+  <meta name="generator" content="Hugo 0.44" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/wrapping-subprocesses-in-asyncio/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -221,7 +221,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 
 
-<span class="n">PROG</span> <span class="o">=</span> <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+<span class="n">PROG</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">import json
 </span><span class="s2">import time
 </span><span class="s2">from datetime import datetime
@@ -234,8 +234,8 @@
 </span><span class="s2">    print(json.dumps(data))
 </span><span class="s2">&#34;&#34;&#34;</span>
 
-<span class="k">with</span> <span class="n">Popen</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">PROG</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="k">as</span> <span class="n">proc</span><span class="p">:</span>
-    <span class="n">last_line</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;&#39;</span>
+<span class="k">with</span> <span class="n">Popen</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">PROG</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="k">as</span> <span class="n">proc</span><span class="p">:</span>
+    <span class="n">last_line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="n">start_time</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="mi">0</span>
     
     <span class="k">while</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span> <span class="c1"># only loop for 5 seconds</span>
@@ -288,8 +288,8 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
 
 
 <span class="k">def</span> <span class="nf">get_words_from_os_dict</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="n">p1</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;/usr/share/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># mac os</span>
-    <span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;/usr/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># debian/ubuntu</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/usr/share/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># mac os</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/usr/dict/words&#39;</span><span class="p">)</span>  <span class="c1"># debian/ubuntu</span>
     <span class="n">words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
@@ -299,20 +299,20 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
 
 
 <span class="k">def</span> <span class="nf">current_time</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="si">%c</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">%c</span><span class="s2">&#34;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="n">words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_words_from_os_dict</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">random_words</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span> <span class="k">if</span> <span class="n">words</span> <span class="k">else</span> <span class="sa"></span><span class="s1">&#39;no OS words file found&#39;</span>
+    <span class="n">random_words</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span> <span class="k">if</span> <span class="n">words</span> <span class="k">else</span> <span class="s1">&#39;no OS words file found&#39;</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
-        <span class="sa"></span><span class="s1">&#39;current_time&#39;</span><span class="p">:</span> <span class="n">current_time</span><span class="p">(),</span>
-        <span class="sa"></span><span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">random_words</span>
+        <span class="s1">&#39;current_time&#39;</span><span class="p">:</span> <span class="n">current_time</span><span class="p">(),</span>
+        <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">random_words</span>
     <span class="p">})</span>
 
 
 <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{__file__} in process {os.getpid()} waiting {seconds} seconds to print json string&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{__file__} in process {os.getpid()} waiting {seconds} seconds to print json string&#39;</span><span class="p">)</span>
     <span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">printer</span><span class="p">())</span></code></pre></div>
 <h1 id="an-asynchronous-example">An Asynchronous Example</h1>
@@ -343,7 +343,7 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
         <span class="n">loop</span><span class="o">.</span><span class="n">set_default_executor</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
         <span class="k">yield</span> <span class="n">loop</span>
     <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">---loop closed---</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">---loop closed---</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
 
 <span class="c1"># any `async def` function is a coroutine</span>
@@ -356,7 +356,7 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
 
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">bytes_</span> <span class="o">=</span> <span class="n">await</span> <span class="n">process</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="n">bytes_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">bytes_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
         <span class="c1"># deserialize_json is a function that</span>
         <span class="c1"># we&#39;ll send off to our executor</span>
         <span class="n">deserialize_json</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
@@ -365,14 +365,14 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
             <span class="c1"># run deserialize_json in the loop&#39;s default executor (ProcessPoolExecutor)</span>
             <span class="c1"># and wait for it to return</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">await</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="n">executor</span><span class="p">,</span> <span class="n">deserialize_json</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{process} -&gt; {output}&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{process} -&gt; {output}&#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;JSONDecodeError for input: &#39;</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;JSONDecodeError for input: &#39;</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
 
 
 <span class="k">def</span> <span class="nf">create_process</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">Process</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;printer.py&#39;</span><span class="p">,</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;printer.py&#39;</span><span class="p">,</span>
         <span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
     <span class="p">)</span>
 
@@ -381,7 +381,7 @@ INFO:root:{'time': 'Mon Sep 25 16:16:21 2017 690149 milliseconds', 'string': 'he
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Return after a set amount of time,
 </span><span class="s2">    cancelling all other tasks before doing so.
 </span><span class="s2">    &#34;&#34;&#34;</span>
@@ -553,7 +553,7 @@ ERROR:root:JSONDecodeError for input: printer.py in process 92543 waiting 3 seco
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.44</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

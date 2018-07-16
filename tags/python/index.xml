@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Journal Panic</title>
+    <link>https://knowsuchagency.github.io/tags/python/</link>
+    <description>Recent content in Python on Journal Panic</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
+    <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
+    <lastBuildDate>Sun, 15 Jul 2018 22:33:27 -0700</lastBuildDate>
+    
+	<atom:link href="https://knowsuchagency.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pip Make Docker and SSH Oh My</title>
+      <link>https://knowsuchagency.github.io/post/python-docker-ssh/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/python-docker-ssh/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -8,10 +8,19 @@
     <language>en-us</language>
     <managingEditor>knowsuchagency@gmail.com (Stephan Fitzpatrick)</managingEditor>
     <webMaster>knowsuchagency@gmail.com (Stephan Fitzpatrick)</webMaster>
-    <lastBuildDate>Thu, 01 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Jul 2018 22:33:27 -0700</lastBuildDate>
     
 	<atom:link href="https://knowsuchagency.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pip Make Docker and SSH Oh My</title>
+      <link>https://knowsuchagency.github.io/post/python-docker-ssh/</link>
+      <pubDate>Sun, 15 Jul 2018 22:33:27 -0700</pubDate>
+      <author>knowsuchagency@gmail.com (Stephan Fitzpatrick)</author>
+      <guid>https://knowsuchagency.github.io/post/python-docker-ssh/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>You Don&#39;t Need a Task Runner</title>

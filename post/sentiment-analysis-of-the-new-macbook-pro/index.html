@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.36" />
+  <meta name="generator" content="Hugo 0.44" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/sentiment-analysis-of-the-new-macbook-pro/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -228,7 +228,7 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 
 <span class="c1"># I saved my user agent string in a local file</span>
 <span class="c1"># since one should use their own</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;./.user_agent&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./.user_agent&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">user_agent</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 <span class="c1"># instantiate Reddit connection class</span>
@@ -237,7 +237,7 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 <span class="c1"># let&#39;s get the current top 10 submissions</span>
 <span class="c1"># since praw interacts with reddit lazily, we wrap the method</span>
 <span class="c1"># call in a list</span>
-<span class="n">submissions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get_subreddit</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;apple&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_hot</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">submissions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get_subreddit</span><span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_hot</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">submissions</span><span class="p">]</span></code></pre></div>
 <pre><code>['375 :: Apple Keynote, October 2016 | Post-Event Megathread',
  '44 :: Pre-order Shipping Megathread | Mac Lineup, 2016',
@@ -277,7 +277,7 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 <span class="c1"># the actual text is in the body</span>
 <span class="c1"># attribute of a Comment</span>
 <span class="k">def</span> <span class="nf">get_comments</span><span class="p">(</span><span class="n">submission</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Return a list of comments from a submission.
 </span><span class="s2">    
 </span><span class="s2">    We can&#39;t just use submission.comments, because some
@@ -289,7 +289,7 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
 </span><span class="s2">    &#34;&#34;&#34;</span>
     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">def</span> <span class="nf">barf_comments</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="n">submission</span><span class="o">.</span><span class="n">comments</span><span class="p">):</span>
-        <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+        <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">        This generator barfs out comments.
 </span><span class="s2">        
 </span><span class="s2">        Some comments seem not to have bodies, so we skip those.
@@ -298,10 +298,10 @@ it seemed to me like the overwhelming majority of users on Reddit <a href="https
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;body&#39;</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">c</span><span class="o">.</span><span class="n">body</span>
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
                 <span class="c1"># handle MoreComments classes</span>
                 <span class="k">yield</span> <span class="kn">from</span> <span class="nn">barf_comments</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">barf_comments</span><span class="p">()</span>
@@ -349,7 +349,7 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 </code></pre>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">textblob</span> <span class="kn">import</span> <span class="n">TextBlob</span>
 
-<span class="n">comment_blob</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comments</span><span class="p">))</span></code></pre></div>
+<span class="n">comment_blob</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comments</span><span class="p">))</span></code></pre></div>
 <pre><code>Sentiment(polarity=-0.06283927712499143, subjectivity=0.5978612657184086)
 </code></pre>
 
@@ -360,7 +360,7 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
 </code></pre>
 
 <p>I figure there are many more than 404 comments for those submissions. I suspect we only get that many because praw <a href="https://praw.readthedocs.io/en/stable/pages/faq.html">tries to do the right thing</a> and follow Reddit&rsquo;s guidelines for the amount of requests one can make within a given time limit. We&rsquo;re not going to worry about that now. 404 comments is good enough since we&rsquo;re only tinkering :)</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">bigger_blob</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">more_comments</span><span class="p">))</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">bigger_blob</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">more_comments</span><span class="p">))</span>
 
 <span class="c1"># The first time I ran this method, it failed</span>
 <span class="c1"># because I hadn&#39;t read TextBlob&#39;s docs closely</span>
@@ -528,7 +528,7 @@ Sentiment(polarity=0.39166666666666666, subjectivity=0.4357142857142857)
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.44</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.36" />
+  <meta name="generator" content="Hugo 0.44" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/recursion-what-is-it-good-for/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -220,34 +220,34 @@ f(172801) -&gt; &quot;2 Days 1 Second&quot;
 <p>My friend had to turn in the assignment that night, so I quickly banged out a naive solution with the promise that I&rsquo;d go over it with them later.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seconds_to_string</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">seconds</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;seconds must be greater than zero&#34;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;seconds must be greater than zero&#34;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">seconds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa"></span><span class="s1">&#39;0 seconds&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;0 seconds&#39;</span>
     
-    <span class="n">string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;&#39;</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     
     <span class="n">weeks</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">24</span> <span class="o">//</span> <span class="mi">7</span>
     <span class="k">if</span> <span class="n">weeks</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{weeks} weeks &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{weeks} weeks &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">weeks</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span>
     
     <span class="n">days</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">//</span> <span class="mi">24</span>
     <span class="k">if</span> <span class="n">days</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{days} days &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{days} days &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">days</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
     
     <span class="n">hours</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">//</span> <span class="mi">60</span>
     <span class="k">if</span> <span class="n">hours</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{hours} hours &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{hours} hours &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">hours</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
     
     <span class="n">minutes</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">//</span> <span class="mi">60</span>
     <span class="k">if</span> <span class="n">minutes</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{minutes} minutes &#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{minutes} minutes &#39;</span>
     <span class="n">seconds</span> <span class="o">-=</span> <span class="n">minutes</span> <span class="o">*</span> <span class="mi">60</span>
         
     <span class="k">if</span> <span class="n">seconds</span><span class="p">:</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{seconds} seconds&#39;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;{seconds} seconds&#39;</span>
         
     <span class="k">return</span> <span class="n">string</span>
     
@@ -284,12 +284,12 @@ str(Seconds(101)) -&gt; '101 Seconds'
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
 
 <span class="k">class</span> <span class="nc">TimeUnit</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;A class that defines the semantics of a unit of time i.e. seconds, minutes, hours etc.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;A class that defines the semantics of a unit of time i.e. seconds, minutes, hours etc.&#34;&#34;&#34;</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sa"></span><span class="s2">&#34;&#34;&#34;Ensure no negative units are created.&#34;&#34;&#34;</span>
+        <span class="s2">&#34;&#34;&#34;Ensure no negative units are created.&#34;&#34;&#34;</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{cls.__name__} must be greater than zero. x={x}&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{cls.__name__} must be greater than zero. x={x}&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -325,7 +325,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">singular</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">singular</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">return</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{int(self)} {units}&#39;</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;{int(self)} {units}&#39;</span>
     
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -393,7 +393,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">assert</span> <span class="n">Minutes</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="o">==</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="o">==</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;equality tests passed&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;equality tests passed&#39;</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">test_conversions</span><span class="p">():</span>
     <span class="k">assert</span> <span class="n">Seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Minutes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">61</span>
@@ -404,7 +404,7 @@ str(Seconds(101)) -&gt; '101 Seconds'
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
     <span class="k">assert</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Days</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;conversions passed&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;conversions passed&#39;</span><span class="p">)</span>
     
 <span class="n">test_equality</span><span class="p">()</span>
 <span class="n">test_conversions</span><span class="p">()</span></code></pre></div>
@@ -435,18 +435,18 @@ conversions passed
 
 <p>in addition, the <code>.join</code> method of a string takes an iterable of strings as an argument and returns a string that joins the elements of the iterable together.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># for a comma-separated list of even numbers 0-through-10</span>
-<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="n">random_things</span> <span class="o">=</span> <span class="p">[</span><span class="sa"></span><span class="s1">&#39;pizza&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;beer&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{},</span> <span class="sa"></span><span class="s1">&#39;netflix&#39;</span><span class="p">]</span>
-<span class="n">things_string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span><span class="p">)</span>
+<span class="n">random_things</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pizza&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s2">&#34;beer&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{},</span> <span class="s1">&#39;netflix&#39;</span><span class="p">]</span>
+<span class="n">things_string</span> <span class="o">=</span> <span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;all the things:&#39;</span><span class="p">,</span> <span class="n">things_string</span> <span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;all the things:&#39;</span><span class="p">,</span> <span class="n">things_string</span> <span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="c1"># notice the predicate can be a variable itself, it will be</span>
 <span class="c1"># evaluated on its &#34;truthiness&#34;</span>
-<span class="n">some_things_string</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span> <span class="k">if</span> <span class="n">thing</span><span class="p">)</span>
+<span class="n">some_things_string</span> <span class="o">=</span> <span class="s1">&#39;++&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_things</span> <span class="k">if</span> <span class="n">thing</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;only that which is True:&#39;</span><span class="p">,</span> <span class="n">some_things_string</span><span class="p">)</span></code></pre></div>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;only that which is True:&#39;</span><span class="p">,</span> <span class="n">some_things_string</span><span class="p">)</span></code></pre></div>
 <pre><code>0, 2, 4, 6, 8
 
 all the things: pizza++None++beer++0++42++{}++netflix
@@ -492,7 +492,7 @@ only that which is True: pizza++beer++42++netflix
     <span class="k">if</span> <span class="n">seconds</span><span class="p">:</span>
         <span class="n">units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
         
-    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">units</span><span class="p">)</span></code></pre></div>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">units</span><span class="p">)</span></code></pre></div>
 <h2 id="you-promised-recursion">You promised recursion</h2>
 
 <p>&ldquo;But, Stephan&rdquo;, you interject.</p>
@@ -508,9 +508,9 @@ only that which is True: pizza++beer++42++netflix
 
 <span class="k">def</span> <span class="nf">diminish</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;this is the base case&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;this is the base case&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;called diminish({n})&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;called diminish({n})&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">diminish</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">diminish</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -544,7 +544,7 @@ this is the base case
 <span class="k">print</span><span class="p">(</span><span class="n">counter</span><span class="p">(),</span> <span class="n">counter</span><span class="p">(),</span> <span class="n">counter</span><span class="p">())</span>
 
 <span class="n">count_from_10_by_5</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">from_</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count_from_10_by_5</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span></code></pre></div>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count_from_10_by_5</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span></code></pre></div>
 <pre><code>1 2 3
 15 20 25
 </code></pre>
@@ -581,7 +581,7 @@ this is the base case
         <span class="c1"># then we append the string for that unit of time to the last string</span>
         <span class="c1"># that was input to the function and add it as a parameter to the </span>
         <span class="c1"># next function call</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="sa"></span><span class="s1">&#39; &#39;</span> <span class="k">if</span> <span class="n">time_unit</span> <span class="k">else</span> <span class="sa"></span><span class="s1">&#39;&#39;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="k">if</span> <span class="n">time_unit</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">time_unit</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">Weeks</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span><span class="o">+</span><span class="n">s</span><span class="p">,</span> <span class="n">Days</span><span class="p">)</span>
@@ -592,32 +592,32 @@ this is the base case
         <span class="k">elif</span> <span class="n">time_unit</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">Minutes</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span><span class="o">+</span><span class="n">s</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">)</span>
             
-    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">)</span>
 
 
 
 <span class="k">def</span> <span class="nf">test_string_func</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">8989</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;2 Hours 29 Minutes 49 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;2 Hours 29 Minutes 49 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;0 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;0 Seconds&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">60</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Minute&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Minute&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
     <span class="n">input_</span> <span class="o">=</span> <span class="n">Seconds</span><span class="p">(</span><span class="mi">61</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Weeks</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;1 Week 1 Hour 1 Minute 1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="sa"></span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
+    <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;1 Week 1 Hour 1 Minute 1 Second&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{func.__name__}({input_}) -&gt; {output}&#39;</span>
     
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;stringification tests passed for {func.__name__}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;stringification tests passed for {func.__name__}&#39;</span><span class="p">)</span>
     
     
 <span class="n">test_string_func</span><span class="p">(</span><span class="n">seconds_to_string</span><span class="p">)</span></code></pre></div>
@@ -642,9 +642,9 @@ this is the base case
         <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Weeks</span><span class="p">,</span> <span class="n">Days</span><span class="p">,</span> <span class="n">Hours</span><span class="p">,</span> <span class="n">Minutes</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">):</span>
             <span class="n">time_unit</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">from_seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">time_unit</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="o">-</span><span class="n">time_unit</span><span class="p">,</span> <span class="n">string</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_unit</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
 <span class="n">seconds_to_string_with_for_loop</span><span class="p">(</span><span class="mi">72783</span><span class="p">)</span></code></pre></div>
 <pre><code>'20 Hours 13 Minutes 3 Seconds'
@@ -674,7 +674,7 @@ this is the base case
     <span class="n">factory</span> <span class="o">=</span> <span class="n">unit_factory</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
     <span class="n">time_units</span> <span class="o">=</span> <span class="p">(</span><span class="n">factory</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Weeks</span><span class="p">,</span> <span class="n">Days</span><span class="p">,</span> <span class="n">Hours</span><span class="p">,</span> <span class="n">Minutes</span><span class="p">,</span> <span class="n">Seconds</span><span class="p">))</span>
     
-    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">time_units</span> <span class="k">if</span> <span class="n">unit</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">time_units</span> <span class="k">if</span> <span class="n">unit</span><span class="p">)</span>
 
 
 <span class="n">seconds_to_string_with_closure_factory</span><span class="p">(</span><span class="mi">27364283</span><span class="p">)</span></code></pre></div>
@@ -705,7 +705,7 @@ this is the base case
             <span class="k">if</span> <span class="n">unit</span><span class="p">:</span> <span class="k">yield</span> <span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
             <span class="n">secs</span> <span class="o">-=</span> <span class="n">unit</span>
     
-    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen_unit_strings</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen_unit_strings</span><span class="p">(</span><span class="n">seconds</span><span class="p">))</span>
 
 
 <span class="n">seconds_to_string_with_generator_func</span><span class="p">(</span><span class="mi">2342455</span><span class="p">)</span></code></pre></div>
@@ -813,7 +813,7 @@ this is the base case
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.44</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

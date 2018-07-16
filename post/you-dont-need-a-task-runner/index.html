@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.36" />
+  <meta name="generator" content="Hugo 0.44" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/you-dont-need-a-task-runner/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -198,7 +198,7 @@
 
 <p>This story is about task automation and build tools.</p>
 
-<p>Feel free to <a href="#yotar"><strong>skip ahead</strong></a> to the code and check out <a href="https://github.com/knowsuchagency/yotar">the repo itself</a>.</p>
+<p>Feel free to <a href="#yotar"><strong>skip ahead</strong></a> to the code and check out <a href="https://github.com/knowsuchagency/shell-utils">the repo itself</a>.</p>
 
 <p>For a far more fleshed out example of the following, <a href="https://github.com/knowsuchagency/python-package-template/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/run.py"><strong>check out my cookiecutter</strong></a>.</p>
 
@@ -236,9 +236,9 @@ together.</p>
 
 <p><strong>Enough pontification! Let&rsquo;s look at some code!</strong><a name="yotar"></a></p>
 
-<h1 id="yotar-https-github-com-knowsuchagency-yotar"><a href="https://github.com/knowsuchagency/yotar">YOTAR</a></h1>
+<h1 id="yotar-https-github-com-knowsuchagency-shell-utils"><a href="https://github.com/knowsuchagency/shell-utils">YOTAR</a></h1>
 
-<h2 id="your-own-task-runner">Your own Task Runner</h2>
+<h2 id="your-own-task-runner">Your Own Task Runner</h2>
 
 <p>Apart from the fact that Python is a great programming language to begin with, the standard library provides bevy of utilities that make it really powerful as a means of interacting with the operating system.</p>
 
@@ -287,7 +287,7 @@ mentioning.</p>
           <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
           <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">show_command</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Run the command in a shell.
 </span><span class="s2">
 </span><span class="s2">    !!! Make sure you trust the input to this command !!!
@@ -306,12 +306,12 @@ mentioning.</p>
 </span><span class="s2">    Returns: Completed Process
 </span><span class="s2">
 </span><span class="s2">    &#34;&#34;&#34;</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">getuser</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
-    <span class="n">hostname</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">gethostname</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;magenta&#39;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">getuser</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+    <span class="n">hostname</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">gethostname</span><span class="p">(),</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">)</span>
 
     <span class="k">print</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">show_command</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;{user}@{hostname}: {command}&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{user}@{hostname}: {command}&#39;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">process</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span>
@@ -331,7 +331,7 @@ mentioning.</p>
 directory, returning to the directory we were in once it goes out of scope.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">cd</span><span class="p">(</span><span class="n">path_</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Change the current working directory.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;Change the current working directory.&#34;&#34;&#34;</span>
     <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
     <span class="k">yield</span>
@@ -343,7 +343,7 @@ existing environment variables, returning the environment to its
 previous state once out of scope.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">env</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">_Environ</span><span class="p">]:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Set environment variables and yield new environment dict.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;Set environment variables and yield new environment dict.&#34;&#34;&#34;</span>
     <span class="n">original_environment</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -359,7 +359,7 @@ to alter the $PATH environment variable.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">:</span> <span class="n">Pathy</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">expand_user</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span>
         <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Add the paths to $PATH and yield the new $PATH as a list.
 </span><span class="s2">
 </span><span class="s2">    Args:
@@ -372,16 +372,16 @@ to alter the $PATH environment variable.</p>
 
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths_list</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;index: {index}&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;index: {index}&#39;</span><span class="p">)</span>
             <span class="n">paths_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_path</span><span class="o">.</span><span class="n">__fspath__</span><span class="p">())</span>
         <span class="k">elif</span> <span class="n">expand_user</span><span class="p">:</span>
             <span class="n">paths_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">_path</span><span class="p">))</span>
-    <span class="n">original_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="sa"></span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="n">original_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
 
     <span class="n">paths_str_list</span> <span class="o">=</span> <span class="n">paths_str_list</span> <span class="o">+</span> \
         <span class="n">original_path</span> <span class="k">if</span> <span class="n">prepend</span> <span class="k">else</span> <span class="n">original_path</span> <span class="o">+</span> <span class="n">paths_str_list</span>
 
-    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths_str_list</span><span class="p">)):</span>
+    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths_str_list</span><span class="p">)):</span>
         <span class="k">yield</span> <span class="n">paths_str_list</span></code></pre></div>
 <h1 id="bonus">Bonus</h1>
 
@@ -393,7 +393,7 @@ to alter the $PATH environment variable.</p>
 in handy.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">quiet</span><span class="p">():</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Suppress stdout and stderr.
 </span><span class="s2">
 </span><span class="s2">    https://stackoverflow.com/questions/11130156/suppress-stdout-stderr-print-from-python-functions
@@ -425,15 +425,15 @@ in handy.</p>
 
 <p>We&rsquo;ll use our above functions and the aptly-named <a href="https://github.com/julienXX/terminal-notifier">terminal notifier</a> library to create ourselves a function that acts as either a simple function or as a decorator to notify us when tasks complete.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@singledispatch</span>
-<span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;run.py&#39;</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Mac os pop-up notification.&#34;&#34;&#34;</span>
-    <span class="n">shell</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;terminal-notifier -title {title} -message {message} &#39;</span>
-          <span class="n">f</span><span class="sa"></span><span class="s1">&#39;-sound default&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;run.py&#39;</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Mac os pop-up notification.&#34;&#34;&#34;</span>
+    <span class="n">shell</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;terminal-notifier -title {title} -message {message} &#39;</span>
+          <span class="n">f</span><span class="s1">&#39;-sound default&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 
 <span class="nd">@notify.register</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    Send notification that task has finished.
 </span><span class="s2">
 </span><span class="s2">    Especially useful for long-running tasks
@@ -441,48 +441,48 @@ in handy.</p>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;Succeeded!&#39;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Succeeded!&#39;</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;Failed&#39;</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Failed&#39;</span>
             <span class="k">raise</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">result</span>
         <span class="k">finally</span><span class="p">:</span>
-            <span class="n">notify</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;__name__&#39;</span><span class="p">))</span>
+            <span class="n">notify</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">inner</span></code></pre></div>
 <h2 id="usage">Usage</h2>
 
 <p>So the above already gets us pretty far. What does it look like in-practice?</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;mkdir -p foo&#39;</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">shell</span><span class="p">(</span><span class="s1">&#39;mkdir -p foo&#39;</span><span class="p">)</span>
 
-<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+<span class="n">shell</span><span class="p">(</span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;foo&#39;</span><span class="p">):</span>
-    <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;bar&#39;</span><span class="p">):</span>
-        <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">):</span>
+    <span class="n">shell</span><span class="p">(</span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">env</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">):</span>
+        <span class="n">shell</span><span class="p">(</span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
     <span class="c1"># shouldn&#39;t output anything</span>
-    <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
+    <span class="n">shell</span><span class="p">(</span><span class="s1">&#39;echo $foo&#39;</span><span class="p">)</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;echo hello&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">shell</span><span class="p">(</span><span class="s1">&#39;echo hello&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;The output was: {output}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;The output was: {output}&#39;</span><span class="p">)</span>
 
-<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
+<span class="n">shell</span><span class="p">(</span><span class="s1">&#39;pwd&#39;</span><span class="p">)</span>
 
-<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;rm -rf foo&#39;</span><span class="p">)</span>
+<span class="n">shell</span><span class="p">(</span><span class="s1">&#39;rm -rf foo&#39;</span><span class="p">)</span>
 
-<span class="n">shell</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;ls&#39;</span><span class="p">)</span>
+<span class="n">shell</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">quiet</span><span class="p">():</span>
     <span class="c1"># shouldn&#39;t output anything</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;hello, world&#39;</span><span class="p">)</span></code></pre></div>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;hello, world&#39;</span><span class="p">)</span></code></pre></div>
 <pre><code>
 stephanfitzpatrick: mkdir -p foo
 
@@ -528,6 +528,10 @@ yotar.py
             <a href="https://knowsuchagency.github.io/post/collatz-conjecture/" data-toggle="tooltip" data-placement="top" title="Collatz Conjecture">&larr; Previous Post</a>
           </li>
         
+        
+          <li class="next">
+            <a href="https://knowsuchagency.github.io/post/python-docker-ssh/" data-toggle="tooltip" data-placement="top" title="Pip Make Docker and SSH Oh My">Next Post &rarr;</a>
+          </li>
         
       </ul>
 
@@ -618,7 +622,7 @@ yotar.py
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.44</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

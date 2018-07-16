@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://knowsuchagency.github.io/post/python-docker-ssh/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://knowsuchagency.github.io/post/you-dont-need-a-task-runner/</loc>
     <lastmod>2018-03-01T00:00:00+00:00</lastmod>
   </url>
@@ -73,8 +78,20 @@
   </url>
   
   <url>
+    <loc>https://knowsuchagency.github.io/tags/docker/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://knowsuchagency.github.io/</loc>
-    <lastmod>2018-03-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://knowsuchagency.github.io/tags/make/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -86,12 +103,25 @@
   
   <url>
     <loc>https://knowsuchagency.github.io/post/</loc>
-    <lastmod>2018-03-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://knowsuchagency.github.io/tags/python/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://knowsuchagency.github.io/tags/ssh/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://knowsuchagency.github.io/tags/</loc>
+    <lastmod>2018-07-15T22:33:27-07:00</lastmod>
     <priority>0</priority>
   </url>
   

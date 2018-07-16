@@ -22,7 +22,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Journal Panic" />
 
-  <meta name="generator" content="Hugo 0.36" />
+  <meta name="generator" content="Hugo 0.44" />
   <link rel="canonical" href="https://knowsuchagency.github.io/post/postmodern-error-handling-in-python-3.6/" />
   <link rel="alternate" href="https://knowsuchagency.github.io/index.xml" type="application/rss+xml" title="Journal Panic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -251,7 +251,7 @@ what do you call a union-type with three states?</p>
     <span class="n">smart_choice</span><span class="p">,</span> <span class="c1"># notice the pretty repr</span>
     <span class="n">smart_choice</span> <span class="o">==</span> <span class="n">SlapBet</span><span class="o">.</span><span class="n">TEN_SLAPS</span><span class="p">,</span>
     <span class="n">smart_choice</span> <span class="o">==</span> <span class="n">stupid_choice</span><span class="p">,</span>
-    <span class="n">sep</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 <span class="p">)</span></code></pre></div>
 <pre><code>SlapBet.TEN_SLAPS
 True
@@ -263,22 +263,22 @@ False
 <p>The second reason is that Enum instances can hold values we may want to use.</p>
 
 <p>Let&rsquo;s say you have a function that has an optional parameter.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">,</span> <span class="n">person_2</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;knows&#39;</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">,</span> <span class="n">person_2</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s1">&#39;knows&#39;</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
     
     <span class="c1"># this sexy f&#34;&#34; string format is part of the new Python 3.6</span>
     <span class="c1"># hotness. An article for another day.</span>
     
-    <span class="k">return</span> <span class="n">f</span><span class="sa"></span><span class="s2">&#34;{person_1} {relationship} {person_2}&#34;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&#34;{person_1} {relationship} {person_2}&#34;</span>
 
-<span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;is best friends with&#34;</span><span class="p">)</span></code></pre></div>
+<span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s2">&#34;is best friends with&#34;</span><span class="p">)</span></code></pre></div>
 <pre><code>'Ron is best friends with Harry'
 </code></pre>
 
 <p>Now let&rsquo;s say we want to restrain the possible relationships that people can have.</p>
 
 <p>Maybe we want to do this to prevent errors or to simply prevent weirdness like the following.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;is dating Hermoine but secretly wants&#34;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="s2">&#34;is dating Hermoine but secretly wants&#34;</span><span class="p">)</span></code></pre></div>
 <pre><code>'Ron is dating Hermoine but secretly wants Harry'
 </code></pre>
 
@@ -286,20 +286,20 @@ False
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <span class="k">class</span> <span class="nc">Relationship</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">knows</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;knows&#39;</span>
-    <span class="n">likes</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;likes&#39;</span>
-    <span class="n">loves</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;loves&#39;</span>
-    <span class="n">detests</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;detests&#39;</span>
-    <span class="n">bff</span> <span class="o">=</span> <span class="sa"></span><span class="s2">&#34;is best friends with&#34;</span>
+    <span class="n">knows</span> <span class="o">=</span> <span class="s1">&#39;knows&#39;</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="s1">&#39;likes&#39;</span>
+    <span class="n">loves</span> <span class="o">=</span> <span class="s1">&#39;loves&#39;</span>
+    <span class="n">detests</span> <span class="o">=</span> <span class="s1">&#39;detests&#39;</span>
+    <span class="n">bff</span> <span class="o">=</span> <span class="s2">&#34;is best friends with&#34;</span>
 
 <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">,</span> <span class="n">person_2</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">likes</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
     
     <span class="c1"># notice we use the .value of the Relationship instance to get the string</span>
     
-    <span class="k">return</span> <span class="n">f</span><span class="sa"></span><span class="s2">&#34;{person_1} {relationship.value} {person_2}&#34;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&#34;{person_1} {relationship.value} {person_2}&#34;</span>
 
-<span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span></code></pre></div>
+<span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span></code></pre></div>
 <pre><code>'Ron is best friends with Harry'
 </code></pre>
 
@@ -308,10 +308,10 @@ False
 <p>Now, before tackle the original question that started us on this journey, let&rsquo;s quickly talk about another new and incredibly useful and important feature since Python 3.5 that has been vastly improved in Python 3.6 - type annotations.</p>
 
 <p>In our previous example, there would be nothing to prevent someone from doing the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="sa"></span><span class="s1">&#39;power&#39;</span>
-<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;corrupts&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span>
+<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;corrupts&#39;</span>
 
-<span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span></code></pre></div>
+<span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span></code></pre></div>
 <pre><code>'Ron corrupts Harry'
 </code></pre>
 
@@ -321,32 +321,32 @@ False
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <span class="k">class</span> <span class="nc">Relationship</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">knows</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;knows&#39;</span>
-    <span class="n">likes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;likes&#39;</span>
-    <span class="n">loves</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;loves&#39;</span>
-    <span class="n">detests</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;detests&#39;</span>
-    <span class="n">bff</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa"></span><span class="s2">&#34;is best friends with&#34;</span>
+    <span class="n">knows</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;knows&#39;</span>
+    <span class="n">likes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;likes&#39;</span>
+    <span class="n">loves</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;loves&#39;</span>
+    <span class="n">detests</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detests&#39;</span>
+    <span class="n">bff</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&#34;is best friends with&#34;</span>
     
 <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="n">person_1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                <span class="n">person_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                <span class="n">relationship</span><span class="p">:</span> <span class="n">Relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">knows</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;Return a string that represents the relationship between two people.&#34;&#34;&#34;</span>
     
     <span class="c1"># notice we use the .value of the Relationship instance to get the string</span>
     
-    <span class="k">return</span> <span class="n">f</span><span class="sa"></span><span class="s2">&#34;{person_1} {relationship.value} {person_2}&#34;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&#34;{person_1} {relationship.value} {person_2}&#34;</span>
 
-<span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span></code></pre></div>
+<span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">Relationship</span><span class="o">.</span><span class="n">bff</span><span class="p">)</span></code></pre></div>
 <pre><code>'Ron is best friends with Harry'
 </code></pre>
 
 <p>&ldquo;Huh?&rdquo;, you say. &ldquo;It looks to me like things just got more verbosified. I like making up words.&rdquo;</p>
 
 <p>Cool word, and you would be right, things did get more wordy. Moreover, adding all those annotations won&rsquo;t prevent someone from doing what we mentioned before,</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="sa"></span><span class="s1">&#39;power&#39;</span>
-<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;corrupts&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">evil</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span>
+<span class="n">evil</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;corrupts&#39;</span>
 
-<span class="n">connection</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span> <span class="c1"># this still works, though we don&#39;t want it to</span></code></pre></div>
+<span class="n">connection</span><span class="p">(</span><span class="s2">&#34;Ron&#34;</span><span class="p">,</span> <span class="s2">&#34;Harry&#34;</span><span class="p">,</span> <span class="n">relationship</span><span class="o">=</span><span class="n">evil</span><span class="p">)</span> <span class="c1"># this still works, though we don&#39;t want it to</span></code></pre></div>
 <p>&hellip; <strong>unless</strong>, that is, we run that code using - <a href="http://mypy-lang.org/"><strong>mypy</strong></a></p>
 
 <p>Mypy allows you to add type annotations and enforce them prior to running your program, so the only way the above function would run is if the relationship parameter was of type Relationship when called. Amazing!</p>
@@ -367,7 +367,7 @@ False
 
 <p>So, before we look at the code, it&rsquo;s cool to note that as of Python 3.6 we now have typed NamedTuples that we can declare using a new syntax in 3.6. We had this typed namedtuples in Python 3.5 but I think the new syntax is much cleaner.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># old way</span>
-<span class="n">Employee</span> <span class="o">=</span> <span class="n">NamedTuple</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;Employee&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="sa"></span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="p">(</span><span class="sa"></span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span>
+<span class="n">Employee</span> <span class="o">=</span> <span class="n">NamedTuple</span><span class="p">(</span><span class="s1">&#39;Employee&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span>
 
 <span class="c1"># new sauce</span>
 <span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -386,14 +386,14 @@ False
 
 
 <span class="k">class</span> <span class="nc">ApiInteraction</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;The 3 possible states we can expect when interacting with the API.&#34;&#34;&#34;</span>
+    <span class="s2">&#34;&#34;&#34;The 3 possible states we can expect when interacting with the API.&#34;&#34;&#34;</span>
     <span class="n">SUCCESS</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">ERROR</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">FAILURE</span> <span class="o">=</span> <span class="mi">3</span>
 
 
 <span class="k">class</span> <span class="nc">ApiResponse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    This is sort of a really dumbed-down version of an HTTP response,
 </span><span class="s2">    if you think of it in terms of status codes and response bodies.
 </span><span class="s2">    &#34;&#34;&#34;</span>
@@ -403,7 +403,7 @@ False
 
         
 <span class="k">def</span> <span class="nf">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ApiResponse</span><span class="p">:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;
+    <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">    1. Send an http request to a url
 </span><span class="s2">    2. Parse the json response as a dictionary
 </span><span class="s2">    3. Return an ApiResponse object
@@ -421,7 +421,7 @@ False
         
         <span class="c1"># log a simple error message</span>
         
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s1">&#39;could not decode json from {url}&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;could not decode json from {url}&#39;</span><span class="p">)</span>
         
         <span class="c1"># log the full traceback at a lower level</span>
         
@@ -439,7 +439,7 @@ False
         
         <span class="c1"># log the exception with the traceback</span>
         
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="sa"></span><span class="s2">&#34;Something bad happened trying to reach {url}&#34;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Something bad happened trying to reach {url}&#34;</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         
         <span class="c1"># Since something catastrophic happened that</span>
@@ -462,21 +462,21 @@ False
 
 <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span> <span class="o">=</span> <span class="n">hit_endpoint</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_endpoint_response</span><span class="p">():</span>
 
-    <span class="n">url</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;http://httpbin.org/headers&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://httpbin.org/headers&#39;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">SUCCESS</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span> <span class="c1"># our function and constructor work the same!</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 
 
-    <span class="n">url</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;http://twitter.com&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://twitter.com&#39;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">ERROR</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="bp">None</span>
 
 
-    <span class="n">url</span> <span class="o">=</span> <span class="sa"></span><span class="s1">&#39;foo&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">ApiResponse</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ApiInteraction</span><span class="o">.</span><span class="n">FAILURE</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">hit_endpoint</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">status</span>
@@ -599,7 +599,7 @@ ERROR:root:Something bad happened trying to reach foo
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.36</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.44</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>
