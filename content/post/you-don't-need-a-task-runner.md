@@ -10,7 +10,7 @@
 
 This story is about task automation and build tools.
 
-Feel free to [**skip ahead**](#yotar) to the code and check out [the repo itself](https://github.com/knowsuchagency/yotar).
+Feel free to [**skip ahead**](#yotar) to the code and check out [the repo itself](https://github.com/knowsuchagency/shell-utils).
 
 For a far more fleshed out example of the following, [**check out my cookiecutter**](https://github.com/knowsuchagency/python-package-template/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/run.py).
 
@@ -48,9 +48,9 @@ Granted, what many of these tools offer is beyond the scope of Make or the typic
 
 **Enough pontification! Let's look at some code!**<a name="yotar"></a>
 
-# [YOTAR](https://github.com/knowsuchagency/yotar)
+# [YOTAR](https://github.com/knowsuchagency/shell-utils)
 
-## Your own Task Runner
+## Your Own Task Runner
 
 Apart from the fact that Python is a great programming language to begin with, the standard library provides bevy of utilities that make it really powerful as a means of interacting with the operating system. 
 
