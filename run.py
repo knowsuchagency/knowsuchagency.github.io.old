@@ -1,33 +1,26 @@
 #!/usr/bin/env python3
-from functools import singledispatch, wraps
-from pathlib import Path
-import types
+import json
 import os
 import re
-import json
-import sys
 import shlex
 import subprocess as sp
-from pathlib import Path
-from datetime import datetime
+import sys
+import types
 from collections import defaultdict
+from datetime import datetime
+from functools import singledispatch, wraps
+from pathlib import Path
 from typing import *
 
-from shell_utils import shell, cd
-
 import click
-
+import crayons
 import nbformat
-
 from nbconvert import MarkdownExporter
 from nbconvert.preprocessors import Preprocessor
-
+from shell_utils import shell, cd
 from traitlets.config import Config
-
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
-
-import crayons
 
 
 @singledispatch
@@ -83,7 +76,7 @@ def main():
     if root != cwd:
         click.secho(f'Navigating from {cwd} to {root}', fg='yellow')
         os.chdir(root)
-        
+
 
 def update_notebooks_metadata():
     """Update all the notebooks' metadata fields."""
@@ -91,6 +84,7 @@ def update_notebooks_metadata():
     for notebook in notebooks:
         if (not str(notebook).startswith('.')) and ('untitled' not in str(notebook).lower()):
             yield update_notebook_metadata(notebook)
+
 
 @main.command()
 def render_notebooks():
@@ -170,7 +164,8 @@ def publish():
     shell('rm -rf public/*')
 
     # generating site
-    render_notebooks()
+    with click.get_current_context() as ctx:
+        ctx.invoke(render_notebooks)
     shell('hugo')
 
     # commit
@@ -181,7 +176,6 @@ def publish():
     # push to master
     shell('git push upstream master')
     print('push succeeded')
-
 
 
 ########## Jupyter stuff #################
@@ -350,7 +344,6 @@ class NotebookHandler(PatternMatchingEventHandler):
                 # if not self.notebook_metadata.get(event.src_path):
                 #     self.update_notebook_metadata_registry(event.src_path)
 
-
                 # update metadata registry
                 self.update_notebook_metadata_registry(event)
 
@@ -363,7 +356,6 @@ class NotebookHandler(PatternMatchingEventHandler):
         except Exception as e:
             print('could not successfully render', event.src_path)
             print(e)
-
 
     def on_modified(self, event):
         self.process(event)
@@ -397,7 +389,6 @@ class NotebookHandler(PatternMatchingEventHandler):
             print(crayons.yellow("could not marshal notebook to json: {}".format(event.src_path)))
         except KeyError:
             print("{} has no field hugo-jupyter.render-to in its metadata".format(event.src_path))
-
 
 
 if __name__ == '__main__':
