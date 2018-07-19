@@ -157,7 +157,7 @@ def publish():
     shell('git worktree prune')
     shell('rm -rf .git/worktrees/public/')
 
-    # checkout out gh-pages branch into public
+    # checkout out master branch into public
     shell('git worktree add -B master public upstream/master')
 
     # removing any existing files
